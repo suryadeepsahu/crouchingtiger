@@ -1,0 +1,980 @@
+<script>
+
+//add Widget modal	  
+var locationModal = function($scope, $uibModal) {
+		$scope.open = function (size) {
+		  var captainModalInstance = $uibModal.open({
+		  templateUrl: 'locationModal.html',
+		  controller: captainModalInstanceCtrl,
+		  size: size
+		  });
+	};
+};
+var captainModalInstanceCtrl = function ($scope, $uibModalInstance) {
+
+  $scope.ok = function () {
+    $uibModalInstance.close();
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+};
+
+	
+ </script>
+<style>
+panel-controls > a.activate {
+  opacity: 1;
+  text-decoration:none;
+  color: #e5e5e5;
+}
+panel-controls > a.activate:hover {
+	color: #fff;
+}
+</style>    
+<div id="page-heading">
+    
+
+    <h1>Campaign Builder</h1>
+    
+</div>
+<div class="container-fluid" >
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="container-fluid" ng-controller="FormComponentsController">
+                <div class="panel panel-midnightblue">
+                <div class="panel-heading">
+                    <h4>Campaign Details</h4>
+                    <panel-controls>
+                            <a href="javascript:;" class="activate">Active <i class="fa fa-check-square"></i></a>
+                            <!--<a href="javascript:;"><i class="fa fa-wrench"></i></a> 
+                            <a href=""><panel-control-collapse class="fa fa-chevron-down"></panel-control-collapse></a>-->
+                        </panel-controls>
+                </div>
+                <div class="panel-body collapse in">
+                    
+                        <div class="form-group row">
+                            <!--<div class="col-sm-1">
+                                <div class="checkbox">
+                                  <label>
+                                    <input ng-model="mustShow2" icheck type="checkbox" value="">
+                                    Active
+                                  </label>
+                                </div>
+                            </div>-->
+                            <!--<div ng-show="mustShow2">
+                            </div>-->
+                            <div class="col-sm-4">
+                            	<label class="control-label">Campaign Name</label>
+                            	<div class="">
+                                	<input type="text" class="form-control" value="My First Campaign">
+                                </div>
+                            </div>
+                        
+                            <div class="col-sm-2">
+                            	<label class="control-label">Campaign ID</label>
+                            	<div class="">
+                                	<input type="text" class="form-control" placeholder="not required" value="">
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm-3" ng-controller="DatepickerDemoController">
+                            	<label class="control-label">Start Date</label>
+                            	<div class="input-group">
+                                    <input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="fa fa-calendar"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" ng-controller="DatepickerDemoController2">
+                            	<label class="control-label">End Date</label>
+                            	<div class="input-group">
+                                    <input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="fa fa-calendar"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            
+                            
+                        </div>
+                        <div class="row mt20 mb20">
+                            <!-- Campaign Schedule Selector -->                    
+                            <!--<div class="col-sm-4">
+								<label class="control-label">Custom Hours</label>
+                                <div>
+                                <input type="text" class="form-control" value="">
+                                </div>
+                            </div>-->
+                            <!-- End Campaign Schedule Selector -->    
+                            <div class="col-sm-4">
+                                <label class="control-label">Regions</label>
+                                <div class="">
+                                    <select ui-select2 ng-model="select2" data-placeholder="Region" multiple style="width:100%" >
+                                    <optgroup label="Alaskan/Hawaiian Time Zone">
+                                        <option value="AK">Alaska</option>
+                                        <option value="HI">Hawaii</option>
+                                    </optgroup>
+                                    <optgroup label="Pacific Time Zone">
+                                        <option value="CA">California</option>
+                                        <option value="NV">Nevada</option>
+                                        <option value="OR">Oregon</option>
+                                        <option value="WA">Washington</option>
+                                    </optgroup>
+                                    <optgroup label="Mountain Time Zone">
+                                        <option value="AZ">Arizona</option>
+                                        <option value="CO">Colorado</option>
+                                        <option value="ID">Idaho</option>
+                                        <option value="MT">Montana</option><option value="NE">Nebraska</option>
+                                        <option value="NM">New Mexico</option>
+                                        <option value="ND">North Dakota</option>
+                                        <option value="UT">Utah</option>
+                                        <option value="WY">Wyoming</option>
+                                    </optgroup>
+                                    <optgroup label="Central Time Zone">
+                                        <option value="AL">Alabama</option>
+                                        <option value="AR">Arkansas</option>
+                                        <option value="IL">Illinois</option>
+                                        <option value="IA">Iowa</option>
+                                        <option value="KS">Kansas</option>
+                                        <option value="KY">Kentucky</option>
+                                        <option value="LA">Louisiana</option>
+                                        <option value="MN">Minnesota</option>
+                                        <option value="MS">Mississippi</option>
+                                        <option value="MO">Missouri</option>
+                                        <option value="OK">Oklahoma</option>
+                                        <option value="SD">South Dakota</option>
+                                        <option value="TX">Texas</option>
+                                        <option value="TN">Tennessee</option>
+                                        <option value="WI">Wisconsin</option>
+                                    </optgroup>
+                                    <optgroup label="Eastern Time Zone">
+                                        <option value="CT">Connecticut</option>
+                                        <option value="DE">Delaware</option>
+                                        <option value="FL">Florida</option>
+                                        <option value="GA">Georgia</option>
+                                        <option value="IN">Indiana</option>
+                                        <option value="ME">Maine</option>
+                                        <option value="MD">Maryland</option>
+                                        <option value="MA">Massachusetts</option>
+                                        <option value="MI">Michigan</option>
+                                        <option value="NH">New Hampshire</option><option value="NJ">New Jersey</option>
+                                        <option value="NY">New York</option>
+                                        <option value="NC">North Carolina</option>
+                                        <option value="OH">Ohio</option>
+                                        <option value="PA">Pennsylvania</option><option value="RI">Rhode Island</option><option value="SC">South Carolina</option>
+                                        <option value="VT">Vermont</option><option value="VA">Virginia</option>
+                                        <option value="WV">West Virginia</option>
+                                    </optgroup>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <label class="control-label">Assigned Users</label>
+                                <div class="">
+                                    <select ui-select2 ng-model="select2" data-placeholder="" multiple style="width:100%" >
+                                    <optgroup label="Company A">
+                                        <option value="User1">joebob@yahoo.com</option>
+                                        <option value="User2">sallyride@yahoo.com</option>
+                                    </optgroup>
+                                    <optgroup label="Company B">
+                                        <option value="User3">jack@bluehost.com</option>
+                                        <option value="User4">steve@bluehost.com</option>
+                                        <option value="User5">irwin@bluehost.com</option>
+                                        <option value="User6">pat@bluehost.com</option>
+                                    </optgroup>
+                                </select>
+                                </div>
+                            </div>
+                               
+                            
+                      </div>
+                      	<div class="row mt20">
+                        	<div class="col-sm-2">
+                            	
+                            	<div class="">
+                                	<button class="btn btn-default btn-block" ng-click="">Blacklist</button>
+                                </div>
+                            </div> 
+                        
+                        
+                        </div>
+                        
+                    
+                    
+                </div>
+                <div class="panel-footer">
+                    <div class="row col-md-3 col-md-push-9">
+                        <button class="btn btn-default btn-block" onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Click', eventLabel: 'Save Campaign Details'});">Save Campaign Details</button>
+                    </div>
+                </div>
+            </div>		
+        </div>
+        
+            <div ng-controller="TablesEditableController">
+                <div class="container-fluid" >
+
+                    <div class="row">
+                        <div class="col-md-12">
+                        
+                        	<panel panel-class="panel-primary" data-heading="Phone Numbers">
+                        <!--<panel-controls>
+                            <a href="javascript:;"><i class="fa fa-cog"></i></a>
+                            <a href="javascript:;"><i class="fa fa-wrench"></i></a> 
+                            <a href=""><panel-control-collapse class="fa fa-chevron-down"></panel-control-collapse></a>
+                        </panel-controls>-->
+                          <table class="table table-condensed  table-striped">
+                            <tr style="font-weight: bold">
+                              <td style="width:15%">Phone Number</td>
+                              <td style="width:15%">Name</td>
+                              <td style="width:20%">Channel</td>
+                              <td style="width:10%">Value</td>
+                              <td style="width:15%">Repeat Interval</td>
+                              <td style="width:10%">Status</td>
+                              <td style="width:25%">Actions</td>
+                            </tr>
+                            <tr ng-repeat="pnumber in phoneNumbers">
+                            	<td>
+                                <!-- editable username (text with validation) -->
+                                <span  e-name="phone" e-form="rowform" e-required>
+                                  {{ pnumber.phone || '' }}
+                                </span>
+                              </td>
+                              <td>
+                                <!-- editable username (text with validation) -->
+                                <span  e-name="name" e-form="rowform" e-required>
+                                  {{ pnumber.name || '' }}
+                                </span>
+                              </td>
+                              <td>
+                                <!-- editable status (select-local) -->
+                                <span  e-name="status" e-form="rowform" e-ng-options="s.value as s.text for s in statuses">
+                                  {{ showChannel(pnumber) }}
+                                </span>
+                              </td>
+                              <td>
+                                <!-- editable group (select-remote) -->
+                                <span  e-name="value" e-form="rowform" >
+                                  {{ pnumber.value || '' }}
+                                </span>
+                              </td>
+                              <td>
+                                <!-- editable group (select-remote) -->
+                                <span  e-name="rinterval" e-form="rowform" >
+                                  {{ pnumber.rinterval || '' }}
+                                </span>
+                              </td>
+                              <td>
+                                <!-- editable group (select-remote) -->
+                                <span  e-name="status" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+                                  {{ pnumber.status2 || '' }}
+                                </span>
+                              </td>
+                              <td style="white-space: nowrap">
+                                <!-- form -->
+                                <form editable-form name="rowform" onbeforesave="saveUser($data, pnumber.id)" ng-show="0" class="form-buttons form-inline" shown="inserted == number">
+                                  <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-primary">
+                                    Save
+                                  </button>
+                                  <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+                                    Cancel
+                                  </button>
+                                </form>
+                                <div class="buttons" ng-show="1">
+                                 
+                                  <button class="btn btn-sm btn-primary" ng-click="loadCallFlow(pnumber)">Call Flow</button>
+                                  <button class="btn btn-sm btn-midnightblue" ng-click="loadCallActions()">Call Actions</button>
+                                  <button class="btn btn-sm btn-danger" ng-click="removeNumber()">Delete</button>
+                                </div>  
+                              </td>
+                            </tr>
+                          </table>
+                          <div style="">
+                          	<button class="btn btn-default"  ng-click="loadCallFlow()">Add Phone Number</button> <button class="btn btn-default"  ng-click="loadMultiPass()">Add Multiple Phone Numbers</button>
+                          </div>
+                    </panel>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+				<div class="container-fluid" id="multiPass">
+                    <div class="row">
+                        <div class="col-md-12">
+                        	<panel panel-class="panel-primary" ng-show="showMultiPass" data-heading="Add Multiple Call Flows" >
+                                <panel-controls>
+                                    <!--<a href="javascript:;">Active <i class="fa fa-check-square"></i></a>
+                                    <a href="javascript:;"><i class="fa fa-wrench"></i></a> 
+                                    <a href=""><panel-control-collapse class="fa fa-chevron-down"></panel-control-collapse></a>-->
+                                </panel-controls>
+                        		<div class="form-group">
+                                    <div class="row">
+                                    	<div class="col-lg-3 col-md-3 col-sm-7 mt20">
+                                            <div class="input-icon right">
+                                                <i ng-show="loadingLocations" class="fa fa-refresh fa-spin"></i>
+                                                <input type="text" ng-model="asyncSelected" placeholder="Type in an Area Code or City" typeahead="address for address in getLocation($viewValue)" typeahead-loading="loadingLocations" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-5 mt20">
+                                            <div>
+                                                <label class=" control-label">Quantity: </label> <input type="text" style="display:inline;width:45px;margin-right:20px;" maxlength="3" class="form-control" > <button class="btn btn-default">Add <i class="fa fa-plus-circle"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 mt20">
+                                            <button class="btn btn-default" style="float:right;"  ng-click="">Upload Edits</button> <button class="btn btn-default" style="float:right;margin-right:20px;"  ng-click="">Reserve and Bulk Edit</button> 
+                                            
+                                        </div>
+                                    	<div class="col-xs-12 mt20">
+                                                
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <!--<th>Select</th>-->
+                                                            <th>Tracking Number</th>
+                                                            <th>Name</th>
+                                                            <th>Channel</th>
+                                                            <th>Value</th>
+                                                            <th>Repeat Interval</th>
+                                                            <th>Ring to</th>
+                                                            <th>Record Call</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="">
+                                                            <!--<td><input ng-model="" type="checkbox" value=""></td>-->
+                                                            <td>(201) 555-1234</td>
+                                                            <td>Google 1</td>
+                                                            <td>
+                                                            <select class="form-control" id="source" data-placeholder="Select" ng-model="selectedCallFlow.channel">
+                                                                <optgroup label="Online">
+                                                                    <option value="1">Paid Search</option>
+                                                                    <option value="2">Organic Search</option>
+                                                                    <option value="3">Display</option>
+                                                                    <option value="4">Email</option>
+                                                                    <option value="Online: Social Media">Social Media</option>
+                                                                    <option value="Online: Other">Other</option>
+                                                                </optgroup>
+                                                                <optgroup label="Mobile">
+                                                                    <option value="7">Paid Search</option>
+                                                                    <option value="8">Organic Search</option>
+                                                                    <option value="Display">Display</option>
+                                                                    <option value="SMS">SMS</option>
+                                                                    <option value="Apps">Apps</option>
+                                                                    <option value="Other">Other</option>
+                                                                </optgroup>
+                                                                <optgroup label="Offline">
+                                                                    <option value="5">Direct Mail</option>
+                                                                    <option value="6">Magazine</option>
+                                                                    <option value="Outdoor">Outdoor</option>
+                                                                    <option value="Radio">Radio</option>
+                                                                    <option value="TV">TV</option>
+                                                                    <option value="Insert">Insert</option>
+                                                                    <option value="Other">Other</option>
+                                                                </optgroup>
+                                                            </select>
+                                            				</td>
+                                                            <td>50</td>
+                                                            <td>480</td>
+                                                            <td>619-807-1537</td>
+                                                            <td><a href="javascript:;"><i class="fa fa-check-square"></i></a></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                           
+                                        </div>
+                                    </div>
+                        		</div>
+                        		<div class="row col-xs-12">
+                          			<button class="btn btn-default" style="float:right;" ng-click="addUser()">Save &amp; Close</button>
+                          		</div>
+                    		</panel>
+                        </div>
+                    </div>
+                </div>
+                
+				<div class="container-fluid" id="callFlow">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                        	<panel panel-class="panel-primary" ng-show="showCallFlow" data-heading="Call Flow" >
+                        <panel-controls>
+                            <a href="javascript:;" class="activate">Active <i class="fa fa-check-square"></i></a>
+                            <!--<a href="javascript:;"><i class="fa fa-wrench"></i></a> 
+                            <a href=""><panel-control-collapse class="fa fa-chevron-down"></panel-control-collapse></a>-->
+                        </panel-controls>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <!--<div class="col-sm-1">
+                                            <div class="checkbox">
+                                              <label>
+                                                <input ng-model="selectedCallFlow.status" icheck type="checkbox" value="">
+                                                Active
+                                              </label>
+                                            </div>
+                                        </div>-->
+                            			<div class="col-lg-3 col-md-9 col-sm-12 mt20">
+                                        	<div class="radio mt0" ng-init="callflowOption = 'singleNumber'">
+                                              <label>
+                                                <input icheck type="radio" ng-model="callflowOption" name="callflowOption" id="optionsRadios1" value="singleNumber" checked>
+                                                Single Number
+                                              </label>
+                                            	&nbsp;&nbsp;
+                                              <label>
+                                                <input icheck type="radio" ng-model="callflowOption" name="callflowOption" id="optionsRadios2" value="numberPool">
+                                                Number Pool
+                                              </label>
+                                            </div>
+                                            <div class="input-icon right">
+                                                <i ng-show="loadingLocations" class="fa fa-refresh fa-spin"></i>
+                                                <input type="text" ng-model="asyncSelected" placeholder="Type in an Area Code or City" typeahead="address for address in getLocation($viewValue)" typeahead-loading="loadingLocations" class="form-control">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-lg-2 col-md-3 col-sm-6 mt20">
+                                        	<div ng-show="callflowOption == 'singleNumber'">
+                                                <label class=" control-label">Tracking Number</label>
+                                                <div class="">
+                                                    <select class="form-control" id="source" data-placeholder="Select">
+                                                    <option selected disabled value=""> -- Select -- </option>
+                                                            <option value="">435-635-2842</option>
+                                                            <option value="">435-635-1198</option>
+                                                            <option value="">435-634-2675</option>
+                                                            <option value="">435-634-4490</option>
+                                                            <option value="">435-627-4771</option>
+                                                            <option value="">More...</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div ng-show="callflowOption == 'numberPool'">
+                                                <label class=" control-label">Quantity</label>
+                                                <div class="">
+                                                    <input type="text" class="form-control" ng-model="selectedCallFlow.numberPool">
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                        <div class="col-lg-2 col-md-4 col-sm-6 mt20">
+                                            <label class=" control-label">Name</label>
+                                            <div class="">
+                                                <input type="text" class="form-control" ng-model="selectedCallFlow.name">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-4 col-sm-6 mt20">
+                                        <label class=" control-label">Channel</label>
+                                        <div class="">
+                                            
+                                            <select class="form-control" id="source" data-placeholder="Select" ng-model="selectedCallFlow.channel">
+                                                <optgroup label="Online">
+                                                    <option value="1">Paid Search</option>
+                                                    <option value="2">Organic Search</option>
+                                                    <option value="3">Display</option>
+                                                    <option value="4">Email</option>
+                                                    <option value="Online: Social Media">Social Media</option>
+                                                    <option value="Online: Other">Other</option>
+                                                </optgroup>
+                                                <optgroup label="Mobile">
+                                                    <option value="7">Paid Search</option>
+                                                    <option value="8">Organic Search</option>
+                                                    <option value="Display">Display</option>
+                                                    <option value="SMS">SMS</option>
+                                                    <option value="Apps">Apps</option>
+                                                    <option value="Other">Other</option>
+                                                </optgroup>
+                                                <optgroup label="Offline">
+                                                    <option value="5">Direct Mail</option>
+                                                    <option value="6">Magazine</option>
+                                                    <option value="Outdoor">Outdoor</option>
+                                                    <option value="Radio">Radio</option>
+                                                    <option value="TV">TV</option>
+                                                    <option value="Insert">Insert</option>
+                                                    <option value="Other">Other</option>
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-1 col-md-2 col-sm-6  mt20">
+                                        <label class=" control-label">Value</label>
+                                        <div class="">
+                                            <input type="text" ng-model="selectedCallFlow.value" class="form-control" >
+                                        </div>
+                                        </div>
+                                         <div class="col-lg-2 col-md-2 col-sm-6 mt20">
+                                        <label class=" control-label">Repeat Interval</label>
+                                        <div class="">
+                                            <input type="text" class="form-control" ng-model="selectedCallFlow.rinterval">
+                                        </div>
+                                        </div>
+                                  </div>
+									<div class="row mt20">
+                                    
+                                        <div class="col-sm-2">
+                                            <div class="checkbox">
+                                              <label>
+                                                <input ng-model="showDNI" icheck type="checkbox" value="">
+                                                Dynamic Number
+                                              </label>
+                                            </div>
+                                        </div>
+                            			<div ng-show="showDNI">
+                
+                                            <div class="col-sm-2">
+                                                <label class=" control-label">Hostname</label>
+                                                <div class="">
+                                                    <input type="text" class="form-control" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label class=" control-label">Referring Website</label>
+                                                <div class="">
+                                                    <select class="form-control" id="source" data-placeholder="Select">
+                                                        <optgroup label="Select One">
+                                                            <option value="add">Add New</option>
+                                                            <option value="any">Any</option>
+                                                            <option value="bing">*.bing.com</option>
+                                                            <option value="g-organic">Google (organic)</option>
+                                                            <option value="g-paid">Google (paid)</option>
+                                                            <option value="y-organic">Yahoo (organic)</option>
+                                                            <option value="y-paid">Yahoo (paid)</option>
+                                                        </optgroup>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label class=" control-label">DNI Type</label>
+                                                <div class="">
+                                                    <select class="form-control" id="source" data-placeholder="Select">
+                                                        <option value="URL">URL</option>
+                                                        <option value="Source">Source</option>
+                                                        <option value="Session">Session</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                             <div class="col-sm-2">
+                                                <label class=" control-label">HTML Class</label>
+                                                <div class="">
+                                                    <input type="text" class="form-control" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <label class=" control-label">TTL</label>
+                                                <div class="">
+                                                    <input type="text" class="form-control" value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                  </div>
+                                  
+                                  <div class="row mt20">
+                                        <div class="col-sm-2">
+                                              <label>
+                                                At the start of the call:
+                                              </label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="col-sm-12">
+                                                <select ng-init="callFlows = callFlows || 'action0'" ng-model="callFlows" class="form-control" id="source" data-placeholder="Select" onChange="ga('send', 'event', 'Form Event', 'Call Flow Type', this.options[this.selectedIndex].value);">
+                                                <option selected disabled value="action0"> -- Select -- </option>
+                                                        <option value="Simple">Forward to phone number</option>
+                                                        <option value="Geo">Forward to nearest location</option>
+                                                        <option value="Voicemail">Forward to voicemail</option>
+                                                        <option value="Question">Ask a question</option>
+                                                        <option value="IVR">Ask a series of questions</option>
+                                                        <option value="Text">Send a text message</option>
+                                                        <option value="Check">Check a condition</option>
+                                                        <option value="Hangup">Hang up</option>
+                                                </select>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12" ng-show="callFlows=='Simple'">
+                                        	 
+											<div class="row mt20">
+                                                <div class="col-sm-3 col-sm-offset-1">
+                                                    <div class="checkbox">
+                                                      <label>
+                                                        <input ng-model="recordCall1" icheck type="checkbox" value="">
+                                                        Record Call
+                                                      </label>
+                                                    </div>
+                                                </div>
+                                                <div ng-show="recordCall1">
+                        
+                                                    <div class="col-sm-6">
+                                                        <label class="col-sm-6 control-label">Play call recording disclaimer</label>
+                                                        <div class="col-sm-6">
+                                                            <select class="form-control" id="source">
+                                                                    <option value="Before">Before voice prompt</option>
+                                                                    <option value="After">After voice prompt</option>
+                                                                    <option value="Never">Never</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                          	</div>
+                                  
+											<div class="row mt20">
+                                                    <div class="col-sm-3 col-sm-offset-1">
+                                                        <div class="checkbox">
+                                                          <label>
+                                                            <input ng-model="voicePrompt1" icheck type="checkbox" value="">
+                                                            Play a voice prompt first
+                                                          </label>
+                                                        </div>
+                                                    </div>
+                                                    <div ng-show="voicePrompt1">
+                                                        <div class="col-sm-8">
+                                                            
+                                                            <div class="col-sm-8">
+                                                                <input type="text" class="form-control" placeholder="Example: Please wait while we connect your call" value="">
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <a href="#" title="Play"><i class="fa fa-play" style="margin-left:5px;">Play</i></a>
+                                                                <a href="#" title="Add"><i class="fa fa-plus-circle" style="margin-left:5px;">Add</i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                             	</div>
+                                              
+											<div class="row mt20">
+                                                    <div class="col-sm-3 col-sm-offset-1">
+                                                        <div class="checkbox">
+                                                          <label>
+                                                            <input ng-model="whisperPrompt1" icheck type="checkbox" value="">
+                                                            Play whisper message before connecting
+                                                          </label>
+                                                        </div>
+                                                    </div>
+                                                    <div ng-show="whisperPrompt1">
+                                                        <div class="col-sm-8">
+                                                            
+                                                            <div class="col-sm-8">
+                                                                <input type="text" class="form-control" placeholder="Example: You are receiving a call from Mailer 1a" value="">
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <a href="#" title="Play"><i class="fa fa-play" style="margin-left:5px;">Play</i></a>
+                                                                <a href="#" title="Add"><i class="fa fa-plus-circle" style="margin-left:5px;">Add</i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                              </div>
+                                        
+                                        	<div class="row mt20">
+                                                <div class="col-sm-2">
+                                                  <label>
+                                                    Ring to Phone Number:
+                                                  </label>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <input type="text" class="form-control" value="">
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="checkbox">
+                                                      <label>
+                                                        <input ng-model="filterCalls" icheck type="checkbox" value="">
+                                                        Filter spam calls
+                                                      </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                        
+                                        
+                                        
+                                        <div class="col-sm-12" ng-show="callFlows=='Geo'">
+                                        	<div class="row mt20">
+                                                <div class="col-sm-3 col-sm-offset-1">
+                                                    <div class="checkbox">
+                                                      <label>
+                                                        <input ng-model="recordCall" icheck type="checkbox" value="">
+                                                        Record Call
+                                                      </label>
+                                                    </div>
+                                                </div>
+                                                <div ng-show="recordCall">
+                        
+                                                    <div class="col-sm-6">
+                                                        <label class="col-sm-6 control-label">Play call recording disclaimer</label>
+                                                        <div class="col-sm-6">
+                                                            <select class="form-control" id="source">
+                                                                    <option value="Before">Before voice prompt</option>
+                                                                    <option value="After">After voice prompt</option>
+                                                                    <option value="Never">Never</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                          	</div>
+                                  
+											<div class="row mt20">
+                                                    <div class="col-sm-3 col-sm-offset-1">
+                                                        <div class="checkbox">
+                                                          <label>
+                                                            <input ng-model="voicePrompt1" icheck type="checkbox" value="">
+                                                            Play a voice prompt first
+                                                          </label>
+                                                        </div>
+                                                    </div>
+                                                    <div ng-show="voicePrompt1">
+                                                        <div class="col-sm-8">
+                                                            
+                                                            <div class="col-sm-8">
+                                                                <input type="text" class="form-control" placeholder="Example: Please wait while we connect your call" value="">
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <a href="#" title="Play"><i class="fa fa-play" style="margin-left:5px;">Play</i></a>
+                                                                <a href="#" title="Add"><i class="fa fa-plus-circle" style="margin-left:5px;">Add</i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                             	</div>
+                                              
+											<div class="row mt20">
+                                                    <div class="col-sm-3 col-sm-offset-1">
+                                                        <div class="checkbox">
+                                                          <label>
+                                                            <input ng-model="whisperPrompt1" icheck type="checkbox" value="">
+                                                            Play whisper message before connecting
+                                                          </label>
+                                                        </div>
+                                                    </div>
+                                                    <div ng-show="whisperPrompt1">
+                                                        <div class="col-sm-8">
+                                                            
+                                                            <div class="col-sm-8">
+                                                                <input type="text" class="form-control" placeholder="Example: You are receiving a call from Mailer 1a" value="">
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <a href="#" title="Play"><i class="fa fa-play" style="margin-left:5px;">Play</i></a>
+                                                                <a href="#" title="Add"><i class="fa fa-plus-circle" style="margin-left:5px;">Add</i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                              </div>
+                                        
+                                        
+                                        	<div class="row mt20">
+                                                <div class="col-sm-1">
+                                                  <label>
+                                                    Route by:
+                                                  </label>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <select style="width:auto;" class="form-control" id="source">
+                                                        <option value="zip">Zip Code</option>
+                                                        <option value="area">Area Code</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-2" ng-controller="locationModal">
+                                                <!---->
+                                                    <script type="text/ng-template" id="locationModal.html">
+                                                        <div class="modal-header">
+                                                            <h3 class="modal-title">Location Editor</h3>
+                                                        </div>
+                                                        <div class="modal-body">
+																<div class="container-fluid" ng-controller="TablesBasicController">
+																	<div class="row">
+																		<div class="col-xs-12">
+																				<table class="table table-striped table-hover table-condensed">
+																					<thead>
+																						<tr>
+																							<th>Location</th>
+																							<th>Address</th>
+																							<th>City</th>
+																							<th>State</th>
+																							<th>Zip</th>
+																							<th>Phone</th>
+																							<th>Action</th>
+																						</tr>
+																					</thead>
+																					<tbody>
+																						<tr ng-repeat="location in locate.locations">
+																							<td>{{location[1]}}</td>
+																							<td>{{location[2]}}</td>
+																							<td>{{location[3]}}</td>
+																							<td>{{location[4]}}</td>
+																							<td>{{location[5]}}</td>
+																							<td>{{location[6]}}</td>
+																							<td><a href="#">{{location[7]}}</a></td>
+																						</tr>
+																					</tbody>
+																				</table>
+																				<a class="btn btn-default btn-sm pull-left" ng-click="addAction()">Add location</a>
+																		</div>
+																	</div>
+																</div>	
+                                                        </div>
+                                                        <div style="clear:both" class="modal-footer">
+                                                            <button class="btn btn-primary" ng-click="ok()">Done</button>
+                                                            <!--<button class="btn btn-warning" ng-click="cancel()">Cancel</button>-->
+                                                        </div>
+                                                    </script>
+                                                    <button class="btn btn-primary btn-xs" ng-click="open('lg')">View/Edit Locations</button>
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                            <div class="row mt20">
+                                                <div class="col-sm-10">
+                                                  If the caller is more than: <input type="text" style="width:50px;display:inline;" class="form-control" value=""> miles from the nearest ring-to location, route calls to: <select style="width:auto;display:inline;" class="form-control" id="source">
+                                                        <option selected disabled value="action0"> -- Select -- </option>
+                                                        <option value="walnut">Walnut Creek Branch</option>
+                                                        <option value="ocean">Ocean Gate Shop</option>
+                                                        <option value="allstate">Allstate Store 37862</option>
+                                                        <option value="parkside">Parkside Branch</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="checkbox">
+                                                      <label>
+                                                        <input ng-model="filterCalls" icheck type="checkbox" value="">
+                                                        Filter spam calls
+                                                      </label>
+                                                    </div>
+                                                </div>
+                                                
+                                                
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                        
+                                        
+                                        
+                                        
+                                  </div>
+                                  
+                                  
+                                  
+                                  
+
+                              </div>
+                          
+                          
+                          <div class="row col-xs-12">
+                          	<button class="btn btn-default"  onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Click', eventLabel: 'Save Call Flow'});" style="float:right;margin-left:20px;" >Save Call Flow</button>
+                          	<div class="checkbox" style="float:right;">
+                              <label>
+                                <input icheck type="checkbox" value=""> Create another
+                              </label>
+                            </div>
+                          </div>
+                    </panel>
+                        
+                        </div>
+                    </div>
+                </div>
+			
+
+				<div class="container-fluid" id="callActions" ng-controller="FormComponentsController">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                        
+                        	<panel panel-class="panel-primary" ng-show="showCallActions" data-heading="Call Actions" >
+								<div class="col-md-12">
+                                    
+                                    <ul class="timeline">
+                                        <li class="timeline-midnightblue" ng-repeat="cAction in callActions">
+                                            <div class="timeline-icon"><i class="fa">{{cAction.id}}</i></div>
+                                            <div class="timeline-body"><a ng-click="removeAction(cAction.id)" title="delete"><i class="fa fa-times" style="float:right;"></i></a>
+                                                <div class="timeline-header">
+                                                    <!--<span class="author">Posted by <a href="#">David Tennant</a></span>-->
+                                                    <span class="date">{{ showNumber(cAction.id) }} Action</span>
+                                                </div>
+                                                <div class="timeline-content">
+                                                    <!--<h3>Lorem Ipsum Dolor Sit Amet</h3>-->
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                          <h3 style="display:inline;"> If </h3> <input type="text" style="display:inline;width:94%;margin-left:20px;" class="form-control" placeholder="Example: repeat_call is true and duraction is >= 90" value="">
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="row mt20 mb20">
+                                                    	<div class="col-sm-5">
+                                                          <h3 style="display:inline;"> Then </h3> 
+                                                          	<select style="width:80%;display:inline;margin-left:20px;" ng-model="actionOptions" class="form-control" id="source">
+                                                                <option selected disabled value="action0"> -- Select -- </option>
+                                                                <option value="action1">Send email alert to</option>
+                                                                <option value="action2">Send text alert to</option>
+                                                                <option value="action3">Tag call as</option>
+                                                                <option value="action4">Post a conversion event to</option>
+                                                                <option value="action5">Trigger the webhook</option>
+                                                                <option value="action6">Send call details to</option>
+                                                                <option value="action7">Flag for call back</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-6" ng-show="actionOptions=='action1'">
+                                                        	<input type="text" style="width:100%;display:inline;" class="form-control" placeholder="email@example.com" value="">
+                                                        </div>
+                                                        <div class="col-sm-6" ng-show="actionOptions=='action2'">
+                                                        	<input type="text" style="width:100%;display:inline;" class="form-control" placeholder="example: +1-435-215-7050" value="">
+                                                        </div>
+                                                        <div class="col-sm-6" ng-show="actionOptions=='action3'">
+                                                        	<input ui-select2="select2TaggingOptions" ng-model="tagList" style="width:100%"/>
+                                                        </div>
+                                                        <div class="col-sm-6" ng-show="actionOptions=='action4'">
+                                                            <select style="width:auto;display:inline;" class="form-control" id="postTo">
+                                                                <option selected disabled value="action0"> -- Select -- </option>
+                                                                <option value="action1">Acquisio</option>
+                                                                <option value="action2">Kenshoo</option>
+                                                                <option value="action3">Google Adwords</option>
+                                                                <option value="action4">Marin</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-6" ng-show="actionOptions=='action5'">
+                                                        	<select style="width:auto;display:inline;" class="form-control" id="triggerWebhook">
+                                                                <option selected disabled value="action0"> -- Select -- </option>
+                                                                <option value="action1">My Webhook 1</option>
+                                                                <option value="action2">My Webhook 2</option>
+                                                                <option value="action3">My Webhook 3</option>
+                                                                <option value="action4">My Webhook 4</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-6" ng-show="actionOptions=='action6'">
+                                                        	<select style="width:auto;display:inline;" class="form-control" id="sendCDRto">
+                                                                <option selected disabled value="action0"> -- Select -- </option>
+                                                                <option value="action1">Salesforce</option>
+                                                                <option value="action2">Marketo</option>
+                                                                <option value="action3">Zapier</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-6" ng-show="actionOptions=='action7'">
+                                                        	<input type="hidden" style="width:50%;display:inline;margin-left:20px" class="form-control" id="callbackFlag" value="">
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    
+                                                </div>
+                                                <div class="timeline-footer">
+                                                    <a class="btn btn-default btn-sm pull-left" ng-click="addAction()">Add Step</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>
+                            
+                          
+                          		<div class="row col-md-offset-11">
+									<button class="btn btn-default" ng-click="addUser()">Save</button>
+                                </div>
+                    		</panel>
+                        
+                        </div>
+                    </div>
+                </div>
+			</div>
+    </div>
+</div>
+
+
+</div> <!-- container -->

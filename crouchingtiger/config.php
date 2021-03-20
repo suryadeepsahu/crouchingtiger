@@ -1,0 +1,1 @@
+/etc/lmc/ct/config.php

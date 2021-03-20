@@ -1,0 +1,256 @@
+<style>
+    .cartdiv {
+        width: 100%;
+        background-color: black;
+        overflow: auto;
+        border-radius: 1%;
+    }
+
+    .cartdiv a {
+        float: right;
+        text-align: center;
+        color: white;
+        text-decoration: none;
+        margin-right: 5%;
+    }
+
+    #cartdiv .p1[data-count]:after {
+        position: absolute;
+        right: 10%;
+        top: 8%;
+        content: attr(data-count);
+        font-size: 40%;
+        padding: .2em;
+        border-radius: 50%;
+        line-height: 1em;
+        color: white;
+        background: rgba(255, 0, 0, 0.85);
+        text-align: center;
+        min-width: 1em;
+    }
+
+    .margin-left-1-per {
+        margin-left: 1%;
+    }
+
+    .margin-left-2-per {
+        margin-left: 2%;
+    }
+
+    .coverpage {
+
+        background-image: linear-gradient(rgb(5, 77, 150) 20%, rgb(230, 81, 22));
+
+        position: relative;
+    }
+
+
+    .title {
+        margin-top: 1%;
+        text-align: center;
+        color: white;
+    }
+
+    .description {
+        /* margin-left: 34%;
+        margin-right: 20%; */
+        text-align: center;
+        color: white;
+
+    }
+
+    #middlediv {
+        background-color: white;
+        height: 530px;
+        width: 500px;
+        /* box-shadow: 10px 20px 10px grey ; */
+        position: relative;
+
+
+    }
+
+    .fa-arrow-left {
+        margin-top: 6px;
+        color: black;
+    }
+
+    #quote {
+
+        margin-left: 1%;
+        margin-right: 10%;
+        margin-bottom: 5%;
+
+    }
+
+
+    .quotetitle {
+        padding-left: 20px;
+
+    }
+
+    .title_q {
+        font-size: 17px;
+        color: rgb(5, 77, 150);
+        font-weight: bold;
+    }
+
+
+    .quotetable {
+        text-align: center;
+        padding: 20px;
+        width: 100%;
+        border: 1px;
+    }
+
+
+    th {
+        background-color: rgb(5, 77, 150);
+        color: white;
+        text-align: center;
+    }
+
+    tr {
+        padding: 2px;
+
+    }
+
+    /* tbody {
+        overflow-y: auto;
+        display: block;
+    } */
+    /* thead th{
+        position: sticky;
+    }
+    tbody td:nth-child(2){
+        height: 20px;
+        overflow-y: auto;
+        display: block
+    } */
+
+    .form-vertical {
+        background-color: white;
+
+    }
+
+    .form-group {
+        color: black;
+        margin-left: 10%;
+        margin-right: 10%;
+
+    }
+
+    .btn-submit {
+        align-content: center;
+        color: white;
+        font-weight: bold;
+        background-color: rgb(230, 81, 22);
+        text-align: center;
+    }
+
+    .submitkey {
+        text-align: center;
+
+    }
+
+    .form-control {
+        border-color: rgb(5, 77, 150);
+    }
+
+    .form-control:focus {
+        border-color: rgb(230, 81, 22);
+    }
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+<div ng-controller="requestQuoteController">
+    <div class="container-fluid coverpage">
+        <!-- cart div -->
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-3 cartdiv">
+                <a href="#">
+                    <div id="cartdiv">
+                        <span class="p1 fa-stack fa-2x has-badge" data-count="{{cartNumbersLength}}">
+                            <i class="p3 fa fa-shopping-cart fa-stack-1x xfa-inverse" data-count="2b"></i>
+                        </span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <!-- title :request a quote -->
+        <div class="row justify-content-center">
+            <div class="titlediv">
+                <h2 class=" col-sm col-md col-lg title"><b>Request a Quote</b></h2>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-sm col-md col-lg description">
+                <p>Get in touch with one of our vanity number specialist and find out how</p>
+                <p>to increase your inbound call volume by 31%</p>
+            </div>
+        </div>
+        <!-- form div -->
+        <div class="row justify-content-center">
+            <div class="col-sm col-md col-lg container" id="middlediv">
+                <!-- back arrow -->
+                <div class="arrow">
+                    <a href="#/vanity-number"><i class="fa fa-arrow-left" style="font-size:20px"></i></a>
+                </div>
+                <!-- quotelist -->
+                <div class="row justify-content-center" id="quote">
+                    <div class="quotetitle">
+                        <h2 class="title_q">Quote List</h2>
+                    </div>
+                    <div class=" table-fixed">
+                        <table class="quotetable">
+                            <thead>
+                                <tr>
+                                    <th>Toll-free Number</th>
+                                    <th>Vanity Number</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="cartNumber in cartNumbers">
+                                    <td><b>{{cartNumber.toll_free_number}}</b></td>
+                                    <td><b>{{cartNumber.vanity_number}}</b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- form-->
+                <div class="row">
+                    <form class="form-vertical form-container" name="request">
+                        <div class="form-group">
+                            <label><b>First Name</b></label>
+                            <input type="text" class="form-control" id="fname" ng-model="firstName"
+                                ng-pattern="/^[a-zA-Z]{2,60}$/" required>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Last Name</b></label>
+                            <input type="text" class="form-control" id="lname" ng-model="lastName"
+                                ng-pattern="/^[a-zA-Z]{2,60}$/" required>
+                        </div>
+                        <div class="form-group">
+                            <label><b>Phone Number</b></label>
+                            <input type="tel" class="form-control" id="pnumb" ng-model="phoneNumber"
+                                ng-pattern="/^[0-9]{10,10}$/" required>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <label><b>Contact Preference</b></label><br>
+                                <label><input type="radio" name="contactReference" ng-model="contactReference"
+                                        value="By Phone" required> By Phone</label>
+                                <label><input type="radio" name="contactReference" ng-model="contactReference"
+                                        value="By text Message" required> By text Message</label>
+                            </div>
+                        </div>
+                        <div class="form-group submitkey">
+                            <button id="submit" ng-click="sendCardInfoOnMail();" type="submit"
+                                class="btn btn-submit">SUBMIT REQUEST</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

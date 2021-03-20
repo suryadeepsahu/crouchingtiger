@@ -1,0 +1,112 @@
+<style></style><script src="https://cdn.blockspring.com/blockspring.js"></script><script type="text/javascript">function jqueryEditCampaign(camp_id) {
+    editCampaign({ id: camp_id })
+}</script><div id="groupactivityreport" class="table-to-scrape" ng-controller="CampaignsListController"><div id="page-heading"><h1>Campaign and Tracking Number</h1></div><style>._GAwC {
+        background: no-repeat url(../img/sprites.png) -327px -521px;
+        height: 21px;
+        margin-bottom: 3px;
+        margin-top: 3px;
+        width: 21px;
+        cursor: pointer;
+    }
+
+    .dc-chart {
+        float: left;
+    }
+
+    span.handle {
+        display: none;
+    }
+
+    .chartizzle .panel-heading h4 {
+        font-size: 11px;
+    }
+
+    .advancedf {
+        background: #efefef;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        overflow: auto;
+        padding: 15px 0 15px 15px;
+        -moz-border-radius: 5px;
+        -webkit-border-top-left-radius: 5px;
+        -webkit-border-top-right-radius: 5px;
+        -webkit-border-bottom-left-radius: 5px;
+        -webkit-border-bottom-right-radius: 5px;
+    }
+
+    ._GATq {
+        border-left: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+        clear: both;
+        position: relative;
+        text-align: center;
+        margin: -1px 0;
+    }
+
+    ._GATq._GAQzb {
+        background-color: #efefef;
+        color: #575757;
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-left: 80px;
+        padding: 5px 0;
+        width: 80px;
+    }
+
+    #listen_workspace tab-heading .badge {
+        top: -6px !important;
+        left: 7px !important;
+    }
+
+    .tab-container p {
+        min-width: 150px;
+    }
+
+    ul#columnpicker {
+        padding: 12px;
+        width: 388px;
+    }
+
+    ul#columnpicker li {
+        width: 50%;
+        float: left;
+        margin-bottom: 4px;
+    }
+
+    .minheight {
+        min-height: 300px;
+    }
+
+    .heading_font {
+        font-size: 8px;
+    }
+
+    a.btn.btn-sm.btn-default.addcamp:hover {
+        color: #fff;
+        background-color: #2f7db2;
+        border-color: #2d77aa;
+    }
+
+    .addexport,.btn-default.active, .btn-default:active, .btn-default:focus, .btn-default:hover, .open>.dropdown-toggle.btn-default,.btn-default:disabled{
+        color: #FFFFFF;
+        background-color: #929598;
+        border-color: #929598;
+        padding: 8px 16px;
+        border-radius: 3px !important;
+    }
+
+    .addexport:hover {
+        color: #FFFFFF;
+    background-color: #737477;
+    border-color: #737477;
+       
+    }
+    
+    .dropdown-menu>li>a {
+        padding: 5px 11px;
+    }
+
+    .btn.dropdown-toggle {
+        padding: 9px 10px;
+    }</style><div class="container-fluid pb0" style="padding:0 20px;" id="groupactivitycharts"><div class="row"><div class="container-fluid pb0"><div class="row"><div class="panel panel-midnightblue" data-heading=""><div class="panel-heading" title="{{CurrentOUName}}"><h4>Campaign List for {{CurrentOUName | truncate_campGroupName }}</h4></div></div></div><section><div class="container-fluid"><div class="row"><div class="col-md-4"><a ng-if="is_migrated == true" href="#/set-campaign-builder" class="btn btn-sm btn-default addcamp" onclick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Click', eventLabel: 'Add Campaign'});" ng-hide="userAccess.campaign < 6"><i class="fa fa-plus-circle"></i> Add Campaign</a>&nbsp; <a ng-if="is_migrated == false" href="#/set-legacy-campaign-builder" class="btn btn-sm btn-default addcamp" onclick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Click', eventLabel: 'Add Campaign'});" ng-hide="userAccess.campaign < 6"><i class="fa fa-plus-circle"></i> Add Campaign</a>&nbsp;<div class="btn-group" uib-dropdown><button ng-hide="isSafari" type="button" class="btn btn-sm btn-default addexport" ng-disabled="!dataTableData || dataTableData.length === 0" ng-csv="getCSVData()" filename="{{CurrentOUNameCSV}}" csv-header="getHeader()"><i class="fa fa-cloud-download"></i> <span>Export</span></button> <button ng-hide="!isSafari" type="button" class="btn btn-sm btn-default addexport" ng-disabled="!dataTableData || dataTableData.length === 0" ng-click='getCSVData("csv")' filename="{{CurrentOUNameCSV}}"><i class="fa fa-cloud-download"></i> <span>Export</span></button></div></div><div class="col-md-7"><div ng-class="{ 'disablePagination' : whichScheldueReport !== undefined }" class="text-right topPagination"><dir-pagination-controls pagination-id="pg-campaign-list" ng-hide="dataTableData === undefined" on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls></div></div><div class="col-md-1 pull-right"><div class="btn-group1" uib-dropdown><button type="button" class="btn btn-block btn-default" uib-dropdown-toggle><i class="fa fa-columns"></i></button><ul class="dropdown-menu" id="columnpicker" role="menu"><li ng-if="checkpicklist(vcv.key)" ng-repeat="vcv in groupActivityMapping.visibleColumns" ng-show="vcv.show"><input icheck type="checkbox" id="columnpickerCheckbox" name="vcv.key" ng-checked="vcv.visible" ng-model="vcv.visible" ng-change="yell(vcv.key,vcv.visible, vcv.callFlow)"> <label>{{ vcv.value }}</label></li></ul></div></div></div></div></section><div sticky-table-header3 id="main-picklist"><div><table class="table table-hover table-striped table-condensed table-responsive mt10" persistent-scroll-bar><thead><tr style="font-size:13px;margin-top: 40px;"><th class="campaignHeader"><a id="masterExpand" ng-hide="(dataTableData === undefined || totalDataRows <= 0) 
+                                    || !showMasterExpand || callflowDataInProcess" ng-disabl ng-click="masterexpand(false)" aria-label="Expand" tabindex="-1"><i ng-class="collasped ? 'fa fa-caret-right' : 'fa fa-caret-down'"></i></a></th><th class="campaignHeader" ng-if="checkVisibleColumns(vc.key)" ng-class="vc.value == 'Actions' ? 'text-right' : ''" ng-repeat="vc in groupActivityMapping.dataTableHeaderValues" class="">{{ vc.value }}</th></tr></thead><tbody id="progressLoader" ng-show="!isLoadingApi"><tr ng-if="totalDataRows <= 0"><td class="noDataSelector" colspan="18">No Data Found</td></tr><tr dir-paginate="row in dataTableData | itemsPerPage: 100" total-items="totalDataRows" current-page="currentPage" pagination-id="pg-campaign-list" ng-show="totalDataRows > 0" id="{{ 'rowdataitem' + $index }}" class="datapoint_{{$index}}"><td ng-show="row.provisioned_route_ids.length > 0"><a class="expand" id="row_{{row.id}}_{{$index}}" ng-hide="callflowDataInProcess" ng-click="showSubData({index: $index, routeableId: row.id})"><i ng-class="collasped ? 'subicon fa fa-caret-right' : 'subicon fa fa-caret-down'"></i></a></td><td ng-show="row.provisioned_route_ids.length == 0"><a id="row_{{row.id}}_{{$index}}"><i class="disablesubicon fa fa-caret-right"></i></a></td><td ng-if="vc.visible && !vc.callFlow" ng-repeat="vc in groupActivityMapping.visibleColumns"><span class="www" ng-show="vc.key !== 'action'" title="{{ row[groupActivityMapping.gridBackendPropertyNames[vc.key]] }}">{{row[groupActivityMapping.gridBackendPropertyNames[vc.key]] | truncate_campaignGroupName : vc.key }} </span><span class="actions-buttons" ng-show="vc.key === 'action'"><button class="campaignbuttons btn btn-sm btn-primary" ng-click="editCampaign(row.id)">Edit</button>&nbsp;<button class="campaignbuttons btn btn-sm btn-danger" ng-click="archiveCampaign(row)">Archive</button></span></td></tr></tbody></table></div></div><div ng-class="{ 'disablePagination' : whichScheldueReport !== undefined }" ng-hide="hidePaginationCtrl" class="panel-footer text-right"><dir-pagination-controls pagination-id="pg-campaign-list" on-page-change="pageChanged(newPageNumber)" ng-hide="dataTableData === undefined || totalDataRows < 100  "></dir-pagination-controls></div></div><page-loader is-loading-api="isLoadingApi"></page-loader></div></div></div>

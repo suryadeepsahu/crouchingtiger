@@ -1,0 +1,36 @@
+<div class="verticalcenter" ng-controller="AdminLoginController">
+	<a href="#/"><img src="assets/img/logo-big2.png" alt="Logo" class="brand" /></a>
+	<div class="panel panel-orange">
+	
+		<div class="panel-body">
+			<h4 class="text-center" style="margin-bottom: 25px;">ADMINISTRATOR ACCESS</h4>
+			<h4 class="text-center" style="color:red">{{error}}</h4>
+            <form class="form-horizontal" ng-submit="logIn()">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        <input type="text" class="form-control" id="email" ng-model="email" name="email" placeholder="Email" />
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                        <input type="password" class="form-control" id="password" ng-model="password" name="password" placeholder="Password" />
+                    </div>
+                    </div>
+                </div>
+                <div class="clearfix">
+                    <div class="pull-right"><label><input type="checkbox" name="remember" data-ng-model="remember"> Remember Me</label></div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block"
+                        onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Click', eventLabel: 'Admin Login'});">Login</button>
+            </form>
+		</div>
+		<div class="panel-footer">
+			<a href="#/forgotpassword" class="pull-left btn btn-link" style="padding-left:0">Forgot password?</a>
+		</div>
+	</div>
+ </div>

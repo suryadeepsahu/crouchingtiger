@@ -1,0 +1,604 @@
+<style>
+    #demo-dropdown li {
+        list-style: none;
+        margin-bottom: 20px;
+    }
+    
+    #demo-dropdown {
+        width: 435px;
+    }
+    
+    #demo-dropdown .demo-color-variation li a {
+        display: block;
+        height: 60px;
+        width: 60px;
+    }
+    /*#tab-container ul{
+    background-color: #1f407d !important;
+    border-color: #1f407d;
+    border-radius: 4px 4px 0 0;
+  }*/
+    
+    #tab-container .tab-content {
+        border: none !important;
+    }
+    
+    .uib-tab>div {
+        /*color: #fff;*/
+    }
+    /*.uib-tab > li:focus .uib-tab > li:hover {
+    background-color: none !important;
+  }*/
+    
+    #yoda .active {
+        color: #555;
+        cursor: default;
+        background-color: #fff;
+        border-bottom: 3px solid #fff;
+        border-radius: 2px 2px 0 0;
+        border-bottom-color: transparent;
+    }
+</style>
+<script>
+    /*var previewModal = function($scope, $uibModal) {
+                        		$scope.open = function (size) {
+                        			var captainModalInstance = $uibModal.open({
+                        				templateUrl: 'assets/partials/preview.html',
+                        			  	controller: captainModalInstanceCtrl,
+                        			  	size: size
+                        			});
+                        		};
+                        	};
+                        	var captainModalInstanceCtrl = function ($scope, $uibModalInstance) {
+                          		$scope.ok = function () {
+                            		$uibModalInstance.close();
+                          		};
+                          		$scope.cancel = function () {
+                            		$uibModalInstance.dismiss('cancel');
+                          		};
+                        	};
+                        	*/
+</script>
+
+<div id="page-heading">
+
+    <h1>Whitelabel</h1>
+
+    <div class="options">
+        <div class="btn-toolbar">
+
+        </div>
+    </div>
+</div>
+<div class="container-fluid" id="">
+    <div ng-controller="WhitelabelColorsLogoController">
+        <div class="row">
+            <div class="col-md-6">
+                <label class="control-label" style="padding-top:8px;">Active?</label>
+
+                <div class="">
+                    <toggle-switch ng-model="white_label_bool" ng-change="saveWhitelabelActiveToggle()" on-label="Yes" off-label="No" class="primary switch" ng-disabled="isLoadingApi">
+                        <toggle-switch>
+                </div>
+            </div>
+            <div class="col-md-6">
+
+            </div>
+        </div>
+
+
+        <div class="row mt20">
+            <div class="col-md-12">
+                <div class="panel panel-midnightblue">
+       <page-loader is-loading-api="isLoadingApi"></page-loader>
+                    
+                    <form novalidate ng-submit="saveDomainAndSupport()" name="domainSupportForm">
+                        <div class="panel-heading">
+                            <h4>Domains and Support</h4>
+                            <div class="options"></div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row form-group mt20">
+                                <div class="col-md-4 mb20">
+                                    <label class="control-label">Subdomain:</label>
+
+                                    <div class="">
+                                        <input name="domain_name" ng-pattern="/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z0-9]{2,6}$/" ng-model="domain_name" placeholder="cfa.mydomain.com" type="text" class="form-control" ng-disabled="isLoadingApi">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb20">
+                                    <label class="control-label">Support Portal:</label>
+
+                                    <div class="">
+                                        <input ng-pattern="/^https?:\/\/[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/i" ng-model="support_url" placeholder="http://support.mydomain.com" type="text" class="form-control" ng-disabled="isLoadingApi">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb20">
+                                    <label class="control-label">Welcome Text:</label>
+
+                                    <div class="">
+                                        <input ng-pattern="^[a-zA-Z. ]*[a-zA-Z]{1,60}$" ng-model="welcome_text" placeholder="Just log in! Your day is about to get better." type="text" class="form-control" maxlength="90">
+
+                                    </div>
+                                </div>
+                                <!--<div class="col-md-4 mb20">
+                                    <label class="control-label">Enable Convirza Chat:</label>
+
+                                    <div class="">
+                                        <toggle-switch ng-model="chat_active" on-label="Yes" off-label="No" class="primary switch"><toggle-switch>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row col-xs-12">
+                                <button type="submit" class="btn btn-primary" style="float:right;" ng-disabled="isLoadingApi">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt20">
+            <div class="col-md-12">
+                <div class="panel panel-midnightblue" ng-disabled="isLoadingApi">
+                    <form ng-submit="saveColorsLogoTheme()" name="themeSettingsForm">
+                        <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+                        <div class="panel-heading">
+                            <h4><span ng-click="setTheme('a')">Colors</span> <span ng-click="setTheme('b')">and</span> <span ng-click="setTheme('c')">logo</span></h4>
+                        </div>
+
+                        <div class="panel-body">
+
+                            <div class="row">
+                                <div class="col-sm-4 col-xs-4 form-group" ng-repeat="f in white_label_css.fonts">
+                                    <label class="control-label">{{f.formName}}</label>
+
+                                    <div class="">
+                                        <select class="form-control" ng-model="f.value" id="defaultFont" name="font">
+                      </option>
+                      <option style="font-family: Arial" value="Arial">Arial
+                      </option>
+                      <option style="font-family: 'Helvetica Neue', Helvetica" value="Helvetica">
+                        Helvetica
+                      </option>
+                      <option style="font-family: Tahoma" value="Tahoma">
+                        Tahoma
+                      </option>
+                      <option style="font-family: Verdana" value="Verdana">
+                        Verdana
+                      </option>
+                      <option style="font-family: 'Times New Roman'" value="Times New Roman">
+                        Times New Roman
+                      </option>
+                      <option style="font-family: Palatino" value="Palatino">
+                        Palatino
+                      </option>
+                      <option style="font-family: Courier" value="Courier">
+                        Courier
+                      </option>
+                    </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group mt20">
+                                <div class="col-md-6 mb20">
+                                        <div class="col-md-6 mb20" ng-repeat="tc in white_label_css.colors_one">
+                                            {{tc.formName}}
+                                            <div class="input-group color" data-color="rgb(255, 146, 180)" data-color-format="rgb">
+                                                <input data-colorpicker type="text" class="form-control" ng-model="tc.value" maxlength="7" hexcode required>
+                                                <span class="input-group-addon"><i ng-style="{ 'background-color': tc.value, 'margin-left': '8px'}"></i></span>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="col-md-6 mb20" style="border-left: solid 1px #ccc">
+                                        <div class="col-md-6 mb20" ng-repeat="tc in white_label_css.colors_two">
+                                    {{tc.formName}}
+                                    <div class="input-group color" data-color="rgb(255, 146, 180)" data-color-format="rgb">
+                                        <input data-colorpicker type="text" class="form-control" ng-model="tc.value" maxlength="7" hexcode required>
+                                        <span class="input-group-addon"><i ng-style="{ 'background-color': tc.value, 'margin-left': '8px'}"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <label class="col-sm-2 control-label">Logo Upload</label>
+
+                                <div class="col-sm-6">
+                                    <div style="float:right; height:63px; width:150px;" ng-show="org_logo" ng-style="(org_logo === DEFAULT_ORG_LOGO_URL) ? {'background-color':'grey'} : {}">
+                                        <img ng-src="{{org_logo}}" class="current_logo" ng-show="org_logo" style="max-height:100%;" />
+                                    </div>
+                                    <div style="font-size:85%;">Image width should be 3 times longer than it is tall.</div>
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 220px; height: 50px;" id="img_pre"></div>
+                                        <div>
+                                            <span class="btn btn-default btn-file">
+                        <span class="fileinput-new">Select image</span>
+                                            <span class="fileinput-exists">Change</span>
+                                            <input type="file" name="file-upload" id="org-logo" />
+                                            </span>
+                                            <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <label class="col-sm-8 control-label"><b>Please Note:</b> If you have background color and text color same or similar, the text will not be readable.</label>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="col-xs-6">
+                                <button type="button" class="btn btn-info" ng-click="previewColor()">Preview</button>
+                                <!-- <button class="btn btn-default">Cancel</button> -->
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                <button type="submit" class="btn btn-primary">Save Whitelabel Theme</button>
+                                <button ng-click="resetDefault($event)" class="btn btn-danger">Reset Default</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row mt20">
+        <div class="col-md-12" ng-controller="WhitelabelEmailsCtrl">
+            <uib-tabset active="active" id="tab-container" heading="Email Templates" panel-class="panel-midnightblue">
+                <h4 class="pull-left" style="color:#575759; padding-left:10px;">Email Templates</h4>
+                <div id="yoda" style="display:flex;" class="pull-right">
+                    <uib-tab ng-click="onTabSelect('newUser', 1)">
+                        <uib-tab-heading>
+                            <i class="fa fa-user hidden-md hidden-lg"></i> <span class="hidden-sm hidden-xs"> New User Emails</span>
+                        </uib-tab-heading>
+                        <div class="row mb20 mt20">
+                            <h3 class="hidden-lg hidden-md">New User Email</h3>
+                            <div class="col-sm-12 col-xs-12 form-group">
+                                <label class="col-sm-1 control-label">From:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="newUser.email_from" maxlength="50" required style="display:inline;width:200px;margin-right:15px;"> via &lt;no-reply@messages.services&gt;
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 form-group">
+                                <label class="col-sm-1 control-label">Reply To:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="newUser.reply_to" maxlength="50" required style="display:inline;width:200px;">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 form-group">
+                                <label class="col-sm-1 control-label">Subject:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="newUser.subject" maxlength="50" required style="display:inline;width:200px;">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <textarea class="form-control ckeditor" style="resize:vertical;min-height:150px;" id="newUser" name="newUser" ng-model="emailTemplateNewUserInfoData.html_copy" placeholder="Hello and Welcome Yadda yadda yadda..." wysiwyg-ckeditor></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row col-xs-12 text-right">
+                                <button class="btn btn-primary" ng-click="saveEmailTemplate(1)">Save</button>
+                                <button class="btn btn-danger" ng-click="resetDefaultEmailTemplate('newUser', 1)">Reset Default</button>
+                            </div>
+                        </div>
+                    </uib-tab>
+
+                    <uib-tab ng-click="onTabSelect('updatePass', 2)">
+                        <uib-tab-heading>
+                            <i class="fa fa-key hidden-md hidden-lg"></i> <span class="hidden-sm hidden-xs"> Update Password</span>
+                        </uib-tab-heading>
+                        <div class="row mb20 mt20">
+                            <h3 class="hidden-lg hidden-md">Update Password</h3>
+                            <div class="col-sm-12 col-xs-12 form-grou">
+                                <label class="col-sm-1 control-label">From:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="updatePass.email_from" maxlength="50" required style="display:inline;width:200px;margin-right:15px;"> via &lt;no-reply@messages.services&gt;
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 form-group">
+                                <label class="col-sm-1 control-label">Reply To:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="updatePass.reply_to" maxlength="50" required style="display:inline;width:200px;">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 form-group">
+                                <label class="col-sm-1 control-label">Subject:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="updatePass.subject" maxlength="50" required style="display:inline;width:200px;">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <textarea class="form-control ckeditor" style="resize:vertical;min-height:150px;" id="updatePass" ng-model="search.number2" placeholder="Hello and Welcome Yadda yadda yadda..." wysiwyg-ckeditor></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row col-xs-12 text-right">
+                                <button class="btn btn-primary" ng-click="saveEmailTemplate(2)">Save</button>
+                                <button class="btn btn-danger" ng-click="resetDefaultEmailTemplate('updatePass', 2)">Reset Default</button>
+                            </div>
+                        </div>
+                    </uib-tab>
+
+                    <uib-tab ng-click="onTabSelect('notifications', 4)">
+                        <uib-tab-heading>
+                            <i class="fa fa-bell hidden-md hidden-lg"></i> <span class="hidden-sm hidden-xs"> Notification Emails</span>
+                        </uib-tab-heading>
+                        <div class="row mb20 mt20">
+                            <h3 class="hidden-lg hidden-md">Notification Emails</h3>
+                            <div class="col-sm-12 col-xs-12 form-group">
+                                <label class="col-sm-1 control-label">From:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="notifications.email_from" maxlength="50" required style="display:inline;width:200px;margin-right:15px;"> via &lt;no-reply@messages.services&gt;
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 form-group">
+                                <label class="col-sm-1 control-label">Reply To:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="notifications.reply_to" maxlength="50" required style="display:inline;width:200px;">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 form-group">
+                                <label class="col-sm-1 control-label">Subject:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="notifications.subject" maxlength="50" required style="display:inline;width:200px;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <!--<div class="row mb20">
+           <div class="col-sm-6 col-xs-6">
+              <select class="form-control" ng-model="state" id="source" style="display:inline;width:50%;">
+                <option value="" ng-selected="true" ng-disabled="true">User
+                  Name
+                </option>
+              </select>
+              <button class="btn btn-info">Insert</button>
+            </div>
+          </div>-->
+                        <div class="row">
+                            <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <textarea class="form-control ckeditor" style="resize:vertical;min-height:150px;" id="notifications" ng-model="search.number2" placeholder="Hello and Welcome Yadda yadda yadda..." wysiwyg-ckeditor></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="">
+
+                            <div class="row mt20">
+
+                                <div class="col-sm-8">
+                                    <div class="checkbox">
+                                        <label>
+                                <input ng-model="notifications.ga_active" icheck type="checkbox" value="true" >
+                                Send all email open events to Google Analytics
+                            </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="notifications.ga_active">
+                                <div class="col-sm-4 mt20">
+                                    <label class="control-label">Tracking ID</label>
+                                    <div class="">
+                                        <input type="hidden" ng-value="notifications.ga_id" />
+                                        <input type="text" ng-model="notifications.tracking_id" placeholder="UA-XXXX-Y" class="form-control" maxlength="50" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-8 mt20">
+                                    <label class="control-label">Custom Metric Index (optional)</label>
+                                    <div class="">
+                                        <input type="number" min="0" class="form-control" name="custom_metric" ng-model="notifications.custom_metric" style="width:75px;" maxlength="1" max="3">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 mt20">
+                                    <label class="control-label">Event Label</label>
+
+                                    <div class="">
+                                        <select class="form-control" name="eventLabel" ng-model="notifications.event_label" ng-options="eventLabeloption.value as eventLabeloption.name for eventLabeloption in eventLabeloptions"></select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 mt20">
+                                    <label class="control-label">Campaign Name</label>
+
+                                    <div class="">
+                                        <select class="form-control" name="campaignName" ng-model="notifications.campaign_name" ng-options="eventLabeloption.value as eventLabeloption.name for eventLabeloption in eventLabeloptions"></select>
+                                        <!--<select class="form-control" ng-model="notifications.campaignName" id="campaignName">
+                               <option>Group Name</option>
+                                <option>Campaign Name</option>
+                                <option>Call Flow Name</option>
+                                <option>Event Criteria</option>
+                                <option>Ad Source</option>
+                            </select>-->
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 mt20">
+                                    <label class="control-label">Campaign Source</label>
+                                    <div class="">
+                                        <select class="form-control" name="campaignSource" ng-model="notifications.campaign_source" ng-options="eventLabeloption.value as eventLabeloption.name for eventLabeloption in eventLabeloptions"></select>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row col-xs-12 text-right">
+                                <button class="btn btn-primary" ng-click="saveEmailTemplate(4)">Save</button>
+                                <button class="btn btn-danger" ng-click="resetDefaultEmailTemplate('notifications',4)">Reset Default</button>
+                            </div>
+                        </div>
+                    </uib-tab>
+
+                    <!--**************************Call Recording Emails*******************-->
+                    <uib-tab heading="Call Recording Emails" ng-click="onTabSelect('recordings', 3)">
+                        <uib-tab-heading>
+                            <i class="fa fa-phone-square hidden-md hidden-lg"></i> <span class="hidden-sm hidden-xs"> Call Recording Emails</span>
+                        </uib-tab-heading>
+                        <div class="row mb20 mt20">
+                            <h3 class="hidden-lg hidden-md">Call Recording Emails</h3>
+                            <div class="col-sm-12 col-xs-12 form-group">
+                                <label class="col-sm-1 control-label">From:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="recordings.email_from" maxlength="50" required style="display:inline;width:200px;margin-right:15px;"> via &lt;no-reply@messages.services&gt;
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 form-group">
+                                <label class="col-sm-1 control-label">Reply To:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="recordings.reply_to" maxlength="50" required style="display:inline;width:200px;">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 form-group">
+                                <label class="col-sm-1 control-label">Subject:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="recordings.subject" maxlength="50" required style="display:inline;width:200px;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <textarea class="form-control ckeditor" style="resize:vertical;min-height:150px;" id="recordings" ng-model="search.number2" placeholder="Hello and Welcome Yadda yadda yadda..." wysiwyg-ckeditor></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-footer">
+                            <div class="row col-xs-12 text-right">
+                                <button class="btn btn-primary" ng-click="saveEmailTemplate(3)">Save</button>
+                                <button class="btn btn-danger" ng-click="resetDefaultEmailTemplate('recordings', 3)">Reset Default</button>
+                            </div>
+                        </div>
+                    </uib-tab>
+
+
+                    <!--******************Score Completed Notification**************-->
+
+                    <uib-tab ng-show="manualScoreCardEmail" heading="Score Completed Notification" ng-click="onTabSelect('ScoreCompleted', 6)">
+                        <uib-tab-heading>
+                            <i class="fa fa-phone-square hidden-md hidden-lg"></i> <span class="hidden-sm hidden-xs"> Score Completed Notification</span>
+                        </uib-tab-heading>
+
+                        <div class="row mb20 mt20">
+                            <h3 class="hidden-lg hidden-md">Score Completed Notification</h3>
+                            <div class="col-sm-12 col-xs-12 form-group">
+                                <label class="col-sm-1 control-label">From:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="ScoreCompleted.email_from" maxlength="50" required style="display:inline;width:200px;margin-right:15px;"> via &lt;no-reply@messages.services&gt;
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 form-group">
+                                <label class="col-sm-1 control-label">Reply To:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="ScoreCompleted.reply_to" maxlength="50" required style="display:inline;width:200px;">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 form-group">
+                                <label class="col-sm-1 control-label">Subject:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="ScoreCompleted.subject" maxlength="50" required style="display:inline;width:200px;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <textarea class="form-control ckeditor" style="resize:vertical;min-height:150px;" id="ScoreCompleted" ng-model="search.number2" placeholder="Hello and Welcome Yadda yadda yadda..." wysiwyg-ckeditor></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row col-xs-12 text-right">
+                                <button class="btn btn-primary" ng-click="saveEmailTemplate(6)">Save</button>
+                                <button class="btn btn-danger" ng-click="resetDefaultEmailTemplate('ScoreCompleted', 6)">Reset Default</button>
+                            </div>
+                        </div>
+                    </uib-tab>
+
+                    <!--*************Score Reviewed Notification**************-->
+
+                    <uib-tab ng-show="manualScoreCardEmail" heading="Score Reviewed Notification" ng-click="onTabSelect('ScoreReviwed', 7)">
+                        <uib-tab-heading>
+                            <i class="fa fa-phone-square hidden-md hidden-lg"></i> <span class="hidden-sm hidden-xs"> Score Reviewed Notification</span>
+                        </uib-tab-heading>
+
+                        <div class="row mb20 mt20">
+                            <h3 class="hidden-lg hidden-md">Score Reviewed Notification</h3>
+                            <div class="col-sm-12 col-xs-12 form-group">
+                                <label class="col-sm-1 control-label">From:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="ScoreReviwed.email_from" maxlength="50" required style="display:inline;width:200px;margin-right:15px;"> via &lt;no-reply@messages.services&gt;
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 form-group">
+                                <label class="col-sm-1 control-label">Reply To:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="ScoreReviwed.reply_to" maxlength="50" required style="display:inline;width:200px;">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 form-group">
+                                <label class="col-sm-1 control-label">Subject:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="ScoreReviwed.subject" maxlength="50" required style="display:inline;width:200px;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <textarea class="form-control ckeditor" style="resize:vertical;min-height:150px;" id="ScoreReviwed" ng-model="search.number2" placeholder="Hello and Welcome Yadda yadda yadda..." wysiwyg-ckeditor></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-footer">
+                            <div class="row col-xs-12 text-right">
+                                <button class="btn btn-primary" ng-click="saveEmailTemplate(7)">Save</button>
+                                <button class="btn btn-danger" ng-click="resetDefaultEmailTemplate('ScoreReviwed', 7)">Reset Default</button>
+                            </div>
+                        </div>
+
+
+
+                    </uib-tab>
+
+
+
+
+
+                </div>
+            </uib-tabset>
+        </div>
+    </div>
+    <!--<div class="panel-footer">
+                <div class="row col-xs-12">
+                    <button class="btn btn-primary" style="float:right;" >Save Email Settings</button>
+                </div>
+            </div-->
+</div>
+
+
+
+
+</div>
+<!-- container -->

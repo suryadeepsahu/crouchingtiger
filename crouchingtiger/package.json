@@ -1,0 +1,78 @@
+{
+  "name": "crouchingtiger",
+  "version": "1.0.0",
+  "description": "Unit testing framework, utilizing Jasmine and Karma",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "karma start karma.conf.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ContactPoint/crouchingtiger.git"
+  },
+  "keywords": [
+    "karma",
+    "jasmine",
+    "test",
+    "unit"
+  ],
+  "author": "BS",
+  "bugs": {
+    "url": "https://github.com/ContactPoint/crouchingtiger/issues"
+  },
+  "homepage": "https://github.com/ContactPoint/crouchingtiger",
+  "devDependencies": {
+    "express": "^4.16.4",
+    "grunt": "^1.0.3",
+    "grunt-clear": "^0.2.1",
+    "grunt-contrib-compress": "^1.4.3",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-cssmin": "^0.12.2",
+    "grunt-contrib-htmlmin": "^3.0.0",
+    "grunt-contrib-imagemin": "^3.1.0",
+    "grunt-contrib-jshint": "^2.0.0",
+    "grunt-contrib-uglify-es": "github:gruntjs/grunt-contrib-uglify#harmony",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-html-angular-validate": "^0.6.1",
+    "grunt-jsbeautifier": "^0.2.8",
+    "grunt-karma": "^3.0.1",
+    "grunt-ng-annotate": "^0.10.0",
+    "grunt-open": "^0.2.3",
+    "grunt-purifycss": "^0.1.0",
+    "grunt-usemin": "^3.0.0",
+    "istanbul": "^0.4.5",
+    "jasmine-core": "^2.1.3",
+    "jshint-stylish": "^1.0.2",
+    "karma": "^3.1.4",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-coverage": "^1.1.2",
+    "karma-firefox-launcher": "^0.1.4",
+    "karma-growl-reporter": "^1.0.0",
+    "karma-jasmine": "^0.3.5",
+    "karma-jasmine-jquery": "^0.1.1",
+    "karma-mocha-reporter": "^2.2.1",
+    "karma-nyan-reporter": "0.0.60",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "karma-safari-launcher": "^0.1.1",
+    "karma-spec-reporter": "0.0.26",
+    "load-grunt-tasks": "^3.2.0"
+  },
+  "dependencies": {
+    "angular-sticky-table-header": "^0.2.17",
+    "bower": "^1.8.8",
+    "crypto": "0.0.3",
+    "formidable": ">=1.0.11",
+    "grunt-cli": "^1.3.2",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-less": "^1.0.1",
+    "html2pdf": "0.0.11",
+    "html2pdf.js": "^0.9.1",
+    "imagemagick": ">=0.1.3",
+    "jspdf": "^1.5.3",
+    "matchdep": "^0.3.0",
+    "node-static": ">=0.6.5"
+  }
+}

@@ -1,0 +1,34 @@
+[sticky-table-header2] {
+  position: relative;
+}
+[sticky-table-header2] .sticky-clone2 {
+  display: table;
+  position: absolute;
+  left: 0;
+  transform: translate3d(-100000px, 0, 0);
+  z-index: 100;
+}
+[sticky-table-header2] .sticky-clone2.sticky-stuck2 {
+  transform: translate3d(0, 0, 0);
+}
+.sticky-clone2 {
+
+}
+
+[sticky-table-header3] {
+  position: relative;
+  
+}
+[sticky-table-header3] .sticky-clone3 {
+  display: table;
+  position: absolute;
+  left: 0;
+  transform: translate3d(-100000px, 0, 0);
+  z-index: 100;
+}
+[sticky-table-header3] .sticky-clone3.sticky-stuck3 {
+  transform: translate3d(0, 0, 0);
+}
+.sticky-clone3 {
+
+}

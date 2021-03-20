@@ -1,0 +1,832 @@
+
+<div id="selectScore" class="table-to-scrape" ng-controller="SelectScoreController">
+    <div id="page-heading">
+        <h1>Select and Score</h1>
+        <div class="options">
+            <div class="btn-toolbar">
+                <div class="pull-right" style="margin-left:10px;">
+                    <button class="btn btn-lg btn-default ng-isolate-scope" daterangepicker="drp_options" date-begin="drp_start" date-end="drp_end" onapplychange="changeDateRange()" ng-disabled ="whichScheduleReport !== undefined">
+                        <i class="fa fa-calendar"></i> <span style="margin-left: 5px" class="ng-binding hidden-xs">{{drp_start +' - '+ drp_end}}</span> <b class="caret"></b>
+                    </button>
+                    <!--<button ng-click="changeReportParams('date')" class="btn btn-primary">Apply</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+    <h4 style="color:#656b79;padding-left:20px;font-size: 13px;">Calls count on this page may differ from Reports. Reports strictly follow the user permission settings and filter calls according to the groups users are assigned to. The Scorecard feature allows a user to be assigned calls that are part of a group the user does not have access to.
+    </h4>
+    </div>
+
+       <div class="container-fluid mh622" id="callsData">
+       <style>
+          .disablePointer{
+           pointer-events: none;
+           /* color: blue; */
+         }
+       .dc-chart{float:none;}
+        span.handle{display:none;}
+        .chartizzle .panel-heading h4{font-size:11px;}
+        .advancedf{background:#efefef; border: 1px solid #ccc;  border-radius: 5px;  overflow: auto;  padding: 15px 0 15px 15px;
+         -moz-border-radius: 5px;  -webkit-border-top-left-radius: 5px;  -webkit-border-top-right-radius: 5px;  -webkit-border-bottom-left-radius: 5px;
+         -webkit-border-bottom-right-radius: 5px;}
+         ._GATq {  border-left: 1px solid #ccc;  border-right: 1px solid #ccc;  clear: both;  position: relative;  text-align: center;  margin: -1px 0;}
+         ._GATq._GAQzb {  background-color: #efefef;  color: #575757;  font-size: 1.2em;  font-weight: bold;  margin-left: 80px;  padding: 5px 0;  width: 130px;}
+      #listen_workspace tab-heading .badge{top:-6px !important;left:7px !important;}
+      .tab-container p{min-width:150px;}
+         .uib-clear { display: none; visibility: none; }
+         ul#columnpicker{padding:12px;width: 310px;}
+         ul#columnpicker li{width: 50%;float:left;margin-bottom:4px;}
+         .pulse {
+             box-shadow: 0 0 0 0 rgba(0, 0, 0, .3);
+                 animation-name: pulse_animation;
+                 animation-duration: 2s;
+                 animation-iteration-count: 5;
+         }
+         .textAR {
+             text-align: right;
+         }
+         .line{
+          border-bottom: 1px solid;
+          padding: 6px;
+         }
+         .responses{
+          padding-left: 25px;
+         }
+         .pulse:hover {
+             -webkit-animation: none;
+             -moz-animation: none;
+             -o-animation: none;
+             animation: none;
+         }
+         .highlightResponsbox{
+          border-color: #4697ce;
+         }
+
+        .downloadRecDisable {
+            pointer-events: none;
+        }
+
+        .identifyAgent{
+          font-size: 18px;
+        }
+
+        .glyphicon-chevron-up {position: absolute;}
+
+         .removeHighlightResponsbox{
+          border: 1px solid #e1e3e8;
+         }
+         .mejs__time {
+             font-weight: 100;
+             font-size: 18px;
+         }
+         #preArrow{
+          visibility: hidden;
+          position: absolute;
+          fill: darken($whiteColor, 30%);
+           svg{
+              -webkit-transform:rotate(90deg);
+              transform:rotate(90deg);
+          }
+        }
+        .hoverDiv:hover #preArrow{
+            visibility: visible;
+            opacity: 0.65;
+            position: absolute;
+        }
+         @-webkit-keyframes pulse_animation {
+           0% { @include transform(scale(.95)); }
+           50% { @include transform(scale(1)); box-shadow: 0 0 0 25px rgba(233, 236, 240, 0); }
+             100% { @include transform(scale(.95)); box-shadow: 0 0 0 0 rgba(233, 236, 240, 0); }
+         }
+         @-moz-keyframes pulse_animation {
+           0% { @include transform(scale(.95)); }
+           50% { @include transform(scale(1)); box-shadow: 0 0 0 25px rgba(233, 236, 240, 0); }
+             100% { @include transform(scale(.95)); box-shadow: 0 0 0 0 rgba(233, 236, 240, 0); }
+         }
+         @-o-keyframes pulse_animation {
+           0% { @include transform(scale(.95)); }
+           50% { @include transform(scale(1)); box-shadow: 0 0 0 25px rgba(233, 236, 240, 0); }
+             100% { @include transform(scale(.95)); box-shadow: 0 0 0 0 rgba(233, 236, 240, 0); }
+         }
+         @keyframes pulse_animation {
+           0% { @include transform(scale(.95)); }
+           50% { @include transform(scale(1)); box-shadow: 0 0 0 25px rgba(233, 236, 240, 0); }
+             100% { @include transform(scale(.95)); box-shadow: 0 0 0 0 rgba(233, 236, 240, 0); }
+         }
+         .disablePlayer{
+           pointer-events: none;
+         }
+       </style> 
+<!-- notification section -->
+    <div class="container-fluid">
+        <div class="row mt10" style="padding:0 20px;">         
+            <div class="well well-sm clearfix">
+               <div class="col-lg-4">
+                <button class="btn btn-sm btn-default" style="background-color: #63b7e6;border-color: #63b7e6;color: #fff;" ng-disabled="isLoadingApi || rowform.$waiting" ng-click = "notificationsPopUp(0);"> <i class="fa fa-plus-circle"></i> Notifications</button>&nbsp;
+                <button ng-hide='isSafari' type="button" class="btn btn-sm btn-default btn-last" ng-csv='getCSVData("csv")' filename='{{groupsReportFileName}}' csv-header='getHeader()' ng-disabled="isLoadingApi">
+                  <span>Export</span> 
+                </button>
+                <button ng-hide='!isSafari' type="button" class="btn btn-sm btn-default btn-last"  ng-click='getCSVData("csv")'>
+                  <span>Export</span> 
+                </button>             
+            </div>
+           
+            <div class=" col-lg-8">
+                <dir-pagination-controls  class="pull-right" on-page-change="pageChanged(newPageNumber)" ng-show="summaryitems > 0 && !isPendingReq"></dir-pagination-controls>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <!-- scored section -->
+       <div class="container-fluid pb0" >
+        <div class="row" style="padding:0 20px;">
+            <div class="panel panel-inverse">
+                <div class="panel-body no-border filter-prepend">                 
+                  <div class =" col-md-8 col-lg-8" style="margin-top:5px !important;padding:0px !important;" ng-disabled="items.length === 0">
+                    <form class="form-inline">
+                    <div class="col-md-2 col-lg-3">Filter by Status:</div>
+                    <div class="adf">
+                      
+                      <div class="checkbox filterCheckbox"><label class="containerNew">
+                        <input type="checkbox" ng-model="needscorecardChecked" ng-change="includeScore('needs_scorecard', needscorecardChecked)"><span class="checkmark"></span>Need Scorecard</label>
+                      </div>
+                      <div class="checkbox filterCheckbox">
+                      <label class="containerNew"> <input type="checkbox" ng-model="unscoredChecked" ng-change="includeScore('unscored', unscoredChecked)"><span class="checkmark"></span>Unscored</label>
+                      </div>
+                      <div class="checkbox filterCheckbox">
+
+                      <label class="containerNew"><input type="checkbox" checked="checked" ng-model="scoredChecked" ng-change="includeScore('scored', scoredChecked)"><span class="checkmark"></span>Scored</label>
+                      </div>
+
+
+                      <div class="checkbox filterCheckbox">
+                      <label class="containerNew"> <input type="checkbox" ng-model="reviewedChecked" ng-change="includeScore('reviewed',reviewedChecked)"><span class="checkmark"></span>Reviewed</label>
+                      </div>
+
+
+                      </div>
+                     </form>
+                  </div>
+                    <span style="position:absolute;" id="horsemanFlag" ng-if="horsemanFlag"></span>
+                   
+                    <!-- Advaned filter code start  -->
+                     <div class="col-md-2 col-sm-12 col-xs-12 mb10 pull-right crawler-exempt" ng-hide="whichScheduleReport !== undefined">
+                            <button type="button" class="btn btn-default btn-block btn-adv" ng-click="showAdvFilter = true; simpleSearchFilter = ''">Advanced filter</button>
+                        </div>
+
+                        <div ng-if="showAdvFilter" class="col-md-12 col-lg-12 mb20 text-left">
+                            <div class="advanced-filter-directive crawler-exempt" ng-repeat="af in advFilterDefinitions">
+                              <div class="_GATq _GAQzb" ng-hide="$index == 0">
+                                <select style="width:auto;display:inline;"
+                                        class="form-control"
+                                    ng-model="af.rule">
+                                  <option value='AND'>AND</option>
+                                  <!-- <option value='OR'>OR</option> -->
+                                </select>
+                              </div>
+                              <div class="advancedf">
+                                <!-- Inclusivity select -->
+                                <select style="width:auto;display:inline;"
+                                        class="form-control"
+                                        ng-model="af.selected_inclusivity"
+                                        ng-options="inc.label for inc in af.inclusivity">
+                                </select>
+                                <!-- Columns select -->
+                                <select style="width:auto;display:inline;"
+                                        class="form-control"
+                                        ng-model="af.selected_column"
+                                        ng-options="col.label for col in af.columns"
+                                        ng-change="showOperatorSelect($index); updateOperators(preloading, af, $index); af.user_input='';"
+                                        ng-disabled="!af.selected_inclusivity">
+                                  <option value="" ng-selected="false" ng-hide="true">-- Select --</option>
+                                </select>
+                                <!-- Operators select -->
+                                <select style="width:auto;display:inline;"
+                                        class="form-control"
+                                        ng-model="af.selected_operator"
+                                        ng-options="opt.label for opt in af.operators.options"
+                                        ng-show="af.show_operators">
+                                </select>
+                                <!-- User input (text) -->
+                                <input style="width:150px;display:inline;"
+                                       type="text"
+                                       class="form-control"
+                                       placeholder="required"
+                                       ng-model="af.user_input"
+                                       ng-show="af.operators.type == 'text'">
+                                </input>
+                                <!-- User input (int) -->
+                                <input style="width:150px;display:inline;"
+                                       type="text"
+                                       class="form-control"
+                                       placeholder="required"
+                                       ng-model="af.user_input"
+                                       ng-show="af.operators.type == 'int'"
+                                       ng-keypress='validateInput($event)'>
+                                </input>
+                                <!-- User input (calendar) -->
+                                <input style="width:150px;display:inline;"
+                                       type="text"
+                                       class="form-control datepicker"
+                                       uib-datepicker-popup="dd-MMMM-yyyy"
+                                       ng-model="af.user_input"
+                                       is-open="af.dateTime.opened"
+                                       close-text="Close"
+                                       ng-readonly="true"
+                                       timezone="America/Chicago"
+                                       uib-datepicker-options="af.dateTime.dateOptions"
+                                       ng-show="af.operators.type == 'calendar'">
+                                </input>
+                                <button type="button"
+                                        class="btn btn-default"
+                                        ng-click="af.dateTime.open($event, $index)"
+                                        ng-show="af.operators.type == 'calendar'">
+                                  <i class="fa fa-calendar"></i>
+                                </button>
+                                <!-- User input (select large) -->
+                                <select ui-select2
+                                    ng-model="af.user_input"
+                                    ng-show="af.operators.type == 'select-large'"
+                                    style="width:22%;padding-bottom:3px;">
+                                  <option ng-repeat="opt in af.select_options track by opt.value" ng-value="opt.value">{{ opt.label }}</option>
+                                  <option value="" ng-selected="true" ng-hide="true">-- Select --</option>
+                                </select>
+                                    <!-- User input (select small) -->
+                                <select ui-select2 
+                                    ng-model="af.user_input"
+                                    ng-show="af.operators.type == 'select-small'"
+                                    style="width:130px;padding-bottom:3px;">
+                                  <option ng-repeat="opt in af.select_options track by $index" ng-value="opt.value">{{ opt.label }}</option>
+                                  <option value="" ng-selected="true" ng-hide="true">-- Select --</option>
+                                </select>
+
+
+                                <!-- Delete rule button (only if more than one rule) -->
+                                <a title="Delete" ng-click="removeFilterDefinition($index);" ng-hide="$index == 0 && advFilterDefinitions.length == 1"><i class="fa fa-times-circle"></i></a>
+                              </div>
+                              <!-- <div class="_GATq _GAQzb" ng-show="$index != advFilterDefinitions.maxQuantity - 1"></div> -->
+                            </div>
+                            <div class="_GATq _GAQzb crawler-exempt" ng-hide="advFilterMax || !showAdvFilter"></div>
+                            <div class="advancedf crawler-exempt" ng-hide="advFilterMax || !showAdvFilter">
+                              <button type="button" class="btn btn-gray" style="border:1px dashed #575757;" ng-click="advFilterDefinitions.length < advancedFilterConfig.maxQuantity ? addFilterDefinition(false) : null; resizeWindow();"><i class="fa fa-plus-circle"></i> Add an Advanced Filter</button>
+                            </div>
+                            <hr ng-hide="!showAdvFilter" class="crawler-exempt">
+                            <!-- Footer Buttons -->
+                            <div class="clearfix text-right crawler-exempt">
+                                <button ng-hide="!previewMode" type="button" class="pull-left btn btn-primary-alt btn-sm" ng-click="previewReport(urlParams)">Preview</button>
+                              <button class="btn btn-primary" ng-hide="hideApplyButton || !showAdvFilter" ng-click="applyFilter(); resizeWindow();">Apply</button>
+                              <button ng-hide="!showAdvFilter" type="button" class="btn btn-default" ng-click="filterReset(); resizeWindow();">Cancel</button>
+                            </div>
+                            <div ng-hide="!previewMode" class="clearfix text-left">
+                            </div>
+                        </div>
+                        <!-- Advaned filter code End  -->
+                        <!-- <div class="pageProgressLoader">
+                          <img src="./img/pageloading.gif" class="loading-img" alt="pageloading">
+                         </div> -->
+                         <!-- <div sticky-table-header3 id="main-picklist">
+                          <page-loader is-loading-api="isLoadingApi"></page-loader>
+                         <div> -->
+                            <page-loader is-loading-api="isLoadingApi"></page-loader>
+                         <div class="" sticky-table-header3>
+                           <div id="cdr_table" style="" class="table-responsive col-md-12 mt20 " persistent-scroll-bar>
+                              
+                          <!-- <div class="" persistent-scroll-bar> -->
+                        <!-- ng-class="{'col-md-12' : infoArea, 'col-md-12' : !infoArea}" -->
+                        <table class="table  table-hover table-condensed table-responsive" id="scoredetailtable">
+                            <thead>
+                                <tr style="margin-top: 40px; margin-left: 10px;">
+                                  <th class="hoverDiv" id="header-{{$index}}" ng-click="makeInprogressFalse()" ng-repeat="th in scoreDetailsColumnMapping" customize-filter="{{th}}" ng-if="th.visible === true" ng-class="{'textAR': th.label === 'Actions'}" header-List="{{scoreDetailsColumnMapping}}" ng-model="sortOrder">{{th.label}} 
+                                    <span ng-click="makeInprogressFalse()" id="arrow-{{$index}}" ng-if="th.sorting"></span>
+                                    <span ng-click="makeInprogressFalse()" id="preArrow" class="glyphicon glyphicon-chevron-up pull-right" ng-if="th.sorting" ></span>
+
+                                  </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              <tr ng-if="summaryitems <= 0 && !isPendingReq">
+                                <td class="noDataSelector" colspan='18'>No Data Found</td>
+                              </tr>
+                                <tr class="datapoint_{{$index}} break-inside" ng-class="{'active' : item.showinfo, 'inactive' : !item.showinfo}" dir-paginate-start="item in items | itemsPerPage: pageSize" total-items="summaryitems" ng-show="summaryitems > 0 && !isPendingReq" current-page="pagination.current" >
+                                  <!-- Play/Pause -->
+                                  <td style="padding-right:10px !important;">
+                                      <button class="btn btn-sm btn-primary pull-left" ng-if="!item.is_call_listened"  data-target="#{{ item.call_id }}{{item.call_id }}" class="accordion-toggle" ng-disabled="item.noRecording || item.scoreShow || !audioAccessPermission" ng-click="item.audioShow = !item.audioShow; playPause(item.call_id);loadAudio(item.call_id);" title="{{ item.listenLabel }}"><i class="fa fa-play"></i></button>
+                                      <button class="btn btn-sm btn-primary pull-left" ng-if="item.is_call_listened"  data-target="#{{ item.call_id }}{{item.call_id }}" class="accordion-toggle" ng-disabled="item.noRecording || item.scoreShow || !audioAccessPermission" ng-click="item.audioShow = !item.audioShow; playPause(item.call_id);loadAudio(item.call_id);" title="{{ item.listenLabel }}"><i class="fa fa-repeat"></i></button>
+
+                                    </td>
+                                    <!-- Status -->
+                                    <td>
+                                        <div ng-switch="item.status">
+                                          <div ng-switch-when="scored" class="pull-left"><img src='../img/icons/scored.png'/></div>
+                                                <div ng-switch-when="scored" class="pull-left"> 
+                                                  <input type = "image" ng-if="scoringPermission" src='../img/icons/icon-pencil.png' data-toggle="collapse" data-collapse-group="scoreShow" 
+                                                        ng-disabled = "item.status === 'needs_scorecard' || item.status === null || !item.ct_user_id || isReadonly || isReadonlyScore || !scoringPermission" 
+                                                        data-target="#{{ item.call_id }}{{item.call_id}}" ng-hide="roleId === 3 || roleId === 8" class="accordion-toggle" 
+                                                        ng-click="scoreNow(item.selectedScorecard.score_card_id,item.call_id, true);playPause(item.call_id);" title="{{ item.org_unit_name }}"/> 
+                                                </div>
+                                              
+                                          <div ng-switch-when="reviewed"><img src='../img/icons/reviewed.png'/> </div>
+                                          <div ng-switch-when="unscored"><img src='../img/icons/unscored.png'/> </div>
+                                          <div ng-switch-when="needs_scorecard"><img src='../img/icons/needscorecard.png'/> </div>
+                                        </div>
+                                    </td>  
+                                    <!-- Date/time -->
+                                    <td >
+                                        {{item.call_date_time }}
+                                    </td>
+                                    <!-- Duration -->
+                                    <td >
+                                        {{item.duration }}
+                                    </td>
+                                    <!-- Group Name -->
+                                    <td title="{{item.group_name}}">
+                                        {{ item.group_name | truncate_campGroupName }}
+                                    </td>
+                                    <!-- Identify Agent -->
+                                    <td>
+                                      <span editable-select="item.identifyAgent" e-name="identifyAgent"  e-ng-model="item.identifyAgent" e-class="agentid" e-ng-change="checkScorecardChange(item.identifyAgent, $data )"
+                                          e-form="rowform" e-ng-options="indentifiedUser.username for indentifiedUser in indentifiedUsers track by indentifiedUser.ct_user_id"  e-validate-blur-forza="Select $ Score, IdentifyAgent"  e-required>
+                                        {{ item.agent ? item.agent : "Not Set"}}
+                                      </span>
+                                    </td>
+                                   
+                                    <!-- Call Titel -->
+                                    <td>
+                                      <span editable-text="item.call_title" e-name="call_title" e-ng-model="call_title" e-form="rowform" e-required
+                                                                                                      e-maxlength="120"
+                                                                                                      e-disable-comma>
+                                        {{ item.call_title || '' }}
+                                      </span>
+                                    </td>
+                                    <!-- Scorecard -->
+                                    <td>
+                                    <span editable-select="item.selectedScorecard" e-name="selectedScorecard"  e-ng-model="item.selectedScorecard" e-class = "scorecardoption" e-ng-change="checkScorecardChange(item.selectedScorecard, $data )"
+                                            e-form="rowform" e-ng-options="score.score_card_title for score in groupScoreCards track by score.score_card_id"  e-validate-blur-forza="Select $ Score, IdentifyAgent" e-ng-change="item.isScoreCardSelected = true,checkScorecardChange(item.selectedScorecard, item )" e-required>
+                                        {{ item.scorecard ? item.scorecard : "Need Scorecard" }}
+                                      </span>
+                                    </td>
+                                    <!-- Score Date -->
+                                    <td >
+                                       {{ (item.status=='unscored' || item.status == null) ? "Not scored":item.score_date}}
+                                    </td>
+
+                                    <!-- <td ng-if="item.status === 'scored'" style="padding-left:20px;">
+                                        {{item.score}}%
+                                    </td> -->
+
+                                    <td style="min-width: 150px" >
+                                      <!-- form -->
+                                      <form editable-form name="rowform" onbeforesave="saveScoreCallDetail($data, item, rowform, $index)" ng-show="(rowform.$visible && editButtonStatus)"
+                                             class="form-buttons form-inline" shown="inserted == item">
+                                        <button type="submit" ng-disabled="rowform.$waiting || isReadonly || isReadonlyScore" class="btn btn-sm btn-primary" >
+                                          Save
+                                        </button>
+                                        <button type="button" ng-disabled="rowform.$waiting || isReadonly || isReadonlyScore" ng-click="makeInprogressFalse();rowform.$cancel();resizeWindow(); cancelScorecardAndAgentChange()" class="btn btn-sm btn-default score-cancel" id="setwidth">
+                                          Cancel
+                                        </button>
+                                      </form>
+                                      <div class="buttons review" style="font-size: 12px; width: 150px;" ng-show="!rowform.$visible && (item.status === 'unscored' || item.status === 'needs_scorecard' || item.status === null)">
+                                        <button class="btn btn-sm btn-primary pull-right"  ng-disabled = "item.status === 'needs_scorecard' || item.status === null || !item.ct_user_id || isReadonly || isReadonlyScore || !scoringPermission" data-target="#{{ item.call_id }}{{item.call_id}}" class="accordion-toggle" ng-click="scoreNow(item.selectedScorecard.score_card_id,item.call_id, false);item.showinfo=false;" title="{{ item.org_unit_name }}">Score Now </button>
+                                        <!-- <button class="btn btn-sm btn-primary" ng-click="setCurrentOU(subgroup.org_unit_id, subgroup.org_unit_name); resizeWindow();">Select</button> -->
+                                        
+                                      </div>
+                                      <div ng-show="!rowform.$visible" style="">
+                                        <div class="score pull-left" ng-show="(item.status === 'scored' || item.status === 'reviewed')"> {{item.status == null ? 0 : item.score }}% </div>
+                                        <div class="score pull-left" ng-show="(item.status === 'unscored')"> 0% </div>
+                                        <button ng-disabled="!audioAccessPermission" ng-show="item.status === 'scored' || item.status === 'reviewed'" class="btn btn-sm btn-primary pull-right"  data-target="#{{ item.call_id }}{{item.call_id}}" class="accordion-toggle"  ng-click="scoreNow(item.selectedScorecard.score_card_id,item.call_id, true);playPause(item.call_id);item.showinfo=false;" title="{{ item.org_unit_name }}" >{{item.status === 'scored' ? 'Review' : 'Reviewed'}}</button>
+                                      </div>
+                                    </td>
+
+
+                                    <td>
+                                      <div class="buttons pull-right" style="width: 150px">
+                                        <!--Edit Button For Calls-->
+                                        <button class="btn btn-sm btn-info" data-toggle="collapse" data-collapse-group="infoShow" ng-click="item.showinfo = !item.showinfo;getinfodetails($index, item.call_id, item.showinfo)"  data-target="#{{ item.call_id + 'info' }}" class="accordion-toggle" title="Toggle Call Info"><i class="fa fa-info-circle"></i></button>
+                                        <button class="btn btn-default btn-sm " ng-disabled="isReadonly || isReadonlyScore" ng-click="checkIfEdit(rowform, item); resizeWindow();"><i class="fa fa-edit"></i></button>
+                                         <a href="{{item.play_call}}" ng-class="{ 'downloadRecDisable' : item.noRecording !== false }"><button ng-disabled="item.noRecording" class="btn btn-primary-alt btn-sm" title="Download Audio File"><i class="fa fa-cloud-download"> </i></button></a>
+                                        <!-- <a  href="{{s3URL.src}}" ng-class="{ 'downloadRecDisable' : item.noRecording !== false }" ng-click="downloadRecording(item.call_id)" `><button  class="btn btn-primary-alt btn-sm " title="Download Audio File"><i class="fa fa-cloud-download"> </i></button></a> -->
+                                        <button class="btn btn-default btn-sm" ng-click="openEmail('md', item.play_call);" ng-disabled="item.noRecording" title="Email Call"><i class="fa fa-envelope-o"></i></button>
+                                      </div>
+                                    </td>
+                                </tr>
+
+                                <tr ng-if="item.scoreShow || item.audioShow" class="hideInExcel">
+                                  <td colspan="17" class="hiddenRow playerTD">
+                                      <div id="{{item.call_id }}{{item.call_id }}">
+                                          <div class="player-container">
+                                              <div class="media-wrapper">
+                                                 <div class = "" id= "player_width"></div>
+                                                    <!-- <div class="playerProgressLoader ">
+                                              <img src="./img/pageloading.gif" class="ProgressLoader-img" alt="pageloading" > 
+                                            </div> -->
+                                            <!-- <div sticky-table-header3 id="main-picklist">
+                                              <page-loader is-loading-api="isLoadingApi"></page-loader>
+                                             <div> -->
+                                                <page-loader is-loading-api="isLoadingApi"></page-loader>
+                                                   <div class="videogular-container audio" ng-class="{'disablePlayer': item.noRecording}">
+                                                    <videogular vg-player-ready="onPlayerReady($API)"
+                                                                vg-complete="onCompleteVideo(item)"
+                                                                vg-error="onError($event)"
+                                                                vg-update-time="onUpdateTime($currentTime, $duration)"
+                                                                vg-update-volume="onUpdateVolume($volume)"
+                                                                vg-update-state="onUpdateState($state)"
+                                                                vg-theme="config.theme.url"
+                                                                vg-auto-play="config.autoPlay">
+                                                        <vg-media vg-src="config.sources"
+                                                                  vg-loop="config.loop"
+                                                                  vg-preload="config.preload"
+                                                                  vg-native-controls="config.controls"
+                                                                  vg-type="audio">
+                                                        </vg-media>
+
+                                                        <vg-controls vg-autohide="config.autoHide" vg-autohide-time="config.autoHideTime">
+                                                            <vg-play-pause-button></vg-play-pause-button>                                                            
+                                                            <vg-scrub-bar>
+                                                                <vg-scrub-bar-buffer></vg-scrub-bar-buffer>
+                                                                <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                                                            </vg-scrub-bar>
+                                                            <vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }} |</vg-time-display>
+                                                            <vg-time-display>{{ !isNaN(totalTime) && totalTime ? totalTime : 0 | date:'mm:ss':'+0000' }} </vg-time-display>
+                                                            <vg-volume>
+                                                                <vg-mute-button></vg-mute-button>
+                                                            </vg-volume>
+                                                        </vg-controls>
+                                                    </videogular>
+                                                </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </td>
+                                </tr>
+                                
+                                <tr ng-if="item.scoreShow" class="hideInExcel">
+                                  <td colspan="17" class="hiddenRow" >
+                                        <div class = "container-fluid">
+                                          <div class="row">                                           
+                                            
+                                           <div class = "col-md-8 col-lg-8 crawler-exempt well well-sm clearfix " id="scorecardarea" name={{scorecards.title}}  style="max-height: 490px;overflow-y: auto;">
+                                            <div class="criteriaProgressLoader ">
+                                              <img src="./img/pageloading.gif" class="ProgressLoader-img" alt="pageloading" > 
+                                            </div>
+                                            <!-- <div sticky-table-header3 id="main-picklist">
+                                              <page-loader is-loading-api="isLoadingApi"></page-loader>
+                                             <div> -->
+                                              <!-- <page-loader is-loading-api="isLoadingScoreCard"></page-loader> -->
+                                             <h2 class="critreriaclass"> {{scorecards.title}} </h2>
+                                             <span id="glymSize" ><span class="glyphicon glyphicon-map-marker"></span><strong>Criteria : </strong></span>
+                                             <span class="pull-right" id="glymSize"><strong> Score : {{item.score == null ? 0 :item.score }}% </strong><i ng-click="exportScoreCardPDF()" class="fa fa-file-pdf-o pull-right pdfIcon" style="font-size:24px;color:red; cursor: pointer;" ></i></span>
+                                             <ul style="list-style:none; padding:0px !important;">
+                                             <li ng-repeat = "criteria in scorecards.criteriaList">
+                                              <div class = "container-fluid">
+                                              <div class="row mt10">
+                                               <div class = "col-md-12 col-lg-12">
+                                                 <div class = "col-md-8 col-lg-8">
+                                                   <div class="wrapper">
+                                                      <div class="content">
+                                                      <img src="../img/icon-marker-active.png" ng-if="criteria.tagged_scorecard_criteria_id !== null" ng-click="criteriaInProgress  || saveAndRemoveCallCriteria(currentTime,criteria,item.call_id,false);">
+                                                      <img src="../img/icon-marker.png"  ng-if="criteria.tagged_scorecard_criteria_id == null" ng-click="criteriaInProgress || saveAndRemoveCallCriteria(currentTime,criteria,item.call_id,true);">
+                                                      {{$index+1}}. <strong class="setCharacterLimit140"> {{criteria.title}}</strong><span ng-show="criteria.is_required" style="margin-left:3px;">*</span>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                  <div class = "col-md-4 col-lg-4 pull-right" >
+                                                    <span>Importance : {{criteria.criteria_importance}}</span>
+                                                  </div>
+                                              </div>
+                                              </div>
+                                              <div class="row mt10">
+                                                <div class = "col-md-8 col-lg-8 helpText">
+                                                  <div class="wrapper space">
+                                                     <div class="content">
+                                                       <span ng-bind-html="criteria.helpText || ''"></span>
+                                                     </div>
+                                                   </div>
+                                                </div>
+                                              </div>
+                                              <div class="row mt10" ng-show="criteria.ctype == 'Pass/Fail'">
+                                                <div class="space" >
+                                                  <div class="col-lg-2 col-md-4 col-sm-2" style="padding-left: 3px;">
+                                                  <label>  Pass:</label>                                                     
+                                                  <div id="passcheck" ><input type="checkbox" name="criteria[{{$index}}].selectedCheckPass" ng-model="criteria.selectedCheckPass" value="Pass" ng-click="criteria.selectedCheckFail = false; criteria.selectedCheckNa = false"   ng-change="scoreCardInprogress()" ng-disabled="roleId === 3 || roleId === 8 "></div>
+                                                  </div>
+                                                  <div class="col-lg-2 col-md-4 col-sm-2">
+                                                  <label>  Fail:</label>                                                       
+                                                  <div id="failCheck" ><input type="checkbox" name="criteria[{{$index}}].selectedCheckPass" ng-model="criteria.selectedCheckFail" value="Fail" ng-click="criteria.selectedCheckPass = false; criteria.selectedCheckNa = false"  ng-change="scoreCardInprogress()" ng-disabled="roleId === 3 || roleId === 8 "></div> 
+                                                  </div>
+                                                  <div class="col-lg-2 col-md-4 col-sm-2">
+                                                    <label>  N/A:</label>                                                       
+                                                    <div id="naCheck" ><input type="checkbox" name="criteria[{{$index}}].selectedCheckPass" ng-model="criteria.selectedCheckNa" value="N/A" ng-click="criteria.selectedCheckPass = false; criteria.selectedCheckFail = false; "  ng-change="scoreCardInprogress()" ng-disabled="roleId === 3 || roleId === 8 "></div> 
+                                                    </div>
+                                                </div>
+                                              </div>
+                                            
+                                              <div class="row mt10" ng-show="criteria.ctype != 'Pass/Fail'">
+                                              {{index}}
+                                                <div class="space" >
+                                                  <div class="radio-inline" ng-repeat="radio in criteria.radioOption">
+                                                  <label style="margin:0px !important;">{{radio}}:</label>
+                                                    <div class="">
+                                                       <input class="space" type="radio" id="{{criteria.criteria_id}}_radioOption_{{$index}}" ng-model="criteria.selectedRadio" value="{{radio}}" ng-change='scoreCardInprogress()' ng-disabled="roleId === 3 || roleId === 8 ">
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>  
+                                              <hr style="border-top: dotted 1px;"> 
+                                            </div>
+                                          </li>
+                                        </ul>
+                                        <div id="scorecardarea2">
+                                            <div class= "col-md-10 col-lg-12" >
+                                              <form class = "">
+                                                <div class= "col-md-12 col-lg-12">
+                                                <label><strong>{{scorecards.outcome}}</strong><span style="margin-left: 3px;">*</span></label>
+                                                </div>
+                                                <label class="alignment">
+                                                     <input type="radio" name="selectBook" ng-model="scorecards.appt_booked" value="Yes" ng-disabled="roleId === 3 || roleId === 8 "><span class="align">Yes</span>                                                      
+                                                      <input type="radio" name="selectBook" ng-model="scorecards.appt_booked" value="No" ng-disabled="roleId === 3 || roleId === 8 "><span class="align">No</span> </label>                                                  
+                                              </form>
+                                            </div>                                            
+                                              
+                                              </div>                                             
+                                                                                        
+                                                <div class="text-right">
+                                                  <div class="col-md-12 col-lg-12 mt-10">
+                                                      <div ng-show="item.status === 'scored'" style="text-align: left;"> 
+                                                          <div>Selected By: {{item.selector}}</div>
+                                                          <div>Selected On: {{item.selected_date_time}}</div>
+                                                          <div>Scored By: {{item.scorer}}</div>
+                                                          <div>Scored On: {{item.score_date}}</div>
+                                                          <div>Scored For: {{item.identifyAgent.username}}</div>
+                                                          
+                                                      </div>
+                                                      <div ng-show="item.status === 'reviewed'" style="text-align: left;">
+                                                          <div>Selected By: {{item.selector}}</div>
+                                                          <div>Selected On: {{item.selected_date_time}}</div>
+                                                          <div>Scored By: {{item.scorer}}</div>
+                                                          <div>Scored On: {{item.score_date}}</div>
+                                                          <div>Scored For: {{item.identifyAgent.username}}</div>
+                                                          <div>Reviewed By: {{item.reviewer}}</div>
+                                                          <div>Reviewed On: {{item.reviwed_date_time}}</div>
+                                                      </div>
+                                                    <button class = "btn btn-default pull-right btnscore pdfIcon btn-sm" ng-disabled=" isUpdateScore" ng-click = "conformClose($data,item);item.scoreShow=!item.scoreShow;item.audioShow=!item.audioShow;">Cancel </button>
+                                                    <button class = "btn btn-primary pull-right btnscore pdfIcon btn-sm" ng-disabled=" isUpdateScore" ng-show="item.status === 'unscored'" ng-click = "updateScoreCallDetail($data,item, true);">Done</button> 
+                                                    <button class = "btn btn-primary pull-right btnscore pdfIcon btn-sm" ng-show="(item.status === 'scored' || item.status === 'reviewed') && roleId !== 3 && roleId !== 8" ng-disabled="!scoringPermission || isUpdateScore" ng-click = "updateScoreCallDetail($data,item, false);">Update Score</button> 
+                                                     <button class = "btn btn-primary pull-right btnscore pdfIcon btn-sm " ng-disabled=" isUpdateScore"  ng-show="(item.status === 'scored' || item.status === 'reviewed')" style = "margin-left:20px;" ng-click = "changeScoreStatus($data,item);item.scoreShow=!item.scoreShow;item.audioShow=!item.audioShow;">Review</button>  
+                                                                                             
+                                                  </div>                                             
+                                                </div>
+                                             </div>
+
+                                           <div class="col-md-4 col-lg-4">
+                                           <!-- Comment start -->
+                                            <div class="row">
+                                            <div class = "col-md-12 col-lg-12 crawler-exempt well well-sm clearfix" style="min-height: 230px;">
+                                              
+                                              <div class="row">
+                                                <div class="commentProgressLoader  ">
+                                              <img src="./img/pageloading.gif" class="ProgressLoader-img" alt="pageloading" > 
+                                            </div>
+                                            <!-- <div sticky-table-header3 id="main-picklist">
+                                              <page-loader is-loading-api="isLoadingApi"></page-loader>
+                                             <div> -->
+                                                <!-- <page-loader is-loading-api="isLoadingApi"></page-loader> -->
+                                                <fieldset>
+                                                    <img src="../img/icon-post.png" alt="Smiley face" height="42" width="42" style="margin-bottom: 8px;">
+                                                    <label class="control-label critreriaclass" id="commentLabel">Comment</label>
+                                                    <button type="button" class="btn btn-primary btn-sm pull-right" ng-click="showCommentBox()"><i class="fa fa-plus-circle"></i> Add</button>
+                                                </fieldset>
+                                              </div>
+                                              <div class="col-lg-12 col-md-12  commentScroll" id="commentsContainer" style="margin-bottom: 10px ;padding: 0px;break-inside: avoid;"> 
+                                                <div class="commmentbox" id="comment_{{commentDetail.comment_id}}" ng-if = "commentDetails.length>0" ng-repeat="commentDetail in commentDetails">
+                                                  <div class="current mt5" ng-click="API.seekTime(commentDetail.currentTime, false)" style="color: #E36C25!important; font-size: 12px;" >{{commentDetail.comment_displayDuration}}
+                                                    <!-- <span class="glyphicons glyphicons-remove pull-right" ng-click="removeComment(commentDetail.comment_id)"></span> -->
+                                                  <a ng-click="removeComment(commentDetail.comment_id)" title="delete" ng-show="commentDetail.ct_user_id==userIdCheck"><i class="fa fa-times" style="float:right;"></i></a>
+                                                  </div>
+                                                  <div class="comment mt5" style="font-size: 12px; word-break: break-all;">{{commentDetail.comment_text}}</div>
+                                                  <div class="comment mt5" style="font-size: 10px; font-weight: 600">{{commentDetail.first_name}} {{commentDetail.last_name}}</div>
+                                                  <div class="comment mt5" style="font-size: 10px; color:#ccc">{{commentDetail.comment_created | date : "MM.dd.yyyy hh:mm:ss a" }}</div>
+                                                    <a  class="Responses pull-right" style="margin-left: 10px;" ng-click="commentResponse(commentDetail.comment_id);">Respond</a>   
+                                                    <a  class="Responses pull-right" ng-if="commentDetail.replies && commentDetail.replies.length > 0" ng-click="toggleResponses(commentDetail.comment_id)" >{{commentDetail.showResponses==true?'Hide':'Show'}} Responses</a>
+                                                    <!-- <a  class="Responses pull-right" ng-if="checkResponses(commentDetail.comment_responsecount)" ng-click="toggleResponses(commentDetail.comment_id)" >{{commentDetail.showResponses==true?'Hide':'Show'}} Responses</a> -->
+
+                                                    <div ng-show="commentDetail.showResponses && commentDetail.replies" >
+                                                  <div class="line"></div>
+                                                    <div ng-repeat="responsDetail in commentDetail.replies" class="mt5 responses" >
+                                                    <div ng-click="API.seekTime(responsDetail.currentTime,false)" style="font-size: 12px;">{{responsDetail.response}}
+                                                       <a ng-click="removeResponse(responsDetail.comment_response_id,commentDetail.comment_id)" title="delete"><i class="fa fa-times" style="float:right;"></i></a>
+                                                    </div>
+                                                    <div style="font-size: 10px; font-weight: 600">{{responsDetail.first_name}} {{responsDetail.last_name}}</div>
+                                                    <div style="font-size: 10px; color:#ccc">{{responsDetail.created_on | date :  "MM.dd.yyyy hh:mm:ss a"}}</div>
+                                                    </div> 
+                                                </div> 
+                                                </div>
+                                              </div>
+                                             
+                                              <div class="">
+                                               <textarea name="commenttext" title="Add Comment" placeholder="{{ myplaceholder}}" class="form-control mt10 textarea" id="commentSection" style="width: 100%;"  ng-model="commentText" ng-class="isResponseBox?'highlightResponsbox':'removeHighlightResponsbox'"></textarea>
+                                                <button ng-if="isComment" class="btn btn-primary btn-sm pull-right mt10" ng-click="addComment(currentTime,commentText, item.call_id);" ng-disabled="isProcessing">Save Comment</button>
+                                                <button ng-if="!isComment" class="btn btn-primary btn-sm pull-right mt10" ng-click="addRespons(commentText);" ng-disabled="isProcessing">Save Response</button>
+                                                
+                                                <button class="btn btn-default btn-sm pull-right mt10" style="margin-right: 20px;" ng-click="commentText = ''; cancelChange()">Cancel</button>
+                                             </div>                   
+                                              
+                                            </div>
+                                            </div>
+                                            <!-- comment end -->
+                                          <!-- tag start -->
+                                          <div class="row">
+                                            <div class = "col-md-12 col-lg-12  crawler-exempt well well-sm clearfix" style="min-height: 230px;"  >
+                                              <div class="tagProgressLoader">
+                                              <img src="./img/pageloading.gif" class="ProgressLoader-img" alt="pageloading" > 
+                                            </div>
+                                            
+                                            <!-- <div sticky-table-header3 id="main-picklist">
+                                              <page-loader is-loading-api="isLoadingApi"></page-loader>
+                                             <div> -->
+                                                <!-- <page-loader is-loading-api="isLoadingApi"></page-loader> -->
+                                             <div class="row mb20">
+                                              <div class = "col-md-12 col-lg-12">
+                                                <fieldset>
+                                                    <label class="control-label critreriaclass">Tags</label>
+                                                    <button type="button" class="btn btn-primary btn-sm pull-right" ng-click="addTagByCallId(tagText);tagText='';" ng-disabled="isAddTagProcesssing"><i class="fa fa-plus-circle"></i> Add</button>
+                                                </fieldset>
+                                              </div>
+                                            </div>
+                                             <div class="row mb20">
+                                              <div class = "col-md-12 col-lg-12">
+                                             <div id="tags_add" class="top2 dashboard bordered">
+                                                    <div class="module-content widget-padding widget-container">
+                                                        <form name="calltagForm" id="calltagForm" >
+                                                            <fieldset>
+                                                                <div >
+                                                                   <!-- <input class="btn btn-info btn-sm pull-right update" type="submit" id="addCallTag" ng-disabled="!isTagAccess" title="Save Call Tag Button" value="Save"> -->
+                                                                    <select class="mb15 mt10" ui-select2="tagoptiontemplate()" ng-model="tagText"   style="width:100%;" ng-disabled="!isTagAccess">
+                                                                        <option value="{{tag}}"  ng-repeat="tag in tags" > {{tag.tag_name}}</option>
+                                                                        <option ng-disabled="true" ng-selected="true" value="">-- Available Tags--</option>
+                                                                    </select>
+                                                                </div>
+                                                            </fieldset>
+                                                        </form>
+                                                    </div>
+                                                  </div>
+                                              <!-- <input type="text" placeholder="Add a Tag" ng-model="tagText" class="form-control"> -->
+                                            </div>
+                                            <div class = "col-md-12 col-lg-12">
+                                            <div style="overflow:auto ;  max-height: 190px; display: flex; flex-direction: row; flex-flow: wrap;">
+                                             <div ng-if = "OUtags.length > 0"  ng-repeat="tag in OUtags" style="margin: 10px 10px;">
+                                              <span style=" color:#fff;border-radius: 5px;background: #575757;padding:5px 7px;">
+                                              {{tag.name}} <span  class="glyphicon glyphicon-remove" ng-click="deleteSelectedTag(tag.id)"> 
+                                              </span></span>
+                                             </div>
+                                           </div>                                      
+                                          </div>
+                                            </div>
+                                             </div>
+                                            </div>
+                                             <!-- tag end -->
+                                          </div>
+                                          </div>
+                                        </div>
+                                  </td>
+                                </tr>
+                                <!--Show info starts-->
+                                <tr ng-if="item.showinfo" class="hideInExcel" dir-paginate-end>
+                                  <td colspan="17" class="hiddenRow">
+                                      <div class="accordian-body collapse mt10" id="{{ item.call_id + 'info'}}">
+                                          <uib-tabset tab-theme="info" tab-position="right" class="tab-info tab-right">
+                                              <uib-tab>
+                                                  <uib-tab-heading> <span class="">Info</span> </uib-tab-heading>
+                                                  <div class="col-lg-6 col-md-6 col-sm-6">
+                                                      <div class="col-lg-6" ng-show="hasExtendedData">
+                                                          <p><strong>Name and Address</strong><br>
+                                                              <span ng-if="caller_info[$index].source == 'acxiom'">
+                                              {{ caller_info[$index].consumer1.first_name || '' }} {{ caller_info[$index].consumer1.last_name || '' }}<br>
+                                              {{ caller_info[$index].address_info.house_number || '' }} {{ caller_info[$index].address_info.street_pre_directional || '' }} {{ caller_info[$index].address_info.street_name || '' }} {{ caller_info[$index].address_info.street_post_directional || '' }} {{ caller_info[$index].address_info.street_suffix || '' }}<br>
+                                              {{ caller_info[$index].address_info.city || '' }} {{ caller_info[$index].address_info.state || '' }} {{ caller_info[$index].address_info.zip || '' }}
+                                              </span>
+                                                              <span ng-if="caller_info[$index].source == 'white pages'">
+                                                  {{ caller_info[$index].belongs_to[0].name || '' }}<br>
+                                                  {{ caller_info[$index].current_addresses[0].street_line_1 || '' }}<br ng-if="caller_info[$index].current_addresses[0].street_line_1">
+                                                  {{ caller_info[$index].current_addresses[0].city || '' }} {{ caller_info[$index].current_addresses[0].state_code || '' }} {{ caller_info[$index].current_addresses[0].country_code || '' }} {{ caller_info[$index].current_addresses[0].postal_code || '' }}
+                                              </span>
+                                                          </p>
+                                                      </div>
+                                                      <div class="col-lg-6">
+                                                          <p><strong>Conversation</strong><br> Sales Inquiry: {{ (!ind_scores[$index].hasOwnProperty('Sales Inquiry')) ? 'N/A' : (ind_scores[$index]['Sales Inquiry'] > 50) ? 'True' : 'False' }}<br>                                                                        Conversion: {{ (!ind_scores[$index].hasOwnProperty('All Conversion (c)')) ? 'N/A' : (ind_scores[$index]['All Conversion (c)'] > 50) ? 'True' : 'False'}}<br> Missed Opportunity: {{
+                                                              (!ind_scores[$index].hasOwnProperty('Missed Opportunity (c)')) ? 'N/A' : (ind_scores[$index]['Missed Opportunity (c)'] > 50) ? 'True' : 'False' }}
+                                                          </p>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-lg-6 col-md-6 col-sm-6">
+                                                      <div class="col-lg-6">
+                                                          <p><strong>Session</strong><br> Referring: {{ dnidata[$index].referring || '' }} <br> Referring Type: {{ dnidata[$index].referring_type || '' }} <br> Keyword: {{ (dnidata[$index].ref_param
+                                                              !== null && dnidata[$index].ref_param.kw ? dnidata[$index].ref_param.kw : (dnidata[$index].search_words) || '') }}<br> UTM Campaign: {{ dnidata[$index].ref_param.utm_campaign || ''
+                                                              }}
+                                                              <br>
+                                                          </p>
+                                                      </div>
+                                                      <div class="col-lg-6">
+                                                          <p><span class="hidden-md hidden-sm hidden-xs"><br></span> First Page: {{ dnidata[$index].first_page || '' }}<br> Last Page: {{ dnidata[$index].last_page || '' }}<br> Geo IP: {{ dnidata[$index].ip_host
+                                                              || '' }}
+                                                          </p>
+                                                      </div>
+                                                  </div>
+                                              </uib-tab>
+                                              <uib-tab>
+                                                  <uib-tab-heading class="dropdown"> <span class="">Comments</span> <span class="badge badge-orange">{{call_commentslength[item.call_id] || ''}}</span></uib-tab-heading>
+                                                  <!--Begin Comments Widget container-->
+                                                  <div id="comments" class="top2 dashboard bordered">
+                                                      <div class="rt-block widget">
+                                                          <div class="rt-module-inner">
+                                                              <div class="module-content widget-padding widget-container">
+                                                                  <form name="commentForm" id="commentForm" valid-submit="postcomment($index, item.call_id);" novalidate>
+                                                                      <fieldset>
+                                                                          <div class="">
+                                                                              <label class="control-label">Comment:</label>
+                                                                              <input class="btn btn-info btn-sm pull-right update" type="submit" id="addComment{{item.call_id}}" title="Add Comment Button" ng-disabled="!comment.text[item.call_id]" value="Add">
+                                                                              <textarea name="commenttext" title="Add Comment" class=" mt10 form-control" style="resize:vertical;" id="comment.text{{item.call_id}}" ng-model="comment.text[item.call_id]"></textarea>
+
+                                                                              <!--<input name="commenttext" title="Add Comment Input" id="commenttext" size="30" ng-model="commenttext" class="inputbox ui-autocomplete-input" value="" type="text" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true">-->
+
+                                                                          </div>
+                                                                      </fieldset>
+                                                                  </form>
+
+                                                                  <div id="comments_container" class="mt10" ng-repeat="call_comment in call_comments[item.call_id]">
+                                                                      <div id="commentblock_{{call_comment.comment_id}}" class="rt-block comment_div">
+                                                                          <div>
+                                                                              <a href="" ng-show="userCanDeleteComment(call_comment.ct_user_id)"><img src="/img/icons/icon-delete.png" ng-click="deletecomment($index, call_comment.comment_id,item.call_id);" class="deleteComment" title="Delete comment button:"
+                                                                                      width="10px" height="10px"></a>
+
+                                                                              <strong>
+                                                                      {{ call_comment.comment_text || '' }}             </strong>
+                                                                              <br>
+                                                                              <em>{{call_comment.first_name}}&nbsp;{{call_comment.last_name}}</em><br>
+                                                                              <em>{{ call_comment.comment_created_formatted || '' }}</em><br>
+                                                                              <input type="hidden" name="comment_user_id" id="comment_{{call_comment.comment_id}}" value="{{call_comment.comment_id}}">
+                                                                          </div>
+                                                                      </div>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <!--End Comments Widget container-->
+                                              </uib-tab>
+                                              <uib-tab>
+                                                  <uib-tab-heading class="dropdown"> <span class="">Tags</span> <span class="badge badge-orange">{{call_tagslength[item.call_id] || ''}}</span></uib-tab-heading>
+                                                  <div id="tags_add" class="top2 dashboard bordered">
+                                                      <div class="module-content widget-padding widget-container">
+                                                          <form name="calltagForm" id="calltagForm" valid-submit="postcalltag($index, item.call_id, true);" novalidate>
+                                                              <fieldset>
+                                                                  <div class="">
+                                                                      <label class="control-label">Select Tags:</label>
+                                                                      <input class="btn btn-info btn-sm pull-right update" type="submit" id="addCallTag" ng-disabled="!isTagAccess" title="Save Call Tag Button" value="Save">
+                                                                      <select id="calltagselect{{item.call_id}}" class="mb15 mt10" ui-select2="callTagOptionTemplate(0)" ng-model="selCallTags[item.call_id]" multiple style="width:100%;" ng-disabled="!isTagAccess">
+                                                              <option value="{{call_tag.tag_id}}" locked="{{call_tag.locked}}"  ng-repeat="call_tag in call_tags[item.call_id]"> {{call_tag.tag_name}}</option>
+                                                              <option ng-disabled="true" ng-selected="true" value="">-- Available Tags--</option>
+                                                              <!--<option value="{{tag.tag_id}}" ng-repeat="tag in tags"> {{tag.tag_name}}</option>-->
+                                                          </select>
+                                                                  </div>
+                                                              </fieldset>
+                                                          </form>
+                                                      </div>
+                                                  </div>
+                                              </uib-tab>
+                                          </uib-tabset>
+                                      </div>
+                                  </td>
+                              </tr> 
+                              <!--End show info -->
+                              <!-- <tr ng-if="item.audioShow" class="hideInExcel" dir-paginate-end>
+                                  <td colspan="17" class="hiddenRow playerTD">
+                                      <div class="accordian-body collapse mt10" id="{{item.call_id }}{{item.call_id }}">
+                                          <div class="player-container">
+                                              <div class="media-wrapper">
+                                                  <audio ng-id="{{item.call_id}}" preload="metadata" controls style="width:100%;">
+                                                      <source dynamic-url ng-id="{{item.s3URL}}" src="" type="audio/mp3">
+                                                  </audio>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </td>
+                              </tr> -->
+                            </tbody>
+                        </table>
+                          </div>
+                        </div>
+                        <div class=" col-lg-12 mt10">
+                        <dir-pagination-controls  class="pull-right" on-page-change="pageChanged(newPageNumber)" ng-show="summaryitems >0 && !isPendingReq"></dir-pagination-controls>
+                        </div>
+                    
+                  </div>
+
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+      

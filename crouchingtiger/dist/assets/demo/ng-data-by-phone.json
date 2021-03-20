@@ -1,0 +1,122 @@
+[
+  {
+    "Name": "DNI - Google App Gallery",
+	"PhoneNumber": "435-674-9985",
+    "Total": "465",
+    "Unique": "389",
+    "Answered": "460",
+    "Missed": "5",
+	"AvgCallTime": "1:56",
+	"TotalMinutes": "920"
+  },
+  {
+    "Name": "Google Pool",
+	"PhoneNumber": "435-674-9986",
+    "Total": "320",
+    "Unique": "298",
+    "Answered": "315",
+    "Missed": "5",
+	"AvgCallTime": "3:51",
+	"TotalMinutes": "1124"
+  },
+  {
+    "Name": "Google Pool",
+	"PhoneNumber": "435-674-9987",
+    "Total": "315",
+    "Unique": "277",
+    "Answered": "310",
+    "Missed": "5",
+	"AvgCallTime": "3:23",
+	"TotalMinutes": "1110"
+  },
+  {
+    "Name": "Google Pool",
+	"PhoneNumber": "435-674-9988",
+    "Total": "265",
+    "Unique": "200",
+    "Answered": "255",
+    "Missed": "10",
+	"AvgCallTime": "3:12",
+	"TotalMinutes": "1045"
+  },
+  {
+    "Name": "Email Marketing",
+	"PhoneNumber": "435-674-9989",
+    "Total": "215",
+    "Unique": "200",
+    "Answered": "200",
+    "Missed": "15",
+	"AvgCallTime": "1:35",
+	"TotalMinutes": "301"
+  },
+  {
+    "Name": "Pr Content",
+	"PhoneNumber": "435-674-9990",
+    "Total": "156",
+    "Unique": "143",
+    "Answered": "150",
+    "Missed": "6",
+	"AvgCallTime": "0:53",
+	"TotalMinutes": "147"
+  },
+  {
+    "Name": "Press Release",
+	"PhoneNumber": "435-674-9991",
+    "Total": "122",
+    "Unique": "91",
+    "Answered": "120",
+    "Missed": "2",
+	"AvgCallTime": "3:43",
+	"TotalMinutes": "427"
+  },
+  {
+    "Name": "LMC Website",
+	"PhoneNumber": "435-674-9992",
+    "Total": "104",
+    "Unique": "92",
+    "Answered": "100",
+    "Missed": "4",
+	"AvgCallTime": "3:07",
+	"TotalMinutes": "329"
+  },
+  {
+    "Name": "Sales Collateral",
+	"PhoneNumber": "435-674-9993",
+    "Total": "96",
+    "Unique": "95",
+    "Answered": "90",
+    "Missed": "6",
+	"AvgCallTime": "2:35",
+	"TotalMinutes": "221"
+  },
+  {
+    "Name": "Fall Campaign",
+	"PhoneNumber": "435-674-9994",
+    "Total": "80",
+    "Unique": "75",
+    "Answered": "75",
+    "Missed": "5",
+	"AvgCallTime": "2:56",
+	"TotalMinutes": "248"
+  },
+  {
+    "Name": "Spring Promotion",
+	"PhoneNumber": "435-674-9995",
+    "Total": "53",
+    "Unique": "47",
+    "Answered": "51",
+    "Missed": "2",
+	"AvgCallTime": "2:53",
+	"TotalMinutes": "167"
+  },
+  {
+    "Name": "Holiday Offer",
+	"PhoneNumber": "435-674-9996",
+    "Total": "41",
+    "Unique": "40",
+    "Answered": "35",
+    "Missed": "6",
+	"AvgCallTime": "0:46",
+	"TotalMinutes": "29"
+  }
+]

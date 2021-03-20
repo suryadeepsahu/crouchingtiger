@@ -1,0 +1,95 @@
+<div class="modal-header">
+    <h3 class="modal-title">Add Phone Numbers to this Campaign</h3>
+</div>
+<div class="modal-body">
+        <div class="container-fluid" >
+            <div class="row">
+                <div class="col-xs-12">
+                    <form action=" " class=" ">
+                        <div class="form-group">
+                            <div class="row col-md-6">
+                            	<div class="row mt15 mb5">
+									<label class="col-sm-12">Enter Area Code, Zip Code, or City:</label>
+								</div>
+                                
+                                <div class="row mt5 mb15">
+                                	<div class="col-sm-11">
+                                		<input type="text" class="form-control"  value="">
+                                	</div>
+                                </div>
+                             </div>
+                             <div class="row col-md-6">
+                                <div class="row mt15 mb5">
+                                	<label class="col-sm-11 ">Or Choose:</label>
+                                </div>
+                                <div class="row mt5 mb15">
+                                    <div class="col-sm-12">
+                                        <select style=" " class="form-control" id="source">
+                                        	<option selected disabled value="action0"> - Select - </option>
+                                            <option value="available-numbers">Available Numbers</option>
+                                            <option value="number-pools">My Number Pools</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt10 mb20" style="clear:both;">
+                                <div class="well well-lg">
+                                    This is the area where the phone numbers or pools will show up.</br>
+                                    <div class="row col-sm-12 mt10">
+                                    	<div class="col-md-3 col-xs-6">
+                                            <dl>
+                                                <dt>(435) 202-6986 <input ng-model="selectedNum" icheck type="checkbox" value=""></dt>
+                                                <dd>South Jordan, UT</dd>
+                                            </dl>
+                                        </div>
+                                        <div class="col-md-3 col-xs-6">
+                                            <dl>
+                                                <dt>(435) 202-5324 <input ng-model="selectedNum2" icheck type="checkbox" value=""></dt>
+                                                <dd>South Jordan, UT</dd>
+                                            </dl>
+                                        </div>  
+                                        <div class="col-md-3 col-xs-6">
+                                            <dl>
+                                                <dt>(435) 202-5320 <input ng-model="selectedNum3" icheck type="checkbox" value=""></dt>
+                                                <dd>South Jordan, UT</dd>
+                                            </dl>
+                                        </div>
+                                        <div class="col-md-3 col-xs-6">
+                                            <dl>
+                                                <dt>(435) 202-5327 <input ng-model="selectedNum4" icheck type="checkbox" value=""></dt>
+                                                <dd>South Jordan, UT</dd>
+                                            </dl>
+                                        </div>
+                                        <div class="col-md-3 col-xs-6">
+                                            <dl>
+                                                <dt>(435) 202-5316 <input ng-model="selectedNum5" icheck type="checkbox" value=""></dt>
+                                                <dd>South Jordan, UT</dd>
+                                            </dl>
+                                        </div>
+                                        <div class="col-md-3 col-xs-6">
+                                            <dl>
+                                                <dt>(435) 202-5329 <input ng-model="selectedNum6" icheck type="checkbox" value=""></dt>
+                                                <dd>South Jordan, UT</dd>
+                                            </dl>
+                                        </div>  
+                                    </div>
+                                    <div style="clear:both;"></div>
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="row mt5 mb20">
+                                <p>I understand that these numbers will be added to my monthly subscription and I agree to the <a href="../files/LMC_Terms_and_Conditions2.0.pdf" target="_new">terms and conditions</a> of LogMyCalls.com </p>	
+                                <p>Type "yes" here: <input style="display:inline;width:50px;margin-left:10px;" name="confirmation" id="confirmation" size="3" maxlength="3" class="form-control" value="" type="text"></p>
+                            </div>
+                            
+                        </div>
+                     </form>
+                </div>
+            </div>
+        </div>	
+</div>
+<div style="clear:both" class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">Save</button>
+    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+</div>

@@ -1,0 +1,44 @@
+{
+  "name": "watch-dom",
+  "version": "0.0.5",
+  "description": "Angular $watch for the DOM",
+  "main": "dist/watch-dom.js",
+  "scripts": {
+    "test": "grunt test --verbose",
+    "beforetest": "npm i"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:bcherny/watch-dom.git"
+  },
+  "keywords": [
+    "watch",
+    "$watch",
+    "observe",
+    "dom",
+    "document",
+    "element",
+    "change",
+    "subtree",
+    "modify",
+    "modification",
+    "attribute",
+    "node",
+    "angular"
+  ],
+  "author": "Boris Cherny <boris@performancejs.com>",
+  "license": "Apache2",
+  "bugs": {
+    "url": "https://github.com/bcherny/watch-dom/issues"
+  },
+  "homepage": "https://github.com/bcherny/watch-dom",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-coffee": "^0.12.0",
+    "grunt-contrib-jasmine": "^0.8.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-coveralls": "^1.0.0",
+    "grunt-ngmin": "0.0.3",
+    "grunt-template-jasmine-istanbul": "^0.3.0"
+  }
+}

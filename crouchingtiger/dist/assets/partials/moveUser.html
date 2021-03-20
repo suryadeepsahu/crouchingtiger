@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <h3 class="modal-title">Move User</h3>
+</div>
+
+<form name="moveUser" id="moveUser" valid-submit="moveUserToSelectedGroup()" novalidate>
+  <div class="modal-body">
+    <div class="container-fluid" >
+        <div class="row">
+          <div class="col-md-12">
+            <label class="control-label">Note: User will lose its permissions if moved to another group, only the default group access will remain. Admin has to specifically give user permissions again.
+            </label>
+            <label class="control-label">Please select group to which you need to move the user</label>
+            <select ui-select2 ng-model="selectedGroup" data-placeholder="Select Group Name" style="width:100%">
+              <option ng-disabled="true" ng-selected="true" value="">--Select Group Name --</option>
+              <option value="{{ou.org_unit_id}}" ng-repeat="ou in groupsList">{{ ou.org_unit_name }}</option>
+            </select>
+          </div>        
+        </div>  
+    </div>
+  </div>  
+  <div style="clear:both" class="modal-footer mt20">
+    <button class="btn btn-primary" ng-disabled="!selectedGroup" type="submit">OK</button>
+    <!--<button class="btn btn-primary" type="submit">Save</button>-->
+    <a class="btn btn-default-alt" ng-click="cancel()">Cancel</a>
+  </div>
+
+</form>

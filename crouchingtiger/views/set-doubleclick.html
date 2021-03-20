@@ -1,0 +1,227 @@
+
+<div id="page-heading">
+
+	<h1>DoubleClick</h1>
+
+	<div class="options">
+		<div class="btn-toolbar">
+			<!--<div class="btn-group" dropdown>
+				<button type="button" class="btn btn-default dropdown-toggle">
+					Export as <span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+				  <li><a href="#">Action</a></li>
+				  <li><a href="#">Another action</a></li>
+				  <li><a href="#">Something else here</a></li>
+				  <li class="divider"></li>
+				  <li><a href="#">Separated link</a></li>
+				</ul>
+			</div>
+			<a href="#" class="btn btn-default hidden-xs"><i class="fa fa-cog"></i></a>-->
+		</div>
+	</div>
+</div>
+<div class="container-fluid" ng-controller="DoubleClickController">
+<!-- <div class="container-fluid"> -->
+	<div class="row">
+<page-loader is-loading-api="isLoadingApi"></page-loader>
+		<div class="col-md-12">
+			<div class="container-fluid">
+				<form name="doubleclickForm" id="doubleclickForm" valid-submit="setProfile()" novalidate>
+					<input type="hidden" name="doubleclick_id" ng-model="doubleclick_id" />
+					<div class="panel panel-midnightblue">
+						<div class="panel-body no-border collapse in">
+							<div class="row">
+								<div class="col-md-12">
+									<p><span>This integration allows you to map call data associated with DoubleClick ad conversions to custom Floodlight variables in your DoubleClick Search account. Prior to enabling this feature, please contact your DoubleClick account manager to authorize integrations@messages.service to post data to your DoubleClick Search account and create your custom Floodlight variables to identically match the settings on your integrations setup page.</span></p>
+								</div>
+							</div>
+							<div class="form-group row">
+                            	<div class="col-lg-1 col-md-2 col-sm-12 mt10">
+                                    <label class="control-label" style="padding-top:8px;">Active?</label>
+                                    <div class="">
+                                        <toggle-switch ng-model="dc_active" on-label="Yes" off-label="No" class="primary switch"><toggle-switch>
+                                    </div>
+                                </div>
+								<div class="col-lg-2 col-md-2 col-sm-8 mt20">
+									<label class="control-label">Conversion Type:</label>
+									<div class="">
+									<select ng-model="conversion_type" style=""
+											class="form-control" name="conversion_type" id="conversion_type" required validate-blur-forza="Double Click,Conversion Type" >
+										<option selected disabled value="action0"> -- Select --</option>
+										<option value="action">Action</option>
+										<option value="transaction">Transaction</option>
+									</select>
+                                    </div>
+								</div>
+								<div class="col-lg-1 col-md-2 col-sm-4 mt20" ng-show="conversion_type=='transaction'">
+									<label class="control-label">Currency:</label>
+                                    <!-- <div class=""> -->
+									<select ng-required="$scope.transaction == transaction" style="width:100%;display:inline;" class="form-control" ng-model="currency" name="currency" validate-blur-forza="Double Click,Currency">
+										<option value="USD">USD</option>
+										<option value="CAD">CAD</option>
+									</select>
+                                    <!-- </div> -->
+								</div>
+								<div class="col-lg-3 col-md-3 col-sm-12 mt20">
+									<label class="control-label" style="white-space: nowrap;">Default Floodlight Activity</label>
+
+                                    <div class="">
+                                        <input type="text" placeholder="required" style="display:inline;" class="form-control" maxlength="50"
+                                               required validate-utf-eight ng-model="default_floodlight" name="default_floodlight" validate-blur-forza="Double Click,Default Floodlight">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-12 mt20">
+                                	<label class="control-label">Send For:</label>
+                                    <div>
+									<select class="form-control" id="all_call" name="all_call" ng-model="all_call" data-placeholder="Select" ng-change = "upadatealltracking()" required validate-blur-forza="Double Click,All Call">
+										<option selected disabled value="action0"> -- Select --</option>
+                                        <option value="true"  >All Tracking Numbers</option>
+                                        <option value="false">Individual Tracking Numbers</option>
+									</select>
+                                    </div>
+                                </div>
+							</div>
+
+							<div class="form-group row" ng-if="all_call=='true'">
+                            	<div class="col-lg-12 col-md-12 col-sm-12 mt20">
+                                    <label class="control-label">Send conversion event when duration is at or above (sec)</label>
+                                    <input type="number" placeholder="required" min="0" class="form-control mb10" ng-model="$parent.min_call_duration" name="min_call_duration" maxlength="3" required validate-utf-eight
+                                      validate-blur-forza="Double Click,Minimum call duration" style="display:inline;width:65px;margin-left:10px;margin-right:10px;">
+
+                                    <label class="control-label">and</label> 
+								     <select style="display:inline;width:auto;margin-left:10px;margin-right:10px;" class="form-control" name="indicator_id" id="indicator_id" ng-options="m.metric_display for m in master_metrics_ui"  ng-model="$parent.indicator_id"selected>
+								       <option value="">-- Optional --</option>
+								     </select>
+                                    <label ng-show="indicator_id.map_id !== undefined" class="control-label">is</label>
+                                    <select style="width:auto;display:inline;margin-left:10px;" name="threshold" class="form-control" ng-model="$parent.threshold_above" ng-show="indicator_id.map_id !== undefined">
+										<option value="true" ng-selected = "threshold_above==true" >at or above</option>
+										<option value="false" ng-selected = "threshold_above==false" >at or below</option>
+									</select>
+                                    <input ng-required="indicator_id.map_id !== undefined" type="number"  min="0" style="display:inline;width:65px;margin-left:10px;margin-right:10px;" ng-model="$parent.metric_threshold" name="metric_threshold" validate-blur-forza="Double Click,Metric Threshold" class="form-control" maxlength="3" ng-maxlength="3" validate-utf-eight ng-show="indicator_id.map_id !== undefined">
+                                </div>
+                            </div>
+                            <div class="form-group row" ng-if="all_call=='false'">
+                            	<div class="col-lg-12 col-md-12 mt20">
+                                	<b>Instructions:</b> Once Floodlight variable are established in both platforms, go to Settings > Campaign. Click Edit > Call Actions to set criteria and configure the integration for individual call flows.
+                                </div>
+                            </div>
+							<!--<div class="form-group row">
+								<div class="col-lg-12 col-md-12 mt20">
+									Send conversion event when duration is at or above (sec): <input placeholder="required" type="text" style="width:80px;display:inline;margin-right:10px;margin-left:10px;" class="form-control" value="">
+									 and optional event? <input ng-model="conversionSend" icheck type="checkbox" value="">
+
+									<div ng-show="conversionSend" style="display:inline;">
+									<select style="width:auto;display:inline;margin-right:10px;margin-left:10px;" class="form-control" id="source" >
+											<option selected disabled value="action0"> -- Optional -- </option>
+											<option value="18">All Conversion (c)</option>
+											<option value="11">Appointment Set</option>
+											<option value="12">Commitment to Buy</option>
+											<option value="13">Initial Purchase</option>
+											<option value="14">Payment Language</option>
+											<option value="15">Request for Info</option>
+											<option value="16">Reservation Made</option>
+											<option value="17">Set Phone Appointment</option>
+										</select>
+									is <select style="width:auto;display:inline;margin-left:10px;margin-right:10px;" name="threshold" class="form-control" >
+											<option value="0">at or above</option>
+											<option value="1">at or below</option>
+										</select>
+									<input type="text" style="width:50px;display:inline;" class="form-control" value="">
+									</div>
+								</div>
+							</div>-->
+
+						</div>
+						<div class="panel-footer text-right">
+							<button class="btn btn-primary" ng-disabled="(doubleclickForm.$invalid && submitted) || formSubmit || !canAddEdit" onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Click', eventLabel:
+							'Save Doubleclick'});">Save
+							</button>
+							<!-- <button class="btn btn-default" ng-click="cancel()">Cancel</button> -->
+						</div>
+					</div>
+				</form>
+			</div>
+			<div>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12">
+
+							<div class="panel panel-midnightblue">
+								<div class="panel-heading">
+									<h4>Floodlight Variables</h4>
+									<!--<panel-controls>
+											<a href="javascript:;"><i class="fa fa-wrench"></i></a>
+											<a href=""><panel-control-collapse class="fa fa-chevron-down"></panel-control-collapse></a>
+										</panel-controls>-->
+								</div>
+								<div class="panel-body" disable-all="disabled" sticky-table-header3>
+									<table id="table_double_click" class="table table-condensed table-striped">
+                                    	<thead>
+                                            <tr style="font-weight: bold; margin-top: 55px; margin-left: 15px;">
+																							<th ng-repeat="th in doubleClickHeaders">{{th}}</th>
+                                              <th class="text-right" ng-repeat="th in actionHeader">{{th}}</th>
+                                            </tr>
+                                        </thead>
+										<tr ng-repeat="map in mapping">
+											<td>
+												<span class="ntext" ng-show="!variableSaved"  editable-select="map.map_id" e-name="map_id"  onbeforesave="validateData($data,'Metric')" e-form="rowform" e-style="width:190px;"
+												 e-ng-options="g.map_id as g.metric_display for g in metrics" e-ng-model="floodVariable" e-validate-blur-forza="DoubleClick Mapping, Metric" e-required e-ng-change="setRow(map, $data);showHide();">
+												{{ map.metric_display || '--Select--'}} 
+												</span>
+												<span ng-show="variableSaved">{{map.metric_display }}</span>
+											</td>
+											<td>
+												<span text="map.map_type" e-name="map_type" onbeforesave="validateData($data,'Map Type')" e-form="rowform"
+													  e-required e-ng-model="map_type">
+													{{ map.map_type | capitalize }}
+												</span>
+											</td>
+											<td>
+												<span text="map.metric_display" e-name="metric_display" e-ng-model="metric_display" e-form="rowform" e-required e-maxlength="35"
+													  e-validate-blur-forza="DoubleClick, Floodlight Variable">
+													{{map.map_type !== "" ? map.map_type==="metric" ? "Number" : "String" : ""}}
+												</span>
+											</td>
+											<td class="text-right" style="white-space: nowrap">
+												<form editable-form name="rowform" onbeforesave="saveMap($data, map.dc_map_id)" ng-show="rowform.$visible"
+													  class="form-buttons form-inline" shown="inserted == map">
+													<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-primary">Save</button>
+													<button type="button" ng-disabled="rowform.$waiting" ng-click="cancelAdd(map.dcmapid,rowform,$index)" class="btn btn-sm btn-default">
+														Cancel
+													</button>
+												</form>
+												<div class="buttons" ng-show="!rowform.$visible">
+													<button class="btn btn-sm btn-danger" ng-click="removeMap($index, map.dc_map_id, doubleclick_id, map.map_id)" ng-disabled="!canAddEdit">Delete</button>
+												</div>
+											</td>
+										</tr>
+									</table>
+									<div style="">
+										<button class="btn btn-default" onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Click', eventLabel: 'Add floodlight variable'});"
+												ng-click="addMapping()" ng-disabled="disableAdd || !metrics.length || !canAddEdit">Add Variable
+										</button>
+									</div>
+								</div>
+								<!-- <div class="panel-footer">
+									<div class="alert alert-success alert-dismissable pull-right" style="margin-right:20px;width:40%;" ng-class="{'alert-success': true, 'alert-dismissable': closeable}"
+										 role="alert" type="success" close="closeAlert($index)" ng-show="static_success">
+										<button type="button" class="close" ng-click="closeSuccess()">× Close</button>
+										<div><strong>Well done!</strong> Response: 200 status OK</div>
+									</div>
+									<div class="alert alert-danger alert-dismissable pull-right" style="margin-right:20px;width:40%;" ng-class="{'alert-danger': true, 'alert-dismissable': closeable}"
+										 role="alert" type="danger" close="closeAlert($index)" ng-show="static_fail">
+										<button type="button" class="close" ng-click="closeFail()">× Close</button>
+										<div><strong>Oh Snap!</strong> {{error}} </div>
+									</div>
+								</div> -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+<!-- container -->

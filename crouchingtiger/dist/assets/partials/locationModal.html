@@ -1,0 +1,196 @@
+<div class="modal-header">
+	<!-- Location List title. This will only show before the user gets to the Location List table and then get hidden to show the Location Editor title -->
+    	<h3 class="modal-title">Location Lists</h3>
+    <!-- End Location Editor title -->
+    
+	<!-- Location Editor title. This will only show after the user has clicked the Add button or the Edit Button from the Location List table -->
+    <!--<h3 class="modal-title">Location Editor for My Georoute List 1</h3>-->
+    <!-- End Location Editor title -->
+</div>
+<div class="modal-body">
+        <div class="container-fluid" ng-controller="PhoneNumbersEditableController">
+            
+            <!-- Location Lists Table. This will show when user first opens the modal. -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-striped table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Locations</th>
+                                <th>Created</th>
+                                <th>Modified</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                              <td>
+                                12112
+                              </td>
+                              <td>
+                                My Georoute List 1
+                              </td>
+                              <td>
+                                35
+                              </td>
+                              <td>
+                                02/13/2015 08:12:29
+                              </td>
+                              <td>
+                                03/20/2015 12:12:32
+                              </td>
+                              <td style="white-space: nowrap">
+                                
+                                <form editable-form name="rowform" ng-show="rowform.$visible" onbeforesave="saveLocationList($data, location.id)"
+                                class="form-buttons form-inline" shown="inserted == list1">
+                                  <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-primary">
+                                    Save
+                                  </button>
+                                  <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+                                    Cancel
+                                  </button>
+                                </form>
+                                <div class="buttons" ng-show="!rowform.$visible">
+                                  <button class="btn btn-sm btn-primary" ng-click="rowform.$show()">Edit</button>
+                                  <button class="btn btn-sm btn-primary" ng-click="rowform.$clone()">Clone</button>
+                                  <button class="btn btn-sm btn-danger" ng-click="removeLocationList($index)">Delete</button>
+                                </div>  
+                              </td>
+                            </tr>  
+                        </tbody>
+                    </table>
+                    <div>
+                        <a class="btn btn-default btn-sm pull-left" ng-click="addLocationList()">Add list</a>
+                    </div>
+                </div>
+            </div>
+            <!-- End Location Lists Table -->
+
+
+
+            <!-- Location Editor explainer text and search function. This will ONLY show after the user has clicked the Add button or the Edit Button from the Location List table -->
+            <!--<div class="row mb20">
+                <div class="col-xs-8">
+                <label class="control-label">Some Explainer Text Here if necessary.</label>
+                </div>
+                <div class="col-xs-4">
+                    <div class="input-group">
+                        <input placeholder="Search..." class="form-control" ng-model="search.text">
+                        <div class="input-group-btn">
+                            <button type="button" ng-click="highlightString()" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Location Editor explainer text and search function -->
+            
+            <!-- Location Editor Table. This will only show after the user has clicked the Add button or the Edit Button from the Location List table -->
+            <div class="row">
+                <div class="col-xs-12">
+                        <table class="table table-striped table-hover table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Location</th>
+                                    <th>Address</th>
+                                    <th>City</th>
+                                    <th>State</th>
+                                    <th>Zip</th>
+                                    <th>Phone</th>
+                                    <th>Claimed Zip</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="location1 in locations">
+                                  <td>
+                                    <span editable-text="location1.location" e-name="location" e-ng-model="location" e-form="rowform" e-required e-maxlength="50" 
+                                                                                                    e-validate-utf-eight>
+                                      {{ location1.location || '' }}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span editable-text="location1.address" e-name="address" e-ng-model="address" e-form="rowform" e-required
+                                                                                                    e-maxlength="50" 
+                                                                                                    e-validate-utf-eight>
+                                      {{ location1.address || '' }}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span editable-text="location1.city" e-name="city"  e-form="rowform" e-required >
+                                      {{ location1.city || '' }}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span editable-text="location1.state" e-name="state"  e-form="rowform" e-required >
+                                      {{ location1.state || '' }}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span editable-text="location1.zip" e-name="zip"  e-form="rowform" e-required >
+                                      {{ location1.zip || '' }}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span editable-text="location1.phone"  e-ng-model="phone" e-name="phone" e-form="rowform" e-required
+                                                                                                            e-maskinput 
+                                                                                                            e-ng-pattern="/^[0-9-() ]+$/"
+                                                                                                            e-data-inputmask="'mask':'(999) 999-9999'" 
+                                                                                                            e-max="15">
+                                      {{ location1.phone || '' }}
+                                    </span>
+                                  </td>
+                                  <td>
+                                  	<span editable-text="location1.claimed" e-name="zip"  e-form="rowform" e-required >
+                                      {{ location1.claimed || '' }}
+                                    </span>	
+                                  
+                                  </td>
+                                  <td style="white-space: nowrap">
+                                    
+                                    <form editable-form name="rowform" ng-show="rowform.$visible" onbeforesave="saveLocation($data, location.id)"
+                                    class="form-buttons form-inline" shown="inserted == location1">
+                                      <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-primary">
+                                        Save
+                                      </button>
+                                      <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+                                        Cancel
+                                      </button>
+                                    </form>
+                                    <div class="buttons" ng-show="!rowform.$visible">
+                                      <button class="btn btn-sm btn-primary" ng-click="rowform.$show()">Edit</button>
+                                      <button class="btn btn-sm btn-danger" ng-click="removeLocation($index)">Delete</button>
+                                    </div>  
+                                  </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div>
+                        	<a class="btn btn-default btn-sm pull-left" ng-click="addLocation()">Add location</a>
+                        </div>
+                        <div>
+                         <!--<select ui-select id="source" validate-blur-forza="Call Flow Details, Channel"  ng-model="addedlocation" ng-options="savedloc.location for savedloc in savedlocations" required validate-blur-forza="Call Flows, Channel" required ng-change="addLocation(addedlocation)" >
+                            <option selected disabled value=""> -- Select -- </option>
+                             <option  value="0"> Create Location </option>
+                                <option ng-repeat="c in channels" ng-bind="c.sub_category" ng-options= value="{{ c.sub_category }}"></option>
+                            </select>-->  
+                        </div>
+                </div>
+            </div>-->
+            <!-- End Location Editor Table -->
+        </div>	
+</div>
+<div style="clear:both" class="modal-footer">
+	<!-- Location Lists footer buttons. These will show when the user first opens the modal -->
+	<button class="btn btn-primary" ng-click="ok()">Done</button>
+    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+	<!-- End Location Lists footer buttons -->
+	<!-- Location Editor footer buttons. These will ONLY show after the user has clicked the Add button or the Edit Button from the Location List table -->
+    <!--<button class="btn btn-primary" ng-click="ok()">Done</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-info pull-left">Download Template</button>
+    <button class="btn btn-info pull-left">Export</button>
+    <button class="btn btn-info pull-left">Import</button>-->
+    <!-- End Location Editor footer buttons -->
+</div>

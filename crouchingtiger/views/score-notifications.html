@@ -1,0 +1,111 @@
+<style>
+.timeline>li .timeline-header {
+    padding: 0 0 10px;
+    color: rgba(0, 0, 0, .5);
+}
+
+.timeline>li .timeline-body h1,
+.timeline>li .timeline-body h2,
+.timeline>li .timeline-body h3,
+.timeline>li .timeline-body h4,
+.timeline>li .timeline-body h5,
+.timeline>li .timeline-body h6,
+.timeline>li .timeline-footer {
+    padding: 0 0 10px;
+    color: rgba(0, 0, 0, .5);
+}
+.close,.close:focus, .close:hover  {
+    font-size: 19.5px;
+    font-weight: 700;
+    line-height: 1;
+    text-shadow: 0 1px 0 #fff;
+    opacity: 1;
+    color: #fff;
+}
+.modal.in .modal-dialog {
+    box-shadow: 1px 1px 10px #0006;
+}
+.bootbox.modal.fade.bootbox-confirm.in {
+    margin-top: 10%;
+}
+</style>
+<script type="text/ng-template" id="my-custom-template">
+    <div class="tag-template">
+        <div>
+            <span apply-css class="tag-span" ng-class="$getTagClass()">{{$getDisplayText()}}</span>
+            <a class="remove-button" ng-click="$removeTag()">&#215;</a>
+        </div>
+    </div>
+</script>
+<div class="panel panel-midnightblue" ng-controller="ScoreNotificationsController" ng-init="loadScoreNotifications()">
+    <div class="modal-header panel-heading">
+        <h3 class="modal-title" style="color:#fff;padding-top: 6px">Score Notifications</h3>
+        <button type="button" ng-click="$dismiss();" class="close pull-right" data-dismiss="modal" style="margin-top:-25px !important;">&times;</button>
+    </div>
+    <div class="modal-body scoremodel panel-body" style="min-height: 300px">
+                     <page-loader is-loading-api="isLoadingApi"></page-loader>
+        <label style="padding-left: 30px"> Select action when you want to get a notification </label>
+        <div class="row">
+            <div class="col-md-12" style="z-index: 200; margin-top:20px ">
+                <ul class="timeline">
+                    <li class="timeline-gray" ng-repeat="nAction in notificationActions">
+                        <div class="timeline-icon"><i class="fa">{{$index + 1}}</i></div>
+                        <div class="timeline-body">
+                            <a ng-click="removeScoreNotifications(nAction.id, nAction.savedflag, $index)" title="delete"><i class="fa fa-times" style="float:right;"></i>
+                            </a>
+                            <div class="timeline-header">
+                                <span class="date">{{ showNumber($index + 1) }} Action</span>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="row">
+                                    <div class="col-sm-1">
+                                        <h3 style="display:inline;">If</h3>
+                                    </div>
+                                    <div class="col-sm-11">
+                                        <div class="col-sm-11 col-xs-10" style="background:#e6e6e6;min-height:58px;padding:10px;border:1px solid #ccc;border-radius:4px;">
+                                            <div class="col-sm-6 col-xs-5">
+                                                <select autocomplete="off" dt-id="nAction.id" add-call-action="addCallAction" style="width:100%;display:inline;border:none;" class="form-control" ng-options="rule.value as rule.name for rule in score_card_rule" ng-model="addNotification.score_card_rule[nAction.id]" enable-save ng-r>
+                                                    <option ng-selected="true" disabled value="action0"> -- Select -- </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt20 mb20">
+                                    <div class="col-sm-1">
+                                        <h3 style="display:inline;">Then</h3>
+                                    </div>
+                                    <div class="col-sm-11">
+                                        <div class="col-sm-11 col-xs-10" style="background:#e6e6e6;min-height:58px;padding:10px;border:1px solid #ccc;border-radius:4px;">
+                                            <div class="col-sm-4 col-xs-3">
+                                                <select autocomplete="off" style="min-width:125px;display:inline;border:none;vertical-align: top;" ng-model="addNotification.actionOptions[nAction.id]" ng-options="rule.value as rule.name for rule in actionOptions" class="form-control" id="source" dt-id="nAction.id" add-call-action="addCallAction" enable-save onChange="ga('send', 'event', 'Form Event', 'Call Action', this.options[this.selectedIndex].value);" ng-change="changeActionOption(nAction.id)">
+                                                    <option disabled ng-selected="true" value="action0"> -- Select -- </option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-8 col-xs-9">
+                                                <div style="display:inline;" ng-show="addNotification.actionOptions[nAction.id]=='email'">
+                                                    <input type="text" class="form-control" ng-model="addNotification.email[nAction.id]" required ng-disabled="isConvirzaAdmin" ng-maxlength="50" maxlength="50" >
+                                                </div>
+                                                <div style="display:inline;" ng-show="addNotification.actionOptions[nAction.id]=='sms'" ng-class="{'has-error' : invalidNumber }">
+                                                    <input type="text" class="form-control" ng-model="addNotification.phone_number[nAction.id]" maskinput data-inputmask="'mask':'(999) 999-9999'" ng-maxlength="14" ng-minlength="14" required ng-disabled="isConvirzaAdmin">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-footer text-right">
+                                <div ng-show="notificationActions.length < 4">
+                                    <a class="btn btn-inverse pull-left" ng-show="notificationActions.length == ($index + 1)" ng-click="addNewScoreNotifications(nAction.id)" ng-disabled="!addNewStep" onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Click', eventLabel: 'Add Call Action'});">Add Action</a>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" ng-show="notificationActions.length == ($index + 1)" type="button" ng-click="saveScoreNotifications(nAction.id, false);" style="float:right;margin-left: 10px;" align="left" onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Click', eventLabel: 'Save Group Details'});">Save</button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button class="btn btn-primary" ng-show="notificationActions.length == ($index + 1)" type="button" ng-click="$dismiss();" style="float:right;" align="left">Cancel</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

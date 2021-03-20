@@ -1,0 +1,239 @@
+<style type="text/css">#page-content{background-color:#575757;}
+.signup{
+  width: 100%;
+  height: 100%;
+}
+.card{
+  width: 80%;
+  margin: 0px 0% 0px 10% !important;
+  height: 100%;
+}
+.form-group {
+    margin-bottom: 10px;
+}
+.focusedform .verticalcenter{
+	margin-top: -200px;
+}
+.width-100 {
+	width: 100%;
+}
+.title{
+  text-align: center;
+  width : 400px;
+  font-size: 15px;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+.ssl{
+  width: 12%;
+  position: absolute;
+  right: 20px;
+  bottom: 0px;
+}
+.marginBottomLable{
+  margin-bottom: 0px !important;
+}
+#page-content{
+  padding: 0px;
+}
+.panel-body{
+border-top: 0px solid #ffffff !important;
+}
+</style>
+<div class="signup user-logo" ng-controller="signUpController">
+<div class="verticalcenter">
+<a href="#/"><div class="brand signup-logo"></div></a>
+<div class = "title">
+  <p class="marginBottomLable">{{lable}}</p>
+  <p ng-show ="showSignUpPage">{{lable1}}</p>
+</div>
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<h4 class="text-center signUpDetail" style="margin-bottom: 10px;" ng-show="showSignUpPage">Sign Up Now</h4>
+			<form name="signup" id="signup" class="form-horizontal"  style="margin-bottom: 0px !important;" novalidate ng-show="showSignUpPage" >
+				<div class="signUpDetail">
+					<div class="form-group">
+						<div class="col-sm-6">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-user"></i></span>
+								<input type="text" class="form-control" validate-blur-forza="Sign up,First Name" ng-pattern="/^(\S+\s?)*\s*$/" ng-model="firstName" id="firstName" placeholder="First Name" required>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" required validate-blur-forza="Sign up, Last Name" ng-pattern="/^(\S+\s?)*\s*$/" ng-model="lastName" id="lastName" placeholder="Last Name">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-12">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
+								<input type="email" class="form-control" required validate-blur-forza="Sign up, Email" ng-model="email" id="email" placeholder="Email">
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-12">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-phone"></i></span>
+								<input type="text" class="form-control" required clearinputmask validate-blur-forza="Sign up, Phone" maskinput data-inputmask="'mask':'(999) 999-9999'" ng-model="phone" uib-typeahead="phone for phone in phoneValidate($viewValue)" ng-maxlength="15" maxlength="15" ng-pattern="/^[0-9-() ]+$/"  id="phone" placeholder="Phone">
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-12">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-building-o"></i></span>
+								<input type="text" class="form-control" required validate-blur-forza="Sign up,Company" ng-model="company" id="company" placeholder="Company">
+							</div>
+						</div>
+					</div>
+          <div class="form-group">
+              <div class="col-sm-12">
+                  <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-building-o"></i></span>
+                      <select ui-select2 ng-model="industry" required validate-blur-forza="Sign up, Industry" data-placeholder="- Select -" style="width:100%">
+                          <option ng-disabled="true" ng-selected="true" value="">-- Select Industry--</option>
+                          <optgroup label="{{industryCategory.name}}" ng-repeat="industryCategory in industryList">
+                              <option value="{{industrySpecific.id}}:{{industryCategory.name}}{{industrySpecific.name}}" ng-repeat="industrySpecific in industryCategory.specific">{{industryCategory.name}}{{industrySpecific.name}}</option>
+                          </optgroup>
+                      </select>
+                  </div>
+              </div>
+          </div>
+          </div>
+    			<div class="pull-right">
+    		        <button  class="btn btn-success next" ng-click="next()"  ng-disabled="signup.$invalid" ng-show="showNext" >Next</button>
+    			</div>
+			</form>
+			<form name="creditcard" id="creditcard" class="form-horizontal"  valid-submit="signUp()" novalidate ng-show="showcreditDetailPage">
+				<div class="creditDetail">
+					<h4 class="text-center" style="margin-bottom: 10px;">Credit Card Details</h4>
+					<div class="form-group">
+						<div class="col-sm-12">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-user"></i></span>
+								<input type="text" class="form-control" required validate-blur-forza="Sign up,Card Holder Name" ng-pattern="/^(\S+\s?)*\s*$/" ng-model="cardHolderName" ng-maxlength="50" maxlength="50 " id="cardHolderName" placeholder="Card Holder Name">
+							</div>
+						</div>
+					</div>
+          <div class = "form-group">
+            <div class="col-sm-12" style="margin-top:-5px !important; margin-bottom: -5px !important;">
+            <img class = "card" src = "/assets/img/card.png">
+          </div>
+          </div>
+            <div class="form-group">
+						<div class="col-sm-7">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+								<input type="text" class="form-control" required validate-blur-forza="Sign up,Card Number"   ng-model="cardNumber"  uib-typeahead=" cardNumber for cardNumber in cardValidate($viewValue)" ng-minlength="{{cardNumMin}}" ng-maxlength={{cardNumMax}} minlength={{cardNumMin}} maxlength={{cardNumMax}} ng-pattern="/^[0-9-() ]+$/" placeholder="Card Number">
+							</div>
+						</div>
+                        <div class="col-sm-5">
+                            <div class="input-group width-100">
+								<span required validate-blur-forza="Sign up,Card Type"  class="form-control cardType" ng-model="cardType" ng-change="changeMasking(cardType)">{{cardType}}</span>
+                            </div>
+                        </div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-3">
+							<div class="input-group">
+						        <input type="text" class="form-control" required validate-blur-forza="Sign up,CVV Number" maskinput data-scopeinputmask="cvvMask"   ng-pattern="/^[0-9-()]+$/" ng-model="securityCode"  id="securityCode"  placeholder="CVV">
+							</div>
+						</div>
+                        <div class="col-sm-5">
+                            <div class="input-group width-100">
+                                <!-- <span class="input-group-addon"><i class="fa fa-calendar"></i></span> -->
+                                <select required validate-blur-forza="Sign up,Expiry Month " class="form-control" ng-model="expirationMonth" ng-options="month for month in months">
+                                     <option value="" ng-disabled="true">Exp. Month</option>
+                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <select required validate-blur-forza="Sign up,Expiry Year" class="form-control"  ng-click="changeDate(expirationYear)" ng-model="expirationYear"  ng-options="year as year for year in years" >
+                                <option value=""  ng-disabled="true">Exp. Year</option>
+                             </select>
+                        </div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-12">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-building-o"></i></span>
+								<input type="text" class="form-control" required validate-blur-forza="Sign up,Address Line" ng-model="addressLine" id="addressLine" placeholder="Address Line">
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+                        <div class="col-sm-6">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-flag"></i></span>
+                                    <select required validate-blur-forza="Sign up,Country"  class="form-control" ng-model="country" id="country" ng-change="selectcountry(country)"  ng-options="cn for cn in countries track by cn">
+								    <option value="" ng-disabled="true">Country</option>
+								 </select>
+							</div>
+						</div>
+						<div class="col-sm-6">
+                            <select required validate-blur-forza="Sign up,{{stateName}}"  class="form-control" ng-model="state" id="state"  ng-options="states for states in statesData track by states">
+						        <option value=""  ng-disabled="true">{{stateName}}</option>
+						    </select>
+						</div>
+					</div>
+					<div class="form-group">
+					 <div class="col-sm-6">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-building-o"></i></span>
+								<input type="text" class="form-control" required validate-blur-forza="Sign up,City" ng-model="city" id="city" placeholder="City">
+							</div>
+						</div>
+                        <div class="col-sm-6">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-building-o"></i></span>
+								<input type="text" class="form-control" required validate-blur-forza="Sign up, {{zipError}}" ng-pattern="{{zipType}}" ng-model="zipCode"  maxlength="{{zipLength}}" id="zipCode" placeholder="{{zipError}}">
+							</div>
+						</div>
+					</div>
+					<!-- <div class="checkbox block" style="text-align:center; padding-top:0px !important;">
+						<input icheck type="checkbox"  id="agree" ng-model="agree" name="terms" value="{{agree}}" required validate-blur-forza="Sign up,User Agreement" > -->
+					<!-- <div class="checkbox block" style="text-align:center; padding-top:0px !important;">	
+						<input id="agree" ng-model="agree" type="checkbox" name="terms" ng-checked='{{agree}}' required validate-blur-forza="Sign up,User Agreement" >
+						<span>
+							I accept the <a target="_blank" href="http://www.convirza.com/terms-conditions">User Agreement</a>
+						</span>
+					</div> -->
+					<div id="agreeContainer">
+						<div class="checkbox filterCheckbox" id="signUpCheck"><label class="containerNew">
+								<input id="agree" ng-model="agree" type="checkbox" name="terms" ng-checked='{{agree}}' required validate-blur-forza="Sign up,User Agreement">
+								<span class="checkmark" id="signUpBox"></span>	I accept the <a target="_blank" href="http://www.convirza.com/terms-conditions">User Agreement
+						</div>
+					</div>
+					<div class="panel-footer" style="margin:0px !important; padding: 0px !important;">
+						<div class="pull-left">
+							<a href="#/signup?subscription_id={{subscription_id}}&free_trial={{isFreeTrial}}"  ng-click="cancel()" class="btn btn-default">Back</a>
+						</div>
+						<div class="pull-right">
+              	            <a href="http://www.convirza.com/pricing"  target="_blank" class="btn btn-default">Cancel</a>
+							<button type="submit" ng-disabled="!agree || disableSignup"  class="btn btn-success"><i ng-class="{'fa fa-spinner fa-spin' : disableSignup}" > </i>Sign up </i></button>
+							<!-- 	<a href="#" class="btn btn-success">Sign up</a> -->
+						</div>
+					</div>
+				</div>
+			</form>
+      <form name="registeredEmail" id="registeredEmail" class="form-horizontal" novalidate ng-show="showalreadyEmail">
+        <div class="registeredEmail" style="padding:20px 0px;">
+					<h5 class="text-center" style="margin-bottom: 10px;">It looks like you already have an account with Convirza.</h5>
+          <h5 class="text-center">
+             Please <a href="#/login?email={{email}}">click here</a> to Login.
+          </h5>
+          <div class="panel-footer" style="margin:0px !important; padding: 0px !important; margin-top:20px !important;">
+						<div style="margin-left:150px;">
+							<a href="#/signup?subscription_id={{subscription_id}}&free_trial={{isFreeTrial}}"  ng-click="cancel()" class="btn btn-default">Back</a>
+						</div>
+					</div>
+        </div>
+      </form>
+		</div>
+	</div>
+</div>
+<div ng-show="showcreditDetailPage">
+  <img class = "ssl" src = '/assets/img/ssl.png'>
+</div>
+</div>

@@ -1,0 +1,164 @@
+<div style="margin-left: 5%;">
+    <div class="row">
+        <div class="col-md-offset-1 col-lg-2 col-md-2 col-sm-12">
+            <label>
+                Time Zone
+            </label>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 " style="margin-left:10px;">
+            <select class="form-control" ng-model="scheduleRoute.timezone" ng-disabled="isConvirzaAdmin"
+                ng-options="timeZone.text for timeZone in timeZones track by timeZone.value" data-placeholder="- Select -"
+                style="width:84%" validate-blur-forza="3rd level IVR, Timezone" ng-change="showSubmit()">
+                <option ng-selected="true" disabled value="">-- Select -- </option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-1 row mt20">
+            <div class="col-lg-6 col-md-6">
+                <div class="col-lg-5 col-md-5" style="padding-left:0px"><b>Schedule Day(s) of the week </b></div>
+                <div class="col-lg-7 col-md-7"><b>Schedule Time of day</b></div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="col-lg-7 col-md-7"> <b>Ring to Phone Number</b></div>
+                <div class="col-lg-3 col-md-3" style="padding-left:8%"> <b>Activate Voicemail</b></div>
+                <div class="col-lg-2 col-md-2"><b>Delete </b></div>
+            </div>
+        </div>
+        <div class="col-md-offset-1" ng-repeat="scheduleData in scheduleRoute.scheduleInfo">
+            <div class="row mt10">
+                <div class="col-lg-6 col-md-6">
+                    <div class="col-lg-5 col-md-5">
+                        <ng-dropdown-multiselect-v3 sch-index="$index" id="scheduledDays" checkboxes="true"
+                            options="scheduledDays" selected-model="scheduleData.days" extra-settings="settings"
+                            events="scheduleEvents">
+                        </ng-dropdown-multiselect-v3>
+                    </div>
+    
+                    <div class="col-lg-3 col-md-3" style="padding-right:0px">
+                        <select autocomplete="off" class="form-control"
+                            validate-blur-forza="3rd level IVR, FromTime"
+                            ng-required="selectedCallFlow.routetype =='schedule' " ng-model="scheduleData.fromTime"
+                            ng-change="checkCurrentSchedule($index);showSubmit();formationscheduleTimeSlots($index)"
+                            ng-disabled="isConvirzaAdmin" ng-options="scheduleTime for scheduleTime in scheduleTimeSlots"
+                            data-placeholder="- Select -" style="width:100%;">
+                            <option ng-selected="true" disabled value="action0">-- Select -- </option>
+                        </select>
+                    </div>
+                    <div class="col-lg-1 col-md-1">
+                        <label style="text-align: center;padding-top: 10px">
+                            To
+                        </label>
+                    </div>
+                    <div class="col-lg-3 col-md-3" style="padding-left:0px">
+                        <select autocomplete="off" class="form-control "
+                            validate-blur-forza="3rd level IVR, ToTime"
+                            ng-required="selectedCallFlow.routetype =='schedule' " ng-model="scheduleData.toTime"
+                            ng-change="checkCurrentSchedule($index);showSubmit()" ng-disabled="isConvirzaAdmin"
+                            ng-options="scheduleTime for scheduleTime in scheduleData.scheduleEndTimeSlots"
+                            data-placeholder="- Select -" style="width:100%;">
+                            <option ng-selected="true" disabled value="action0">-- Select -- </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="col-lg-8 col-md-8">
+                        <input type="text" name="scheduleRingtoNumber{{$index}}" class="form-control"
+                            validate-blur-forza="3rd level IVR, Ring to Phone Number" checklength="10" maskinput
+                            ng-model="scheduleData.ringTo" ng-change="showAddOverflow($index);showSubmit()"
+                            ng-required="selectedCallFlow.routetype =='schedule'" data-inputmask="'mask':'(999) 999-9999'"
+                            ng-readonly="" style="width: 45%;float: left;margin-right: 5%;" validate-masked-phone-number>
+                        <button type="button" class="btn btn-primary"
+                            ng-click="scheduleData.openOverflowBox=!scheduleData.openOverflowBox;showSubmit()"
+                            ng-hide="scheduleData.openOverflowBox"
+                            ng-disabled="checkRingToNumberSchedule(scheduleData.ringTo)"> Add Overflow </button>
+                    </div>
+                    <div class="col-lg-2 col-md-2" style="text-align: center; margin-top: 5px;padding:0px 0px;">
+                        <md-checkbox ng-model="scheduleData.activateVoicemail" ng-disabled="!voicemailComponent" ng-change="showSubmit()"
+                            ng-click="disableRecordCall($index)">
+                        </md-checkbox>
+                    </div>
+                    <div class="col-lg-2 col-md-2" style="text-align: center;">
+                        <a class="btn btn-default" ng-disabled="scheduleInfo.length<2"
+                            ng-click="removeSchedule($index);showSubmit()"> <i class="fa fa-trash-o"></i></a>
+                    </div>
+                </div>
+                <div class="row" style="padding-left: 30px;">
+                    <div class="col-lg-8 col-md-8 col-sm-12">
+                        <overflow-routing overflow-numbers="scheduleData.overflowNumbers"
+                            is-simultaneous-ring="scheduleData.simultaneousRings" ng-show="scheduleData.openOverflowBox"
+                            overflow-validation-header="overflowValidationHeader"
+                            open-overflow-box="scheduleData.openOverflowBox"
+                            current-over-flow-number="currentOverFlowNumber" by-default-ring="defaultsRings"
+                            show-submit="showSubmitOverflowMethod()"> </overflow-routing>
+                    </div>
+                </div>
+                <div class="row mt10" style="padding-left: 20px;" ng-show="$index == scheduleInfo.length-1">
+                    <div class="col-lg-6 col-md-6 col-sm-12 ">
+                        <a class="btn btn-primary" ng-click="addSchedule()"
+                            ng-disabled="showAddSchedule || !(scheduleRoute.scheduleInfo.length < 10)">Add a Schedule </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-1 col-lg-12 col-md-12 col-sm-12">
+                <div class="col-lg-2 col-md-2 col-sm-2 mt20">
+                    <label>Default Ring to Number </label>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 mt15" style="margin-left:1.1%;">
+                    <input type="text" name="ringtoNumber" class="form-control" checklength="10" maskinput
+                        ng-model="scheduleRoute.default_ringto"
+                        validate-blur-forza="3rd level IVR, Default Ring to Number"
+                        data-inputmask="'mask':'(999) 999-9999'" ng-readonly="" validate-masked-phone-number
+                        ng-change="replaceMasking();showSubmit();activateVoicemailSchedule();retainDataOnChange(); ">
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6" ng-disabled="!activatevm">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-12 mt20 ">
+                            <label ng-class="{ 'customDisable' : !voicemailComponent }">
+                                Activate Voicemail ?
+                            </label>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-12 mt20">
+                            <md-checkbox ng-model="scheduleRoute.activate_voicemail" ng-change="retainDataOnChange()" ng-class="{ 'customDisable' : !voicemailComponent }" ng-disabled="!activatevm || !voicemailComponent"
+                                ng-click="disableRecordCall();"></md-checkbox>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 mt20" ng-class="{ 'customDisable' : !voicemailComponent }" style="padding-left:0px">
+                            <p class="fontChange"> To customize greetings and number of rings for voicemail, please click
+                                Advanced Settings section</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-1 col-lg-12 col-md-12">
+                <div class="col-lg-2 col-md-2 col-sm-3 mt20">
+                    <label class="control-label">Record Call</label>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-3 mt20 checkbox" style="margin-left:1.1%;">
+                    <md-checkbox ng-model="scheduleRoute.recordCall" ng-change="retainDataOnChange()" ng-disabled="scheduleRoute.disableRC">
+                    </md-checkbox>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-6" ng-show="scheduleRoute.recordCall">
+                    <div class="col-lg-3 col-md-4 col-sm-12 mt20" style="padding: 0% !important;">
+                        <label>Play call recording disclaimer</label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 mt10" style="margin-left: 10% !important;">
+                        <select ng-model="scheduleRoute.playDisclaimer" class="form-control" id="source"
+                            data-placeholder="Select play disclaimer"
+                            onChange="ga('send', 'event', 'Form Event', 'Tracking Number Type', this.options[this.selectedIndex].value);"
+                            ng-change="showSubmit()">
+                            <option value="before" ng-selected="scheduleRoute.playDisclaimer == 'before'">Before voice
+                                prompt</option>
+                            <option value="after" ng-selected="scheduleRoute.playDisclaimer == 'after'">After voice
+                                prompt</option>
+                            <option value="never" ng-selected="scheduleRoute.playDisclaimer == 'never'">Never</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

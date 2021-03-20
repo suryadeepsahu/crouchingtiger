@@ -1,0 +1,32 @@
+<div class="modal-header">
+    <h3 class="modal-title">DNI Custom Parameters</h3>
+</div>
+<div class="modal-body">
+        <div class="container-fluid" >
+            <div class="row">
+                <div class="col-xs-12 mb10">
+                <label class="control-label">Capture Custom	Cookie and URL Parameters:	DNI	can	capture	your own or	a third	party platform's custom	
+collection	of	URL	parameters	or	cookie	data	associated	with	a	web	visitor.	For	example,	third	party	apps	like	
+Marin,	Adometry	and	other	bid	management	and	analytics	platforms	can	pass	a	unique	click	ID	in	the	URL	or	a	
+cookie	ID	which	we	can	capture	and	associate	with	a	phone	call	and	that	caller's	web	click	stream	data.	To	
+capture	a	non-standard	URL	parameter	or	cookie,	enter	the	key	value	name	in	the	text	box.	For	multiple	
+parameters	or	custom	cookie	names,	separate	them	with	commas. {{callingController}}</label>
+
+                </div>
+            </div>
+            <div class="row">
+            	<div class="col-xs-12">
+                	<div class="form-group" ng-form name="custom_form">
+                            <textarea class="form-control" style="resize:vertical;" name="dni_param" validate-blur-forza="DNI Settings, Custom Parameters" ng-pattern="/^[0-9a-zA-Z-_\[\] ,-]+$/" ng-model="dni.custom_params" required ng-disabled="!canModify"></textarea>
+                    </div>
+                </div>
+
+            </div>
+            
+            
+        </div>	
+</div>
+<div style="clear:both" class="modal-footer">
+    <button class="btn btn-primary" ng-hide="!canModify" ng-click="saveParams()">Save</button>
+    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+</div>

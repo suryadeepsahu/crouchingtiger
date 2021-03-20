@@ -1,0 +1,35 @@
+<style type="text/css">#page-content{background-color:#575757;}</style>
+<div class="verticalcenter" ng-controller="LoginController">
+  <div class="brand login-logo" id="login_logo"></div>
+  <div class="panel panel-midnightblue">
+    <div class="panel-body">
+      <h4 class="text-center welcome_text" style="margin-bottom: 25px;"></h4>
+      <h4 class="text-center" style="color:red">{{error}}</h4>
+      <form class="form-horizontal" ng-submit="logIn()">
+        <div class="form-group">
+          <label for="email" class="control-label col-sm-4" style="text-align: left;">Email</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="email" ng-model="email" name="email" placeholder="Email" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password" class="control-label col-sm-4" style="text-align: left;">Password</label>
+          <div class="col-sm-8">
+            <input type="password" class="form-control" id="password" ng-model="password" name="password" placeholder="Password" />
+          </div>
+        </div>
+        <div class="clearfix">
+          <div class="pull-right"><label><input type="checkbox" name="remember" data-ng-model="remember"> Remember Me</label></div>
+        </div>
+        <!--Removed pulsate jquery file and also data-pulsate attr-->
+        <button type="submit" id="b1" class="btn btn-midnightblue btn-block" onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Click', eventLabel: 'Login'});" ng-disabled="!email || !password">Login</button>
+        <!--<button type="submit" class="btn btn-primary btn-block" data-pulsate="{reach:10, pause: 2000}"-->
+      </form>
+    </div>
+    <div class="panel-footer">
+
+      <a href="#/forgotpassword" class="pull-left" style="padding-left:0">Forgot password?</a>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,280 @@
+<!-- -->
+<script src="https://cdn.blockspring.com/blockspring.js"></script>
+<div id="groupactivityreport" class="table-to-scrape" ng-controller="groupActivityController">
+    <div ng-hide="download_audio_enabled" class="mt10">
+        <h1 style="color: grey; margin-left: 10px;"><strong>Access Denied</strong> </h1>
+        <div class="text-center" style="margin-top: 50px;"><h2>It looks like you do not have permission to access this page.</h2></div>
+        <div class="text-center"><h4>Please reach out to your administrator to have permissions granted.</h4></div>
+    </div>
+    <div id="page-heading" ng-show="download_audio_enabled">
+        <h1>{{ reportTitle }}</h1>
+        <span id="horsemanFlag" style="position:absolute;" ng-if="horsemanFlag"></span>
+        <div class="options">
+             <div class="btn-toolbar">
+                    <div class="pull-right">
+                        <button class="btn btn-lg btn-default ng-isolate-scope" daterangepicker="drp_options" date-begin="drp_start" date-end="drp_end" onapplychange="changeDateRange()">
+                            <i class="fa fa-calendar"></i> <span style="margin-left: 5px" class="ng-binding hidden-xs">{{drp_start +' - '+ drp_end}}</span> <b class="caret"></b>
+                        </button>
+                    </div>
+             </div>
+        </div>
+        <div class="mt20" style="top:0;left:40%;position:absolute;" ng-show="preview">
+            <h2>Preview Only</h2>
+        </div>
+    </div>
+    <div class="container-fluid" ng-show="download_audio_enabled">
+        <div class="row mt10" style="padding:0 20px;">
+            <div class="crawler-exempt well well-sm clearfix">
+                <a ng-href="#/set-schedule-builder?isNew=true" ng-hide="roleId >= 3" class="btn btn-sm btn-default">Schedule Report</a>&nbsp;
+                <div class="btn-group" uib-dropdown>
+                <button type="button" class="btn btn-sm btn-default btn-last" uib-dropdown-toggle ng-disabled="!dataTableData || dataTableData.length === 0">
+                    <span>Export</span> <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li  ng-hide='isSafari' class="csvScope"><a ng-show="showActualEportLink" ng-csv='getCSVData()' filename='csv_groupActivityReport.csv' csv-header='headerNames' onclick="ga('send', 'event', { eventCategory: 'Group Activity', eventAction: 'Export', eventLabel: 'Export CSV'});">Excel/CSV</a>
+                        <a ng-show="showExportErrorLink" ng-click="showNoRecordsError()">Excel/CSV</a>
+                    </li>
+                    <li  ng-hide='isSafari' ><a ng-show="showActualEportLink" ng-csv='getCSVData()' filename='tsv_groupActivityReport.tsv' csv-header='headerNames' field-separator="\t" onclick="ga('send', 'event', { eventCategory: 'Group Activity', eventAction: 'Export', eventLabel: 'Export TSV'});">TSV</a>
+                        <a ng-show="showExportErrorLink" ng-click="showNoRecordsError()">TSV</a>
+                    </li>
+                    <li  ng-hide='!isSafari' class="csvScope"><a ng-show="showActualEportLink" ng-click='getCSVData("csv")' onclick="ga('send', 'event', { eventCategory: 'Group Activity', eventAction: 'Export', eventLabel: 'Export CSV'});">Excel/CSV</a>
+                        <a ng-show="showExportErrorLink" ng-click="showNoRecordsError()">Excel/CSV</a>
+                    </li>
+                    <li  ng-hide='!isSafari' ><a ng-show="showActualEportLink" ng-click='getCSVData("tsv")' onclick="ga('send', 'event', { eventCategory: 'Group Activity', eventAction: 'Export', eventLabel: 'Export TSV'});">TSV</a>
+                        <a ng-show="showExportErrorLink" ng-click="showNoRecordsError()">TSV</a>
+                    </li>
+
+                    <!-- <li><a dropdown-toggle ng-show="showActualEportLink" ng-click='getExcelData()' onclick="ga('send', 'event', { eventCategory: 'Group Activity', eventAction: 'Export', eventLabel: 'Export Excel'});">Excel</a>
+                        <a ng-show="showExportErrorLink" ng-click="showNoRecordsError()">Excel</a>
+                    </li> -->
+                    <!-- <li class="csvScope"><a ng-show="showActualEportLink" ng-csv='getCSVData()' filename='csv_groupActivityReport.csv' csv-header='headerNames' onclick="ga('send', 'event', { eventCategory: 'Group Activity', eventAction: 'Export', eventLabel: 'Export Excel'});">Excel (CSV)</a>
+                        <a ng-show="showExportErrorLink" ng-click="showNoRecordsError()">Excel (CSV)</a>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+	._GAwC{background:no-repeat url(../img/sprites.png) -327px -521px;height:21px;margin-bottom:3px;margin-top:3px;width:21px; cursor:pointer;}
+	.dc-chart{float:left;}
+	span.handle{display:none;}
+	.chartizzle .panel-heading h4{font-size:11px;}
+	.advancedf{background:#efefef; border: 1px solid #ccc;  border-radius: 5px;  overflow: auto;  padding: 15px 0 15px 15px;
+	-moz-border-radius: 5px;  -webkit-border-top-left-radius: 5px;  -webkit-border-top-right-radius: 5px;  -webkit-border-bottom-left-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;}
+	._GATq {  border-left: 1px solid #ccc;  border-right: 1px solid #ccc;  clear: both;  position: relative;  text-align: center;  margin: -1px 0;}
+	._GATq._GAQzb {  background-color: #efefef;  color: #575757;  font-size: 1.2em;  font-weight: bold;  margin-left: 80px;  padding: 5px 0;  width: 80px;}
+	#listen_workspace tab-heading .badge{top:-6px !important;left:7px !important;}
+	.tab-container p{min-width:150px;}
+	ul#columnpicker{padding:12px;width:340px;}
+	ul#columnpicker li{width:50%;float:left;margin-bottom:4px;}
+	.minheight{min-height:350px;}
+  .heading_font{font-size: 8px;}
+</style>
+
+    <!-- Begin charts row -->
+     <div class="container-fluid pb0" style="padding:0 20px;" id="groupactivitycharts" ng-show="download_audio_enabled">
+         <!-- Summary Widgets -->
+         <page-loader is-loading-api="isLoadingApi"></page-loader>
+     	<div class="row" id="summaryWidgets">
+            <div class="col-xs-6 col-sm-4 col-md-4 chartizzle" ng-class="{'col-lg-2': whichScheduleReport === undefined,
+                                                                          'col-lg-2': whichScheduleReport !== undefined}"
+                ng-repeat="key in notSorted(groupActivityMapping.summaryGridMapping)" ng-init="value = groupActivityMapping.summaryGridMapping[key]">
+                <tile type="midnightblue">
+                    <tile-heading class="heading_font">
+                        {{groupActivityMapping.summaryGridMapping[key]}}
+                    </tile-heading>
+                    <div class="text-left">
+                        <span ng-show="key === 'call_value'">
+                        <center><p>{{emptyAsZero(summaryGridData[key]) | megaNumber | noFractionCurrency}}</p></center></span>
+                        <span ng-show="key !== 'call_value'" id="colorMap"><center><p>{{emptyAsZero(summaryGridData[key])}}</p></center></span>
+                    </div>
+                </tile>
+            </div>
+        </div>
+        <!-- End Summary Widgets -->
+
+
+        <div class="container-fluid pb0">
+            <div class="row">
+                <div class="panel panel-inverse ">
+                    <div class="panel-body no-border filter-prepend">
+                            <!-- SECONDARY GROUP -->
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb10" style="z-index:1">
+                            	<label class="control-label">Secondary Grouping</label>
+                                <select ui-select2 style="width:41%;margin:0 10px;" ng-model="secondary" ng-change="changeSecondaryGrouping(secondary)" onChange="ga('send', 'event', 'Acq Page', 'Secondary Dimension', this.options[this.selectedIndex].value);">
+                                     <!--<option ng-disabled="true" ng-selected="true" value="">Select Grouping</option>-->
+                                    <optgroup label="Secondary Groups">
+                                        <option ng-repeat="opt in groupActivityMapping.secondaryGrouping" value="{{ opt.label }}">{{ opt.val }}</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+
+                            <!-- BASIC FILTER -->
+                            <div class="col-lg-offset-3 col-md-3 col-lg-3 input-icon right mb10 crawler-exempt">
+                                <div class="input-group">
+                                  <input ng-disabled="showAdvFilter"
+                                         type="text"
+                                         ng-model="simpleSearchFilter"
+                                         id="simpleChart"
+                                         class="form-control simple-input"
+                                         placeholder="{{showAdvFilter ? 'Basic Search Disabled' : 'Basic Search'}}"
+                                         enter-press="applyFilter();">
+                                    <!--the ng-change is for if there is no text in the basic search, then just remove the filters-->
+                                  <span class="input-group-btn">
+                                    <button ng-disabled="showAdvFilter" type="button" class="btn btn-primary" title="Search" ng-readonly="advFilter" ng-click="applyFilter();"><i class="fa fa-search"></i> </button>
+                                    <button ng-disabled="showAdvFilter" type="button" class="btn btn-primary" title="Clear" ng-click="simpleSearchFilter = ''; filterReset();"><i class="fa fa-times-circle"></i></button>
+                                  </span>
+                               </div>
+                            </div>
+                            <!-- START OF ADV FILTER HTML -->
+                            <div class="col-md-2 col-sm-6 col-xs-12 mb10 text-right crawler-exempt" style="z-index:1">
+                              <button type="button" class="btn btn-default btn-block btn-adv" ng-click="showAdvFilter = true; simpleSearchFilter = ''">Advanced Filter</button>
+                            </div>
+                            <!-- COLUMN PICKER -->
+                            <div class="col-md-1 col-sm-6 col-xs-12 mb20 text-right" ng-class="{'col-lg-1': whichScheduleReport === undefined, 'col-lg-1': whichScheduleReport !== undefined}">
+                                <div class="btn-group" uib-dropdown style="width:100%;z-index:2">
+                                    <button type="button" class="btn btn-block btn-default" uib-dropdown-toggle>
+                                        <i class="fa fa-columns"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" id="columnpicker" role="menu">
+                                        <li ng-repeat="vc in groupActivityMapping.visibleColumns">
+                                            <input icheck type="checkbox" style="visibility: visible !important;" ng-disabled="vc.disabled" ng-checked="vc.visible" ng-model="vc.visible" ng-change="yell(this)">
+                                            <label>{{ groupActivityMapping.dataTableHeaderValues[vc.key] }}</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-lg-12 mb20 text-left">
+                                <div ng-hide="!showAdvFilter" class="advanced-filter-directive crawler-exempt" ng-repeat="af in advFilterDefinitions">
+                                    <div class="_GATq _GAQzb" ng-hide="$index == 0">
+                                        <select style="width:auto;display:inline;"
+                                            class="form-control"
+                                            ng-model="af.rule">
+                                            <option value='AND'>AND</option>
+                                          <!-- <option value='OR'>OR</option> -->
+                                        </select>
+                                    </div>
+                                    <div class="advancedf">
+                                        <!-- Inclusivity select -->
+                                        <select style="width:auto;display:inline;"
+                                                class="form-control"
+                                                        ng-model="af.selected_inclusivity"
+                                                        ng-options="inc.label for inc in af.inclusivity">
+                                        </select>
+                                        <!-- Columns select -->
+                                        <select style="width:auto;display:inline;"
+                                                    class="form-control"
+                                                        ng-model="af.selected_column"
+                                                        ng-options="col.label for col in af.columns"
+                                                        ng-change="showOperatorSelect($index); updateOperators(preloading, af, $index); af.user_input='';"
+                                                        ng-disabled="!af.selected_inclusivity">
+                                            <option value="" ng-selected="false" ng-hide="true">-- Select --</option>
+                                        </select>
+                                        <!-- Operators select -->
+                                        <select style="width:auto;display:inline;"
+                                                        class="form-control"
+                                                        ng-model="af.selected_operator"
+                                                        ng-options="opt.label for opt in af.operators.options"
+                                                        ng-show="af.show_operators">
+                                        </select>
+                                        <!-- User input (text) -->
+                                        <input style="width:150px;display:inline;"
+                                               type="text"
+                                                     class="form-control"
+                                                     placeholder="required"
+                                                     ng-model="af.user_input"
+                                                     ng-show="af.operators.type == 'text'">
+                                        </input>
+                                        <!-- User input (int) -->
+                                        <input style="width:150px;display:inline;"
+                                                     type="text"
+                                                     class="form-control"
+                                                     placeholder="{{af.selected_column['label'] === 'Billable Minutes' ? 'Req only whole numbers' : 'Required'}}"
+                                                     ng-model="af.user_input"
+                                                     ng-show="af.operators.type == 'int'"
+                                                     ng-keypress='validateInput($event)'>
+                                        </input>
+                                        <!-- User input (calendar) -->
+                                        <input style="width:150px;display:inline;"
+                                                     type="text"
+                                               class="form-control datepicker"
+                                                     uib-datepicker-popup="dd-MMMM-yyyy"
+                                                     ng-model="af.user_input"
+                                                     is-open="af.dateTime.opened"
+                                                     close-text="Close"
+                                                     ng-readonly="true"
+                                                     timezone="America/Chicago"
+                                                     uib-datepicker-options="af.dateTime.dateOptions"
+                                                     ng-show="af.operators.type == 'calendar'">
+                                        </input>
+                                        <button type="button"
+                                                        class="btn btn-default"
+                                                        ng-click="af.dateTime.open($event, $index)"
+                                                        ng-show="af.operators.type == 'calendar'">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+                                        <!-- User input (select) -->
+                                        <select ui-select2
+                                                        ng-model="af.user_input"
+                                                        ng-show="af.operators.type == 'select'"
+                                                        style="width:22%;padding-bottom:3px;">
+                                            <option ng-repeat="opt in af.select_options" ng-value="opt.value">{{ opt.label }}</option>
+                                            <option value="" ng-selected="true" ng-hide="true">-- Select --</option>
+                                        </select>
+
+                                        <!-- Delete rule button (only if more than one rule) -->
+                                        <a title="Delete" ng-click="removeFilterDefinition($index);" ng-hide="$index == 0 && advFilterDefinitions.length == 1"><i class="fa fa-times-circle"></i></a>
+                                    </div>
+                                    <!-- <div class="_GATq _GAQzb" ng-show="$index != advFilterDefinitions.maxQuantity - 1"></div> -->
+                                </div>
+                                <div class="_GATq _GAQzb crawler-exempt" ng-hide="advFilterMax || !showAdvFilter"></div>
+                                <div class="advancedf crawler-exempt" ng-hide="advFilterMax || !showAdvFilter">
+                                    <button type="button" class="btn btn-gray" style="border:1px dashed #575757;" ng-click="advFilterDefinitions.length < advancedFilterConfig.maxQuantity ? addFilterDefinition(false) : null; resizeWindow();"><i class="fa fa-plus-circle"></i> Add an Advanced Filter</button>
+                                </div>
+                                <hr ng-hide="!showAdvFilter" class="crawler-exempt">
+                                <!-- Footer Buttons -->
+                                <div class="clearfix text-right crawler-exempt">
+                                    <button ng-hide="!previewMode" type="button" class="pull-left btn btn-primary-alt btn-sm" ng-click="previewReport(urlParams)">Preview</button>
+                                    <button class="btn btn-primary" ng-hide="hideApplyButton || !showAdvFilter" ng-click="applyFilter(); resizeWindow();">Apply</button>
+                                    <button ng-hide="!showAdvFilter" type="button" class="btn btn-default" ng-click="filterReset(); resizeWindow();">Cancel</button>
+                                </div>
+                                <div ng-hide="!previewMode" class="clearfix text-left">
+                                </div>
+                            </div>
+                            <!-- END OF ADV FILTER HTML -->
+
+                        <!-- If you're looking for the Apply button, it's inside this advanced-filter's directive template -->
+                        <div class="col-md-12 table-responsive minheight">
+                            <callflow-settings-report-table ng-hide="hideDataTable"
+                                db-field-names="groupActivityMapping"
+                                column-def-indices="visibleColumnsIndicies"
+                                template-url="views/directives/group_activity_table.html"
+                                visible-columns="groupActivityMapping.visibleColumns"
+                                row-data="dataTableData"
+                                secondary-grouping = "secondary"
+                                current-pagination-id = "gaReport"
+                                total-rows="totalDataRows"
+                                current-page="currentPage"
+                                route-types="routeTypes"
+                                show-sub-data="showSubData(index, routeableId, type)"
+                                id-to-pass="groupActivityReportDataGrid">
+                            </callflow-settings-report-table>
+                        </div>
+                    </div>
+                    <div ng-class="{ 'disablePagination' : whichScheduleReport !== undefined }" ng-hide="hidePaginationCtrl" class="panel-footer text-right">
+						          <dir-pagination-controls pagination-id="gaReport" on-page-change="pageChanged(newPageNumber)" ng-hide="dataTableData === undefined || totalDataRows < 100" class="ng-isolate-scope"></dir-pagination-controls>
+                    </div>
+                    <!-- <div ng-class="{ 'disablePagination' : whichScheldueReport !== undefined }" ng-hide="hidePaginationCtrl" class="panel-footer text-right">
+                      <dir-pagination-controls pagination-id="pg-campaign-list" on-page-change="pageChanged(newPageNumber)" ng-hide="dataTableData === undefined || totalDataRows < 100  "></dir-pagination-controls>
+                      <!-- The panel footer buttons for offsetting should only show if the number of records in the returned dataset exceed 100 -->
+                    <!-- </div> -->
+                  </div>
+                  </div>
+            </div>
+    </div>
+</div>
+ <!-- end-->
+<!-- container -->

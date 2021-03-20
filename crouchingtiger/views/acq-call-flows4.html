@@ -1,0 +1,402 @@
+<!-- -->
+<script src="https://cdn.blockspring.com/blockspring.js"></script>
+<div id="callflowreport" class="table-to-scrape" ng-controller="CallFlowsReportController">
+    <div id="page-heading">
+        <h1>{{ reportTitle }}</h1>
+        <span id="horsemanFlag" style="position:absolute" ng-if="horsemanFlag"></span>
+        <div class="options" id="date-picker">
+             <div class="btn-toolbar">
+                    <div class="pull-right">
+                        <button class="btn btn-lg btn-default ng-isolate-scope" daterangepicker="drp_options" date-begin="drp_start" date-end="drp_end" onapplychange="changeDateRange()" ng-disabled ="whichScheldueReport !== undefined">
+                            <i class="fa fa-calendar"></i> <span style="margin-left: 5px" class="ng-binding hidden-xs">{{drp_start +' - '+ drp_end}}</span> <b class="caret"></b>
+                        </button>
+                    </div>
+             </div>
+        </div>
+        <div class="mt20" style="top:0;left:40%;position:absolute;" ng-show="preview">
+            <h2>Preview Only</h2>
+        </div>
+    </div>
+    <div class="container-fluid mb20" style="padding:0 20px;">
+        <div class="row">
+        	<div class="col-md-12" ng-hide="whichScheldueReport !== undefined" style="display: flex;">
+            	<div>Metrics shown are for campaigns assigned to you.</div> <div class="crawler-exempt" style="margin-left: 3px;"> Metrics with aggregate data may take up to an hour to update.</div>
+            </div>
+        </div>
+        <div class="row mt10" style="padding:0 10px;" ng-hide="whichScheldueReport !== undefined">
+            <div class="crawler-exempt well well-sm clearfix ">
+                <a ng-href="#/set-schedule-builder?isNew=true" ng-hide="roleId >= 3" class="btn btn-sm btn-default">Schedule Report</a>&nbsp;
+                <div class="btn-group" uib-dropdown >
+                    <button type="button" class="btn btn-sm btn-default" uib-dropdown-toggle ng-disabled="isEmptyDataSet">
+                        <span>Export</span> <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li ng-hide='!isSafari' class="csvScope"><a ng-click='getCSVData("csv")' onClick="ga('send', 'event', { eventCategory: 'Acquisition', eventAction: 'Export', eventLabel: 'Export CSV'});">Excel/CSV</a></li>
+                        <li  ng-hide='!isSafari'><a ng-click='getCSVData("tsv")' onClick="ga('send', 'event', { eventCategory: 'Acquisition', eventAction: 'Export', eventLabel: 'Export TSV'});">TSV</a></li>
+                        <li ng-hide='isSafari' class="csvScope"><a ng-csv='getCSVData()' filename='csv_data_table.csv' csv-header='headerNames' onClick="ga('send', 'event', { eventCategory: 'Acquisition', eventAction: 'Export', eventLabel: 'Export CSV'});">Excel/CSV</a></li>
+                        <li ng-hide='isSafari'><a ng-csv='getCSVData()' filename='tsv_data_table.tsv' csv-header='headerNames' field-separator="\t" onClick="ga('send', 'event', { eventCategory: 'Acquisition', eventAction: 'Export', eventLabel: 'Export TSV'});">TSV</a></li>
+                        <li><a ng-click="exportPDF()" onClick="ga('send', 'event', { eventCategory: 'Acquisition', eventAction: 'Export', eventLabel: 'Export PDF'});">PDF</a></li>
+                        <!-- <li><a download="xls_data_table.xls" href="#" onclick="return ExcellentExport.excel(this, 'reportDataGrid', 'Sheet');">Excel</a></li> -->
+                    </ul>
+                </div>
+                &nbsp;<button ng-click="resetCharts()" class="btn btn-sm btn-default btn-last">Reset Charts</button>
+                <!-- <div class="divider"></div> -->
+                <!-- <md-checkbox md-no-ink aria-label="Include data for all sub-groups" class="sub-group-toggle md-primary" type="checkbox" role="checkbox">Include data for all sub-groups</md-checkbox> -->
+            </div>
+        </div>
+    </div>
+<style>
+._GAwC{background:no-repeat url(../img/sprites.png) -327px -521px;height:21px;margin-bottom:3px;margin-top:3px;width:21px; cursor:pointer;}
+.dc-chart{float:none;}
+span.handle{display:none;}
+.chartizzle .panel-heading h4{font-size:11px;}
+.advancedf{background:#efefef; border: 1px solid #ccc;  border-radius: 5px;  overflow: auto;  padding: 15px 0 15px 15px;
+-moz-border-radius: 5px;  -webkit-border-top-left-radius: 5px;  -webkit-border-top-right-radius: 5px;  -webkit-border-bottom-left-radius: 5px;
+-webkit-border-bottom-right-radius: 5px;}
+._GATq {  border-left: 1px solid #ccc;  border-right: 1px solid #ccc;  clear: both;  position: relative;  text-align: center;  margin: -1px 0;}
+._GATq._GAQzb {  background-color: #efefef;  color: #575757;  font-size: 1.2em;  font-weight: bold;  margin-left: 80px;  padding: 5px 0;  width: 130px;}
+@media (max-width: 990px) {
+	.secondary-group{
+		margin-top: 20px;
+		margin-bottom: 10px;
+		position: inherit;
+        z-index: 999;
+	}
+}
+@media (min-width: 991px){
+	.secondary-group{
+		position: absolute;
+        z-index: 999;
+	}
+}
+</style>
+
+    <!-- Begin charts row -->
+     <div class="container-fluid pb0" style="padding:0 20px;" id="callflowcharts">
+     	<!-- Summary Widgets -->
+     	<div class="row" id="summaryWidgets">
+            <div class="col-xs-6 col-sm-4 col-md-4 chartizzle" ng-class="{'col-lg-2': whichScheduleReport === undefined,
+                                                                          'col-lg-4': whichScheduleReport !== undefined}">
+                <tile type="midnightblue">
+                    <tile-heading>
+                        Total Calls
+                    </tile-heading>
+                    <div class="text-center">
+                        <dc-chart chartconfig="chartsConfigs[1]" redotable="updateDataTableWithNewFilteredDS" chartcollection="dcCharts" xf="xf1" dc="dc1" id="chart1" template="standard"></dc-chart>
+                    </div>
+                </tile>
+            </div>
+            <div class="col-xs-6 col-sm-4 col-md-4 chartizzle" ng-class="{'col-lg-2': whichScheduleReport === undefined,
+                                                                          'col-lg-4': whichScheduleReport !== undefined}">
+                <tile type="midnightblue">
+                    <tile-heading>
+                        Total Leads
+                    </tile-heading>
+                    <div class="text-center">
+                        <dc-chart chartconfig="chartsConfigs[2]" redotable="updateDataTableWithNewFilteredDS"chartcollection="dcCharts" xf="xf1" dc="dc1" id="chart2" template="standard"></dc-chart>
+                    </div>
+                </tile>
+            </div>
+            <div class="col-xs-6 col-sm-4 col-md-4 chartizzle" ng-class="{'col-lg-2': whichScheduleReport === undefined,
+                                                                          'col-lg-4': whichScheduleReport !== undefined}">
+                <tile type="midnightblue">
+                    <tile-heading>
+                        % Leads
+                    </tile-heading>
+                    <div class="text-center">
+                        <dc-chart chartconfig="chartsConfigs[3]" redotable="updateDataTableWithNewFilteredDS" chartcollection="dcCharts" xf="xf1" dc="dc1" id="chart3" template="standard"></dc-chart>
+                    </div>
+                </tile>
+            </div>
+            <div class="col-xs-6 col-sm-4 col-md-4 chartizzle" ng-class="{'col-lg-2': whichScheduleReport === undefined,
+                                                                          'col-lg-4': whichScheduleReport !== undefined}">
+                <tile type="midnightblue">
+                    <tile-heading>
+                        Avg Lead Qual
+                    </tile-heading>
+                    <div class="text-center">
+                       <dc-chart chartconfig="chartsConfigs[4]" redotable="updateDataTableWithNewFilteredDS" chartcollection="dcCharts" xf="xf1" dc="dc1" id="chart4" template="standard"></dc-chart>
+                    </div>
+                </tile>
+            </div>
+            <div class="col-xs-6 col-sm-4 col-md-4 chartizzle" ng-class="{'col-lg-2': whichScheduleReport === undefined,
+                                                                          'col-lg-4': whichScheduleReport !== undefined}">
+                 <tile type="midnightblue">
+                    <tile-heading>
+                        Conversions
+                    </tile-heading>
+                    <div class="text-center">
+                       <dc-chart chartconfig="chartsConfigs[5]" redotable="updateDataTableWithNewFilteredDS" chartcollection="dcCharts" xf="xf1" dc="dc1" id="chart5" template="standard"></dc-chart>
+                    </div>
+                </tile>
+             </div>
+            <div class="col-xs-6 col-sm-4 col-md-4 chartizzle" ng-class="{'col-lg-2': whichScheduleReport === undefined,
+                                                                          'col-lg-4': whichScheduleReport !== undefined}">
+                 <tile type="midnightblue">
+                    <tile-heading>
+                        Conversion %
+                    </tile-heading>
+                    <div class="text-center">
+                      <dc-chart chartconfig="chartsConfigs[6]" redotable="updateDataTableWithNewFilteredDS" chartcollection="dcCharts" xf="xf1" dc="dc1" id="chart6" template="standard"></dc-chart>
+                    </div>
+                </tile>
+             </div>
+        </div>
+        <!-- End Summary Widgets -->
+
+        <!-- Main Charts -->
+			<div class="row">
+				<div class="break-inside" ng-class="{'col-md-4': whichScheduleReport === undefined, 'col-md-6': whichScheduleReport !== undefined}">
+                 <panel panel-class="panel-inverse" heading="Calls by {{ reportTitle }}" class="panelmove">
+                     <!--<panel-controls>
+                         <a href="javascript:;"><i class="fa fa-trash-o"></i></a>
+                         <a href="javascript:;"><i class="fa fa-wrench"></i></a>
+                     </panel-controls>-->
+                     <div ng-if="!isEmptyDataSet" class="text-center extendingChart" style="height:300px;overflow-x:hidden;">
+                         <dc-chart chartconfig="chartsConfigs[13]" redotable="updateDataTableWithNewFilteredDS" chartcollection="dcCharts" xf="xf1" dc="dc1" id="chart13" template="standard"></dc-chart>
+                     </div>
+
+                      <div ng-if="isEmptyDataSet" class="noDataSelector">
+                        No data to display from selected date range.
+                      </div>
+                 </panel>
+             </div>
+				<div class="break-inside" ng-class="{'col-md-4': whichScheduleReport === undefined, 'col-md-6': whichScheduleReport !== undefined}">
+                 <panel panel-class="panel-inverse" heading="Conversion % Over Time" class="panelmove">
+                     <!--<panel-controls>
+                         <a href="javascript:;"><i class="fa fa-trash-o"></i></a>
+                         <a href="javascript:;"><i class="fa fa-wrench"></i></a>
+                     </panel-controls>-->
+                     <div ng-if="!isEmptyDataSet" class="text-center" style="height:300px;overflow-x:hidden;" >
+                         <dc-chart chartconfig="chartsConfigs[11]" redotable="updateDataTableWithNewFilteredDS" chartcollection="dcCharts" xf="xf1" dc="dc1" id="chart11" template="standard" reducers="reducers"></dc-chart>
+                     </div>
+
+                     <div ng-if="isEmptyDataSet">No data to display from selected date range.</div>
+                 </panel>
+             </div>
+				<div class="break-inside" ng-class="{'col-md-4': whichScheduleReport === undefined, 'col-md-12': whichScheduleReport !== undefined}">
+             	<panel panel-class="panel-inverse" heading="Calls by Day" class="panelmove">
+                     <!--<panel-controls>
+                         <a href="javascript:;"><i class="fa fa-trash-o"></i></a>
+                         <a href="javascript:;"><i class="fa fa-wrench"></i></a>
+                     </panel-controls>-->
+                     <div ng-if="!isEmptyDataSet" class="text-center" style="height:300px;overflow:hidden;">
+                         <dc-chart chartconfig="chartsConfigs[10]" redotable="updateDataTableWithNewFilteredDS" chartcollection="dcCharts" xf="xf1" dc="dc1" id="chart10" template="standard"></dc-chart>
+                     </div>
+
+                     <div ng-if="isEmptyDataSet">No data to display from selected date range.</div>
+                 </panel>
+             </div>
+			</div>
+			<div class="row break-inside">
+				<div class="col-md-12">
+         	<div class="panel panel-midnightblue">
+                <div class="panel-heading">
+                    <h4>Calls Over Time</h4>
+                    <panel-controls>
+                            <!--
+                            <a href="javascript:;"><i class="fa fa-wrench"></i></a>
+                            <a href=""><panel-control-collapse class="fa fa-chevron-down"></panel-control-collapse></a>-->
+                    </panel-controls>
+                  </div>
+                <div class="panel-body">
+                	<div ng-if="!isEmptyDataSet" class="text-center">
+                         <dc-chart chartconfig="chartsConfigs[9]" redotable="updateDataTableWithNewFilteredDS" chartcollection="dcCharts" xf="xf1" dc="dc1" id="chart09" template="standard"></dc-chart>
+                     </div>
+                     <div ng-if="isEmptyDataSet">No data to display from selected date range.</div>
+                 </div>
+
+                 <!-- Do not delete this button group, we'll be using it later -->
+                 <!--<div class="panel-footer text-right">-->
+                 	<!--<div class="btn-group">-->
+                        <!--<button type="button" class="btn btn-default">Hourly</button>-->
+                        <!--<button type="button" class="btn btn-default">Day</button>-->
+                        <!--<button type="button" class="btn btn-default">Week</button>-->
+                        <!--<button type="button" class="btn btn-default">Month</button>-->
+                    <!--</div>-->
+                 <!--</div>-->
+             </div>
+         </div>
+     		</div>
+
+<!-- End Main Charts -->
+
+         <div class="row filter-prepend" id="dataTableReport">
+             <div class="col-md-12 chartizzle mt20">
+                 <panel panel-class="panel-inverse no-border"  class="panelmove">
+                    <!-- Secondary Grouping -->
+                    <div class="col-md-6 mb10 crawler-exempt" ng-hide="whichScheduleReport !== undefined">
+                        <label class="control-label">Secondary Grouping</label>
+    					<select ui-select2 style="width:30%;margin:0 10px;" ng-model="secondaryGrouping" ng-change="changeSecondaryGrouping(secondaryGrouping)" onChange="ga('send', 'event', 'Acq Page', 'Secondary Dimension', this.options[this.selectedIndex].value);">
+                            <!--<option ng-disabled="true" ng-selected="true" value="">Select Grouping</option>-->
+                            <optgroup label="Secondary Groups">
+                                <option ng-repeat="opt in secondaryGroupSelectOptions" value="{{ opt.label }}">{{ opt.val }}</option>
+                            </optgroup>
+    			        </select>
+                    </div>
+                    <!-- Basic Filter -->
+                    <div class="col-md-4 input-icon right mb10 crawler-exempt" ng-hide="whichScheduleReport !== undefined">
+                        <div class="input-group">
+                        <input ng-disabled="showAdvFilter"
+                               type="text"
+                               ng-model="simpleSearchFilter"
+                               id="simpleChart"
+                               class="form-control simple-input"
+                               placeholder="{{showAdvFilter ? 'Basic Search Disabled' : 'Basic Search'}}"
+                               enter-press="validateSimpleTextFilter(simpleSearchFilter);">
+                        <!--the ng-change is for if there is no text in the basic search, then just remove the filters-->
+                        	  <span class="input-group-btn">
+                        		<button ng-disabled="showAdvFilter" type="button" class="btn btn-primary" title="Search" ng-readonly="advFilter" ng-click="validateSimpleTextFilter(simpleSearchFilter);"><i class="fa fa-search"></i> </button>
+                        		<button ng-disabled="showAdvFilter" type="button" class="btn btn-primary" title="Clear" ng-click="simpleSearchFilter = ''; filterReset();"><i class="fa fa-times-circle"></i></button>
+                        	  </span>
+                        </div>
+                    </div>
+                    <!-- START OF ADV FILTER HTML -->
+
+                    <div class="col-md-2 col-sm-12 col-xs-12 mb10 text-right crawler-exempt" ng-hide="whichScheduleReport !== undefined">
+                      <button type="button" class="btn btn-default btn-block btn-adv" ng-disabled="disableAdvFilterBtn" ng-click="showAdvUi(); simpleSearchFilter = ''">Advanced filter</button>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt20 mb20">
+                        <div ng-hide="!showAdvFilter" class="advanced-filter-directive crawler-exempt" ng-repeat="af in advFilterDefinitions">
+                          <div class="_GATq _GAQzb" ng-hide="$index == 0">
+                            <select style="width:auto;display:inline;"
+                                    class="form-control"
+                                    ng-model="af.rule">
+                              <option value='AND'>AND</option>
+                              <!-- <option value='OR'>OR</option> -->
+                            </select>
+                          </div>
+                          <div class="advancedf">
+                            <!-- Inclusivity select -->
+                            <select style="width:auto;display:inline;"
+                                    class="form-control"
+                                    ng-model="af.selected_inclusivity"
+                                    ng-options="inc.label for inc in af.inclusivity">
+                            </select>
+                            <!-- Columns select -->
+                            <select style="width:auto;display:inline;"
+                                    class="form-control"
+                                    ng-model="af.selected_column"
+                                    ng-options="col.label for col in af.columns"
+                                    ng-change="showOperatorSelect($index); updateOperators(preloading, af, $index); af.user_input='';"
+                                    ng-disabled="!af.selected_inclusivity">
+                              <option value="" ng-selected="false" ng-hide="true">-- Select --</option>
+                            </select>
+                            <!-- Operators select -->
+                            <select style="width:auto;display:inline;"
+                                    class="form-control"
+                                    ng-model="af.selected_operator"
+                                    ng-options="changeOptions(opt.label) for opt in af.operators.options"
+                                    ng-show="af.show_operators">
+                            </select>
+                            <!-- User input (text) -->
+                            <input style="width:150px;display:inline;"
+                                   type="text"
+                                   class="form-control"
+                                   placeholder="required"
+                                   ng-model="af.user_input"
+                                   ng-show="af.operators.type == 'text'">
+                            </input>
+                            <!-- User input (int) -->
+                            <input style="width:150px;display:inline;"
+                                   type="text"
+                                   class="form-control"
+                                   placeholder="required"
+                                   ng-model="af.user_input"
+                                   ng-show="af.operators.type == 'int'"
+                                   ng-keypress='validateInput($event)'>
+                            </input>
+                            <!-- User input (calendar) -->
+                            <input style="width:150px;display:inline;"
+                                   type="text"
+                                   class="form-control datepicker"
+                                   uib-datepicker-popup="dd-MMMM-yyyy"
+                                   ng-model="af.user_input"
+                                   is-open="af.dateTime.opened"
+                                   close-text="Close"
+                                   ng-readonly="true"
+                                   timezone="America/Chicago"
+                                   uib-datepicker-options="af.dateTime.dateOptions"
+                                   ng-show="af.operators.type == 'calendar'">
+                            </input>
+                            <button type="button"
+                                    class="btn btn-default"
+                                    ng-click="af.dateTime.open($event, $index)"
+                                    ng-show="af.operators.type == 'calendar'">
+                              <i class="fa fa-calendar"></i>
+                            </button>
+                            <!-- User input (select) -->
+                            <select ui-select2
+                                    ng-model="af.user_input"
+                                    ng-show="af.operators.type == 'select'"
+                                    style="width:22%;padding-bottom:3px;">
+                              <option ng-repeat="opt in af.select_options" ng-value="opt.value">{{ opt.label }}</option>
+                              <option value="" ng-selected="true" ng-hide="true">-- Select --</option>
+                            </select>
+
+                            <!-- Delete rule button (only if more than one rule) -->
+                            <a title="Delete" ng-click="removeFilterDefinition($index);" ng-hide="$index == 0 && advFilterDefinitions.length == 1"><i class="fa fa-times-circle"></i></a>
+                          </div>
+                          <!-- <div class="_GATq _GAQzb" ng-show="$index != advFilterDefinitions.maxQuantity - 1"></div> -->
+                        </div>
+                        <div class="_GATq _GAQzb crawler-exempt" ng-hide="advFilterMax || !showAdvFilter"></div>
+                        <div class="advancedf crawler-exempt" ng-hide="advFilterMax || !showAdvFilter">
+                          <button type="button" class="btn btn-gray" style="border:1px dashed #575757;" ng-click="advFilterDefinitions.length < advancedFilterConfig.maxQuantity ? addFilterDefinition(false) : null; resizeWindow();"><i class="fa fa-plus-circle"></i> Add an Advanced Filter</button>
+                        </div>
+                        <hr ng-hide="!showAdvFilter" class="crawler-exempt">
+                        <!-- Footer Buttons -->
+                        <div class="clearfix text-right crawler-exempt">
+                          <button class="btn btn-primary" ng-hide="hideApplyButton || !showAdvFilter" ng-click="applyFilter(); resizeWindow();">Apply</button>
+                          <button ng-hide="!showAdvFilter" type="button" class="btn btn-default" ng-click="filterReset(); resizeWindow();">Cancel</button>
+                        </div>
+                       <div ng-hide="!previewMode" class="clearfix text-left">
+                        </div>
+                    </div>
+                    <!-- END OF ADV FILTER HTML -->
+                    </div>
+
+                     <div class="col-md-12 table-responsive" sticky-table-header3>
+                         <table class="table table-striped table-hover table-condensed table-responsive" id="reportDataGrid">
+                             <thead>
+                             <tr style="margin-top: 40px; margin-left: 10px;">
+                                 <th ng-repeat="header in headerNames" ng-if="header === 'dynamicsource'">Source</th>
+                                 <th ng-repeat="header in headerNames" ng-if="header !== 'dynamicsource'">{{header}}</th>
+                             </tr>
+                             </thead>
+                             <tbody ng-hide="hideDataTable">
+                                 <tr ng-repeat="row in dataTableValues" class="datapoint_{{$index}} break-inside">
+
+                                     <!--<td>{{ row.value.primaryGrouping                                  }} </td>-->
+                                     <td ng-if="report!=='acq_source'">
+                                                      <!--<a ng-href="{{URLbase}}/#/calls-details?start_date={{start_date}}&end_date={{end_date}}&primKey={{whichReport}}&primValue={{row.value[aggKeyValues.reducedPrimGroup]}}&secKey={{secondaryGrouping}}&secValue={{ row.value[aggKeyValues.reducedSecGroup]}}">-->
+                                       <a ng-href="{{ callDetailRedirectUrlBuilder(report, secondary, row.value[aggKeyValues.reducedPrimGroup], row.value[aggKeyValues.reducedSecGroup]) }}" class="whiteSpacesWrap">{{row.value[aggKeyValues.reducedPrimGroup]}}</a>
+                                     </td>
+                                     <td ng-if="report==='acq_source'">{{row.value[aggKeyValues.reducedPrimGroup]}}</td>
+                                     <td ng-if="hasSecondaryGrouping">{{ row.value[aggKeyValues.reducedSecGroup]     }} </td>
+                                     <!--<td>{{ row.value.total_calls                                      }} </td>-->
+                                     <td>{{ row.value[aggKeyValues.total_calls]                                      }} </td>
+                                     <!--<td>{{ row.value.total_leads                                      }} </td>-->
+                                     <td>{{ row.value[aggKeyValues.total_leads]                                      }} </td>
+                                     <!--<td>{{ row.value.percent_of_leads + "%"                           }} </td>-->
+                                     <td>{{ row.value[aggKeyValues.percent_of_leads] + "%"                           }} </td>
+                                     <!--<td>{{ row.value.avg_lead_quality                                 }} </td>-->
+                                     <td>{{ row.value[aggKeyValues.avg_lead_quality]                                 }} </td>
+                                     <!--<td>{{ row.value.total_conversion                                 }} </td>-->
+                                     <td>{{ row.value[aggKeyValues.converted]                                        }} </td>
+                                     <!--<td>{{ row.value.conversion_percent + "%"                         }} </td>-->
+                                     <td>{{ row.value[aggKeyValues.conversion_percent] + "%"                         }} </td>
+                                     <!--<td>{{ row.value.average_duration                                 }} </td>-->
+                                     <td>{{ row.value[aggKeyValues.avg_duration]                                     }} </td>
+                                     <!--<td>{{ row.value.total_unique_calls                               }} </td>-->
+                                     <td>{{ row.value[aggKeyValues.unique_calls]                                     }} </td>
+                                 </tr>
+                             </tbody>
+                         </table>
+
+                     </div>
+                 </panel>
+             </div>
+         </div>
+    </div>
+</div> <!-- end-->
+<!-- container -->

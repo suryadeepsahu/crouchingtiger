@@ -1,0 +1,142 @@
+
+<div id="callflowsettingsreport"  ng-controller="CallFlowSettingsController">
+    <div id="page-heading">
+        <h1>Call Flow Activity</h1>
+        <div class="options">
+            <div class="btn-toolbar">
+                <div class="btn-group" dropdown>
+                    <button type="button" class="btn btn-default dropdown-toggle">
+                        <i class="fa fa-cloud-download"></i> <span class="hidden-sm hidden-xs">Export as</span> <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a ng-csv='getCSVData()' lazy-load="true" csv-header='csvHeaderNames' filename="csv_calls.csv" onClick="ga('send', 'event', { eventCategory: 'Call Flow Activity', eventAction: 'Export', eventLabel: 'Export CSV'});" >CSV</a></li>
+                      <li><a ng-csv='getCSVData()' lazy-load="true" csv-header='csvHeaderNames' filename="tsv_calls.tsv" field-separator="\t" onClick="ga('send', 'event', { eventCategory: 'Call Flow Activity', eventAction: 'Export', eventLabel: 'Export TSV'});">TSV</a></li>
+					  <li><a ng-csv='getCSVData()' lazy-load="true" csv-header='csvHeaderNames' filename="exl_calls.xls" onClick="ga('send', 'event', { eventCategory: 'Call Flow Activity', eventAction: 'Export', eventLabel: 'Export Excel'});">Excel</a></li>
+                      <!--<li class="divider"></li>
+                      <li><a ng-click="exportPDF()" onClick="ga('send', 'event', { eventCategory: 'Call Details', eventAction: 'Export', eventLabel: 'Export Selection'});">Export Selection</a></li>-->
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" id="callsData">
+        <!-- Begin charts row -->
+        <div class="container-fluid pb0">
+
+        </div>
+        <!-- End charts row -->
+    <style>
+    .dc-chart{float:none;}
+    	span.handle{display:none;}
+    	.chartizzle .panel-heading h4{font-size:11px;}
+    	.advancedf{background:#efefef; border: 1px solid #ccc;  border-radius: 5px;  overflow: auto;  padding: 15px 0 15px 15px;
+      -moz-border-radius: 5px;  -webkit-border-top-left-radius: 5px;  -webkit-border-top-right-radius: 5px;  -webkit-border-bottom-left-radius: 5px;
+      -webkit-border-bottom-right-radius: 5px;}
+      ._GATq {  border-left: 1px solid #ccc;  border-right: 1px solid #ccc;  clear: both;  position: relative;  text-align: center;  margin: -1px 0;}
+      ._GATq._GAQzb {  background-color: #efefef;  color: #575757;  font-size: 1.2em;  font-weight: bold;  margin-left: 80px;  padding: 5px 0;  width: 80px;}
+	  #listen_workspace tab-heading .badge{top:-6px !important;left:7px !important;}
+	  .tab-container p{min-width:150px;}
+    </style>
+        <!-- Begin charts row -->
+        <div class="container-fluid pb0" style="padding:0 20px;">
+            <div class="row">
+                <div class="panel panel-inverse">
+                	<div class="panel-heading">
+                        <h4></h4>
+                        <panel-controls>
+                                <!--<a href="javascript:;"><i class="fa fa-cog"></i></a>
+                                <a href="javascript:;"><i class="fa fa-wrench"></i></a>-->
+                            <a href=""><panel-control-collapse class="fa fa-chevron-down"></panel-control-collapse></a>
+                        </panel-controls>
+                    </div>
+                    <div class="panel-body">
+                    	<div class="col-md-3 col-lg-2 mb10">
+                            {{paginateHeader}}
+                        </div>
+                        <div class="col-md-offset-1 col-lg-offset-4 col-md-5 col-lg-4 input-icon right mb20">
+                        	<div class="input-group">
+								<input type="text" ng-model="simpleSearchFilter" id="simpleChart" class="form-control" placeholder="{{advFiltersAreApplied && 'Basic Search Disabled' || 'Basic Search'}}" ng-readonly="advFiltersAreApplied" enter-press="validateSimpleTextFilter(simpleSearchFilter)" ng-change="!simpleSearchFilter.length && validateSimpleTextFilter(simpleSearchFilter)">
+                            <!--the ng-change is for if there is no text in the basic search, then just remove the filters-->
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-primary" title="Search" ng-readonly="advFiltersAreApplied" ng-click="validateSimpleTextFilter(simpleSearchFilter)"><i class="fa fa-search"></i> </button>
+                                    <button type="button" class="btn btn-primary" title="Clear" ng-click="simpleSearchFilter = '';validateSimpleTextFilter('')" ng-readonly="advFiltersAreApplied"><i class="fa fa-times-circle"></i> </button>
+								</span>
+							</div>
+                        </div>
+
+                        <div class="col-md-3 col-lg-2 mb20 text-right">
+                        	<button class="btn btn-midnightblue-alt btn-block" ng-click="simpleSearchFilter= '';toggleFilterUsed() " onClick="ga('send', 'event', { eventCategory: 'Campaign Settings', eventAction: 'Toggle', eventLabel: 'Toggle Advanced Filter'});">Advanced filter</button>
+                        </div>
+                        <div ng-class="{'col-md-12 mt20 mb20' : advFiltersAreApplied, 'hide' : !advFiltersAreApplied }">
+                            <div ng-repeat="af in advFilterDefinitions">
+                            <div class="advancedf">
+                                <select style="width:auto;display:inline;" class="form-control" ng-model="af.inclusivity" ng-init="af.inclusivity = advancedFilterConfig.inclusivity[0].label">
+                                    <option ng-repeat="inc in advancedFilterConfig.inclusivity" value="{{ inc.label }}">{{ inc.val }}</option>
+                                </select>
+                                <select style="width:auto;display:inline;" class="form-control" ng-model="af.column" ng-init="af.column = advancedFilterConfig.columns[0].label">
+                                    <option ng-repeat="col in advancedFilterConfig.columns" value="{{ col.label }}">{{ col.val }}</option>
+                                </select>
+                                <select style="width:auto;display:inline;" class="form-control" ng-model="af.comparativeOperator" ng-init="af.comparativeOperator = advancedFilterConfig.comparitiveOperators[0].label">
+                                    <option ng-repeat="co in advancedFilterConfig.comparitiveOperators" value="{{ co.label }}">{{ co.val }}</option>
+                                </select>
+                                <input style="width:150px;display:inline;" type="text"  class="form-control" placeholder="required" ng-model="af.text">
+                                 <a title="Delete" ng-click="advFilterDefinitions.length > advancedFilterConfig.minQuantity ? advFilterDefinitions.splice($index, 1) : null" ng-hide="$index == 0 && advFilterDefinitions.length == 1"><i class="fa fa-times-circle"></i></a>
+                            </div>
+
+                            <div class="_GATq _GAQzb">and</div>
+                        </div>
+                            <div class="advancedf">
+                                <button class="btn btn-gray" style="border:1px dashed #575757;" ng-click="advFilterDefinitions.length < advancedFilterConfig.maxQuantity ? advFilterDefinitions.push( createAdvFiltDefinition() ) : null"><i class="fa fa-plus-circle"></i> Add an Advanced Filter</button>
+                            </div>
+                            <hr>
+                            <div class="clearfix text-right">
+                                <button class="btn btn-primary" ng-click="applyAdvancedFiltersToDataGrid()">Apply</button>
+                                <button class="btn btn-default" ng-click="unApplyAdvancedFiltersToDataGrid()">Cancel</button>
+                            </div>
+                        </div>
+
+                    <div id="" style="" class="col-md-12 table-responsive">
+                        <table class="table table-striped table-hover table-condensed table-responsive" id="campaignsettingstable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Phone Number </th>
+                                    <th>Active</th>
+                                    <th>Group (ID: Name)</th>
+                                    <th>Campaign</th>
+                                    <th>Campaign External ID</th>
+                                    <td style="">Total Calls</td>
+                                    <th class="">Total Call Value</th>
+                                    <th>Unique Calls</th>
+                                    <th>Billable Minutes</th>
+                                </tr>
+                            </thead>
+                            <tbody ng-init="showme = []">
+                                <tr ng-class="{'active' : item.showinfo, 'inactive' : !item.showinfo}" dir-paginate-start="" total-items="" current-page="pagination.current">
+                                    <td class="name">{{ item.id || '' }}</td>
+                                    <td class="phonenumber"><a ng-href="">{{ item.campaign_name || '' }}</a></td>
+                                    <td class="active">{{ item.externalid || '' }}</td>
+                                    <td class="group">{{ item.groupid + ":" + item.groupname || '' }}</td>
+                                    <td class="campaign">{{ item.owner || '' }}</td>
+                                    <td class="campaignexternalid">{{ item.active || '' }}</td>
+                                    <td class="totalcalls">{{ item.assignedusers || '' }}</td>
+                                    <td class="totalcallvalue">12:00am Jan 1, 2016</td>
+                                    <td class="uniquecalls">12:00am Feb 27, 2016</td>
+                                    <td class="billableminutes">EST</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    </div>
+                    <div ng-class="{ 'disablePagination' : whichScheldueReport !== undefined }"  class="panel-footer text-right">
+                        <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+                    	<!-- The panel footer buttons for offsetting should only show if the number of records in the returned dataset exceed 100 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

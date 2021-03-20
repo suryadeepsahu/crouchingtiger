@@ -1,0 +1,68 @@
+<script>//add Widget modal	  
+var addListModal = function($scope, $uibModal) {
+		$scope.open = function (size) {
+		  var captainModalInstance = $uibModal.open({
+		  templateUrl: 'addListModal.html',
+		  controller: captainModalInstanceCtrl,
+		  size: size
+		  });
+	};
+};
+var captainModalInstanceCtrl = function ($scope, $uibModalInstance) {
+
+  $scope.ok = function () {
+    $uibModalInstance.close();
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+};</script><div id="page-heading"></div><div class="container-fluid" ng-controller="DashboardController"><div class="row"><div class="col-md-12"><div class="row"></div></div></div><style>.info-tiles .tiles-body{font-size:12px;}</style><div class="row"><div class="col-md-3"><div class="panel panel-gray"><div class="panel-body no-border"><div class="row"><div class="col-md-12 clearfix"><h4 class="pull-left" style="margin: 0px 0 20px;">Details</h4></div></div><div class="row"><div class="col-md-12"><form action="" class="form-horizontal row-border"><input type="text" class="form-control" placeholder="Name" value=""><br><input type="text" class="form-control" placeholder="Description" value=""><br><button class="btn btn-default btn-sm" ng-click="saveEmailDigest()">Save</button> <button class="btn btn-default btn-sm" ng-click="saveEmailDigest()">Save As</button><div class="btn-group" style="float:right;" dropdown><button type="button" class="btn btn-default btn-sm dropdown-toggle">Edit <span class="caret"></span></button><ul class="dropdown-menu" role="menu"><li><a href="#">My First Digest</a></li><li><a href="#">Honest 1 Digest</a></li><li><a href="#">Midas manager</a></li></ul></div><div class="mt15 mb15" style="border-bottom: 1px solid #e9ecf0;color: #656b79 !important;"></div><button class="btn btn-default btn-sm" ng-click="saveEmailDigest()">Preview</button> <button class="btn btn-default btn-sm" style="float:right;" ng-click="saveEmailDigest()">Templates <span class="caret"></span></button></form></div></div></div></div><div class="panel panel-gray"><div class="panel-body no-border"><div class="row"><div class="col-md-12 clearfix"><h4 class="pull-left" style="margin: 0px 0 20px;">Scheduling and Distribution</h4></div></div><div class="row"><div class="col-sm-5"><label>Send Emails:</label></div><div class="col-sm-7 mb15"><select style="" class="form-control" id="source"><option value="zip">Manually</option><option value="area">Daily</option><option value="area">Weekly</option><option value="area">Monthly</option></select></div><div class="mt15 mb15" style="clear:both;border-bottom: 1px solid #e9ecf0;color: #656b79 !important;"></div><div class="col-md-12"><button class="btn btn-default btn-sm" ng-click="saveEmailDigest()">Send now</button><div ng-controller="addListModal" style="display:inline;float:right;"><script type="text/ng-template" id="addListModal.html"><div class="modal-header">
+												<h3 class="modal-title">Create Distribution List</h3>
+											</div>
+											<div class="modal-body">
+													<div class="container-fluid" ng-controller="FormComponentsController">
+														<div class="row">
+															<div class="col-xs-12">
+																<form action="" class="form-horizontal row-border">
+																	<div class="form-group">
+																		<div class="row">
+																			<div class="col-sm-6 col-sm-offset-3">
+																			<input type="text" class="form-control" placeholder="List Name" value=""><br />
+																			</div>
+																		</div>
+																		<div class="row mt5 mb20">
+																			<label class="col-sm-3 control-label">Select Users from:</label>
+																			<div class="col-sm-6">
+																				<select style="" class="form-control" id="source">
+																					<option value="zip">Campaign</option>
+																					<option value="area">User</option>
+																				</select>
+																			</div>
+																		</div>
+																		<div class="row">
+																			<label class="col-sm-3 control-label">Multiple Select</label>
+																			<div class="col-sm-9">
+																				<select multiple="multiple" multiselect ng-model="multiSelect1">
+																					<option>My First Campaign</option>
+																					<option>Another Campaign</option>
+																					<option>Facebook March</option>
+																					<option>John Doe</option>
+																					<option>Jane Doe</option>
+																					<option>Bill Doe</option>
+																				</select>
+																			</div>
+																		</div>
+																	</div>
+																 </form>
+															</div>
+														</div>
+													</div>	
+											</div>
+											<div style="clear:both" class="modal-footer">
+												<button class="btn btn-primary" ng-click="ok()">Save</button>
+												<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+											</div></script><button class="btn btn-default btn-sm" style="float:right;" ng-click="open()">Distribution Lists <span class="caret"></span></button></div></div></div></div></div><div class="panel panel-inverse"><div class="panel-body no-border"><div class="row"><div class="col-md-12 clearfix"><h4 class="pull-left" style="margin: 0px 0 20px;">Page Elements</h4></div></div><div class="row"><div class="col-md-12" ng-controller="TabsAndAccordionsDemoController"><accordion close-others="oneAtATime" class="panel-danger"><accordion-group heading="Graphics" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled"><a href="#" style="text-decoration:none;" class=""><div style="float:right;"><i class="fa fa-plus"></i></div><div><span style="display:block" class="msg">Text Field</span></div></a><div class="mt10 mb10" style="border-bottom: 1px solid #e9ecf0;color: #656b79 !important;"></div><a href="#" style="text-decoration:none;" class=""><div style="float:right;"><i class="fa fa-plus"></i></div><div><span style="display:block" class="msg">Text Area</span></div></a><div class="mt10 mb10" style="border-bottom: 1px solid #e9ecf0;color: #656b79 !important;"></div><a href="#" style="text-decoration:none;" class=""><div style="float:right;"><i class="fa fa-plus"></i></div><div><span style="display:block" class="msg">Image</span></div></a></accordion-group><accordion-group heading="Charts"><a href="#" style="text-decoration:none;" class=""><div style="float:right;"><i class="fa fa-plus"></i></div><div><span style="display:block" class="msg">Last 7 Days Total Calls</span></div></a><div class="mt10 mb10" style="border-bottom: 1px solid #e9ecf0;color: #656b79 !important;"></div><a href="#" style="text-decoration:none;" class=""><div style="float:right;"><i class="fa fa-plus"></i></div><div><span style="display:block" class="msg">Last 7 Days Calls by Campaign</span></div></a><div class="mt10 mb10" style="border-bottom: 1px solid #e9ecf0;color: #656b79 !important;"></div><a href="#" style="text-decoration:none;" class=""><div style="float:right;"><i class="fa fa-plus"></i></div><div><span style="display:block" class="msg">Last 30 Days Total Calls</span></div></a><div class="mt10 mb10" style="border-bottom: 1px solid #e9ecf0;color: #656b79 !important;"></div><a href="#" style="text-decoration:none;" class=""><div style="float:right;"><i class="fa fa-plus"></i></div><div><span style="display:block" class="msg">Last 30 Days Calls by Campaign</span></div></a></accordion-group><accordion-group heading="Tables"><a href="#" style="text-decoration:none;" class=""><div style="float:right;"><i class="fa fa-plus"></i></div><div><span style="display:block" class="msg">Ranking</span></div></a><div class="mt10 mb10" style="border-bottom: 1px solid #e9ecf0;color: #656b79 !important;"></div><a href="#" style="text-decoration:none;" class=""><div style="float:right;"><i class="fa fa-plus"></i></div><div><span style="display:block" class="msg">Missed Call List</span></div></a><div class="mt10 mb10" style="border-bottom: 1px solid #e9ecf0;color: #656b79 !important;"></div><a href="#" style="text-decoration:none;" class=""><div style="float:right;"><i class="fa fa-plus"></i></div><div><span style="display:block" class="msg">Missed Opportunity List</span></div></a><div class="mt10 mb10" style="border-bottom: 1px solid #e9ecf0;color: #656b79 !important;"></div><a href="#" style="text-decoration:none;" class=""><div style="float:right;"><i class="fa fa-plus"></i></div><div><span style="display:block" class="msg">Good Call List</span></div></a><div class="mt10 mb10" style="border-bottom: 1px solid #e9ecf0;color: #656b79 !important;"></div><a href="#" style="text-decoration:none;" class=""><div style="float:right;"><i class="fa fa-plus"></i></div><div><span style="display:block" class="msg">Bad Call List</span></div></a></accordion-group><accordion-group heading="Summaries"><a href="#" style="text-decoration:none;" class=""><div style="float:right;"><i class="fa fa-plus"></i></div><div><span style="display:block" class="msg">Total Calls</span></div></a><div class="mt10 mb10" style="border-bottom: 1px solid #e9ecf0;color: #656b79 !important;"></div><a href="#" style="text-decoration:none;" class=""><div style="float:right;"><i class="fa fa-plus"></i></div><div><span style="display:block" class="msg">Average Duration</span></div></a></accordion-group></accordion></div></div></div></div></div><div class="col-md-9"><div class="panel panel-gray"><div class="panel-body no-border"><div class="container-fluid" ng-controller=""><div class="row"><div class="col-md-12 clearfix"><div class="col-md-4">image placeholder</div><div class="col-md-4"><h2>Digest name</h2><h4>Send Date</h4><p>For campaign(s): recipient's campaign list</p></div><div class="col-md-4">text area element editable by the user</div></div></div></div><style>._GAhr{float:right}
+._GAhr,._GAocb{background-color:#ffffff;border:0;border-right:1px solid #bfbfbf;border-top:1px solid #bfbfbf;border-top-right-radius:4px;display: none;height:29px;padding-left:5px;padding-right:10px}
+._GAef:HOVER ._GAhr{display:block;border-right:0px solid #bfbfbf;border-top:0px solid #bfbfbf}
+._GAwC{background:no-repeat url(../img/sprites.png) -327px -521px;height:21px;margin-bottom:3px;margin-top:3px;width:21px; cursor:pointer;}</style><div class="container-fluid" ng-controller=""><div class="row"><div class="col-md-12 clearfix"><div class="col-md-4 clearfix _GAef" ng-controller="DashboardController"><div class="_GAhr" style="opacity: 1;"><div class="_GAJH _GAb-_GAp-_GAr ACTION-editWidget TARGET-1"><div class="_GAwC" ng-click="showDetails=!showDetails"></div></div></div><div class="mb20 mt20" flot-chart style="width: 100%; height:250px" data-flot-data="plotRevenueData" data-flot-options="plotRevenueOptions"></div></div><div class="col-md-4 clearfix _GAef" ng-controller="FlotChartsController"><div class="_GAhr" style="opacity: 1;"><div class="_GAJH _GAb-_GAp-_GAr ACTION-editWidget TARGET-2"><div class="_GAwC"></div></div></div><div class="mb20 mt20" flot-chart style="width: 98%; height:230px; margin:0px 15px;" data-flot-data="pieData" data-flot-options="{ series: { pie: { show: true } },  grid: { hoverable: false, clickable: false } }"></div></div><div class="col-md-4"></div></div></div></div></div></div></div></div></div>

@@ -1,0 +1,1302 @@
+<style>
+    #spiner {
+        position: fixed;
+        top: 50%;
+        left: 46%;
+        z-index: 1;
+    }
+    #img-spiner{
+        width: 60px;
+        height: auto;
+        z-index: 1;
+       
+    }
+    .controls-fixed {
+        background-color: #FFFFFF;
+        bottom: 316px;
+        left: 250px;
+        margin: 31px 0px;
+        padding: 0px 15px;
+        position: fixed;
+        top: 0px;
+        z-index: 101;
+        width: 79%;
+        height: 55px;
+    }
+    
+    .ConvAnalytics {
+        font-size: 14px;
+    }
+    
+    .reset {
+        color: #FFFFFF;
+        background-color: #929598;
+        border-color: #929598;
+        border-radius: 3px !important;
+        border-style: none;
+        padding: 5px 13px 7px 13px;
+    }
+    
+    .reset:hover {
+        color: #FFFFFF;
+        background-color: #737477;
+        border-color: #737477;
+    }
+    
+    .open>.dropdown-toggle.btn-default {
+        color: #FFFFFF;
+        background-color: #929598;
+        border-color: #929598;
+    }
+    
+    .width100 {
+        width: 100% !important;
+        z-index: 999;
+    }
+    
+    .timeline>li .timeline-header,
+    .timeline>li .timeline-body h3 {
+        color: #575759;
+    }
+    
+    .fa-minus-circle:before {
+        content: "\f056";
+    }
+    
+    .glyphicon-minus-sign,
+    .glyphicon-plus-sign {
+        margin-top: 8px;
+        font-size: 15px;
+    }
+    
+    .inner-addon .glyphicon {
+        position: absolute;
+        padding: 9px;
+        z-index: 2;
+        right: 0px;
+        top: inherit;
+    }
+    
+    .toggle {
+        margin-left: 30px;
+    }
+    
+    ;
+    .btn-default[disabled] {
+        color: #FFFFFF;
+        background-color: #929598;
+        border-color: #929598;
+    }
+    
+    #addUser {
+        background-color: #63b7e6;
+        border-color: #63b7e6;
+        color: #fff;
+    }
+    
+    button#addUser:hover {
+        color: #fff;
+        background-color: #2f7db2;
+        border-color: #2d77aa;
+    }
+    
+    input.form-control.editField.ng-pristine.ng-untouched.ng-valid {
+        border-radius: 2px;
+    }
+    
+    .panel-heading {
+        cursor: pointer;
+    }
+    
+    #shareDNIToggle {
+        cursor: not-allowed !important;
+    }
+    
+    .ats-switch.disabled .switch-left,
+    .ats-switch.disabled .switch-right,
+    .ats-switch.disabled .knob {
+        cursor: not-allowed !important;
+    }
+    
+    @media (min-width: 992px) {
+        .col-md-3 {
+            width: 100%;
+        }
+    }
+    /*--new css add for custome source reDesign--*/
+    
+    #cutomiszed button {
+        width: 150%
+    }
+    
+    #cutomiszed .dropdown-menu {
+        right: -40px;
+    }
+    
+    #cutomiszed ul .first {
+        width: 120px
+    }
+    
+    #cutomiszed .checkbox {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    
+    #customized .dropdown-menu {
+        position: static;
+        width: 150px;
+    }
+    
+    #customized.btn-group .dropdown-toggle:active,
+    .btn-group.open .dropdown-toggle {
+        width: 150px;
+    }
+    
+    button.dropdown-toggle.ng-binding.btn.btn-default {
+        width: 150px;
+        text-align: left;
+    }
+    
+    .export {
+        padding-left: 5px;
+    }
+    
+    #customized .caret:before {
+        float: right;
+    }
+    
+    #customized .dropdown-menu>li>a {
+        padding: 0px 15px;
+    }
+    
+    #customized .dropdown-menu .divider {
+        height: 1px;
+        margin: 9px 0;
+        overflow: hidden;
+        background-color: #e5e5e5;
+    }
+    
+    @media only screen and (max-width: 1152px) {
+        .controls-fixed {
+            width: 76.3%;
+        }
+    }
+    
+    @media only screen and (min-width: 1025px) and (max-width: 1280px) {
+        .controls-fixed {
+            width: 79%;
+        }
+    }
+    
+    @media (min-width: 1360px) and (min-width: 1366px) {
+        .controls-fixed {
+            width: 80%;
+        }
+    }
+    
+    @media only screen and (min-width: 1440px) {
+        .controls-fixed {
+            width: 81%;
+        }
+    }
+    
+    @media only screen and (min-width: 1600px) and (max-width: 1680px) {
+        .controls-fixed {
+            width: 83%;
+        }
+    }
+    
+    @media only screen and (min-width: 1824px) and (max-width: 1920px) {
+        .controls-fixed {
+            width: 85%;
+        }
+    }
+    
+    @media only screen and (max-width: 500px) and (min-width: 300px) {
+        .col-xs-8 {
+            float: left !important;
+            margin-top: 40px;
+            min-width: 0px !important;
+            margin-left: -40px;
+        }
+    }
+    
+    @media only screen and (min-width: 501px) and (max-width: 850px) {
+        .col-xs-8 {
+            float: none;
+            margin-top: 37px;
+        }
+    }
+    /*callactionresponsive*/
+    /*--new css add--*/
+</style>
+
+<script type="text/ng-template" id="my-custom-template">
+    <div class="tag-template">
+        <div>
+
+            <span apply-css class="tag-span" ng-class="$getTagClass()">{{$getDisplayText()}}</span>
+            <a class="remove-button" ng-click="$removeTag()">&#215;</a>
+        </div>
+    </div>
+</script>
+
+<div id="page-heading">
+    <h1>Group and User</h1>
+    <div class="options">
+        <div class="btn-toolbar">
+        </div>
+    </div>
+</div>
+
+<!-- group details -->
+<div class="container-fluid" ng-controller="OldOrgUnitController" disable-all="isReadOnly" style="padding-bottom: 0px">
+    <!-- Export functionality start- -->
+    <div id="" class="table-to-scrape">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="btn-group mb20" uib-dropdown style="color: black; ">
+                    <button ng-hide='isSafari' id="first" type="button" class="btn btn-sm btn-default btn-last width100 reset" filename='{{groupsReportFileName}}' ng-csv='getCSVGroupData("csv", "both")' csv-header='getGroupsHeader()'>
+                        <i class="fa fa-cloud-download"></i><span class="export">Export Groups & Users</span>
+                    </button>
+                    <button id="userCSVExport" ng-show="false" filename='{{usersReportFileName}}' ng-csv='getCSVUserData("csv", "both")' csv-header='getUsersHeader()' type="button" class="btn btn-sm btn-default btn-last width100 reset">
+                        <i class="fa fa-cloud-download"></i><span class="export">Export Groups & Users</span>
+                    </button>
+                    <button ng-hide='!isSafari' id="first" type="button" class="btn btn-sm btn-default btn-last width100 reset" ng-click='getCSVData("csv")' filename='{{CurrentOUNameCSV}}'>
+                        <i class="fa fa-cloud-download"></i><span class="export">Export Groups & Users</span>
+                    </button>
+
+                    <!-- <ul class="dropdown-menu width100" role="menu">
+                        <li ng-hide='isSafari' id="first"><a filename='{{groupsReportFileName}}' ng-csv='getCSVGroupData("csv", "both")' csv-header='getGroupsHeader()'>Excel/CSV</a></li>
+                        <li ng-hide='isSafari'><a id="userCSVExport" ng-show="false" filename='{{usersReportFileName}}' ng-csv='getCSVUserData("csv", "both")' csv-header='getUsersHeader()'>Excel/CSV</a></li>
+                        
+                        <li ng-hide='!isSafari'><a ng-click='getCSVData("csv")' filename='{{CurrentOUNameCSV}}'>Excel/CSV</a></li>
+                    </ul> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Export functionality End- -->
+    <form name="ouForm" id="ouForm" valid-submit="saveOrg()" novalidate>
+        <div class="panel panel-midnightblue">
+            <accordion close-others="oneAtATime1">
+                <accordion-group is-open="isGroupDetailsOpen">
+                    <accordion-heading ng-click="isGroupDetailsOpen =!isGroupDetailsOpen">
+                        <div class="panel-heading">
+                            <h4 title="{{ CurrentOUName }}">GROUP DETAILS FOR {{ CurrentOUName | truncate_campGroupName }}</h4><i class="pull-right glyphicon" ng-class="{'glyphicon-minus-sign': isGroupDetailsOpen, 'glyphicon-plus-sign': !isGroupDetailsOpen}"></i></div>
+                    </accordion-heading>
+                    <div ng-show="isGroupDetailsOpen">
+
+                        <div class="panel-body collapse in">
+                            <div class="row">
+                                <div class="col-sm-4 col-xs-6 form-group">
+                                    <label class="control-label">Name</label>
+                                    <div class="">
+                                        <input type="text" class="form-control" ng-model="companyName" required ng-maxlength="200" maxlength="200" validate-blur-forza="Company Details,Name" validate-utf-eight>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-xs-6 form-group">
+                                    <label class="control-label">External ID</label>
+                                    <div class="">
+                                        <input type="text" class="form-control" placeholder="not required" ng-model="orgIdExternal" ng-maxlength="50" maxlength="50" validate-utf-eight ng-pattern="/^[a-zA-Z0-9]+$/" validate-blur-forza="Company Details, ID">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label">Industry</label>
+                                    <select ui-select2 ng-model="industry" data-placeholder="- Select -" style="width:100%">
+                            <option ng-disabled="true" ng-selected="true" value="">-- Select Industry--</option>
+                            <optgroup label="{{industryCategory.name}}" ng-repeat="industryCategory in industryList">
+                                <option value="{{industrySpecific.id}}" ng-repeat="industrySpecific in industryCategory.specific">
+                                    {{industryCategory.name}}:{{industrySpecific.name}}
+                                </option>
+                            </optgroup>
+                        </select>
+                                </div>
+                            </div>
+                            <div class="row mt20 mb20">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Phone</label>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" maskinput data-inputmask="'mask':'(999) 999-9999'" ng-model="phone" ng-maxlength="15" maxlength="15" ng-pattern="/^[0-9-() ]+$/" validate-blur-forza="Company Details, Phone">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="control-label">City</label>
+                                    <div class="">
+                                        <input type="text" class="form-control" ng-model="city" ng-maxlength="50" maxlength="50" ng-pattern="/^[a-zA-Z0-9 ]+$/" validate-blur-forza="Company Details, City">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="control-label">State/Province</label>
+                                    <div class="">
+                                        <select class="form-control" ng-model="state" id="source" validate-blur-forza="Company Details, State / Provinces">
+                                <option value="" ng-selected="true" ng-disabled="true">--Select--</option>
+                                <optgroup label="United States">
+                                    <option value="AK">Alaska</option>
+                                    <option value="HI">Hawaii</option>
+                                    <option value="CA">California</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="WA">Washington</option>
+                                    <option value="AZ">Arizona</option>
+                                    <option value="CO">Colorado</option>
+                                    <option value="ID">Idaho</option>
+                                    <option value="MT">Montana</option>
+                                    <option value="NE">Nebraska</option>
+                                    <option value="NM">New Mexico</option>
+                                    <option value="ND">North Dakota</option>
+                                    <option value="UT">Utah</option>
+                                    <option value="WY">Wyoming</option>
+                                    <option value="AL">Alabama</option>
+                                    <option value="AR">Arkansas</option>
+                                    <option value="IL">Illinois</option>
+                                    <option value="IA">Iowa</option>
+                                    <option value="KS">Kansas</option>
+                                    <option value="KY">Kentucky</option>
+                                    <option value="LA">Louisiana</option>
+                                    <option value="MN">Minnesota</option>
+                                    <option value="MS">Mississippi</option>
+                                    <option value="MO">Missouri</option>
+                                    <option value="OK">Oklahoma</option>
+                                    <option value="SD">South Dakota</option>
+                                    <option value="TX">Texas</option>
+                                    <option value="TN">Tennessee</option>
+                                    <option value="WI">Wisconsin</option>
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="GA">Georgia</option>
+                                    <option value="IN">Indiana</option>
+                                    <option value="ME">Maine</option>
+                                    <option value="MD">Maryland</option>
+                                    <option value="MA">Massachusetts</option>
+                                    <option value="MI">Michigan</option>
+                                    <option value="NH">New Hampshire</option>
+                                    <option value="NJ">New Jersey</option>
+                                    <option value="NY">New York</option>
+                                    <option value="NC">North Carolina</option>
+                                    <option value="OH">Ohio</option>
+                                    <option value="PA">Pennsylvania</option>
+                                    <option value="RI">Rhode Island</option>
+                                    <option value="SC">South Carolina</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WV">West Virginia</option>
+                                </optgroup>
+                                <optgroup label="Canadian Provinces">
+                                    <option value="AB">Alberta</option>
+                                    <option value="BC">British Columbia</option>
+                                    <option value="MB">Manitoba</option>
+                                    <option value="NB">New Brunswick</option>
+                                    <option value="NF">Newfoundland</option>
+                                    <option value="NT">Northwest Territories</option>
+                                    <option value="NS">Nova Scotia</option>
+                                    <option value="ON">Ontario</option>
+                                    <option value="PE">Prince Edward Island</option>
+                                    <option value="QC">Quebec</option>
+                                    <option value="SK">Saskatchewan</option>
+                                    <option value="YT">Yukon</option>
+                                </optgroup>
+                            </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="control-label">Zip/Postal Code</label>
+                                    <div class="">
+                                        <input type="text" class="form-control" ng-model="zip" value="" ng-maxlength="16" maxlength="16" ng-pattern="/^[a-z0-9 ]+$/i" validate-blur-forza="Company Details, Zip">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer text-right">
+                            <a class="btn btn-danger pull-left" ng-hide="(topLevelOUId === currentOUId) || !canDeleteOU" ng-disabled="isDeleteClicked" ng-click="deleteThisOU()">Delete This Group</a>
+                            <button class="btn btn-primary" type="submit" ng-disabled="ouForm.$invalid && submitted || formSubmit || userAccess.orgunit === 4" onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Click', eventLabel: 'Save Group Details'});">Save Group Details</button>
+                        </div>
+                    </div>
+                </accordion-group>
+        </div>
+    </form>
+
+
+    <!-- FEATURE SETTINGS -->
+    <form name="ouForm1" id="ouForm1" ng-hide="isAdmin" novalidate>
+        <div class="panel panel-midnightblue">
+            <accordion close-others="oneAtATime">
+                <accordion-group is-open="isFeatureSettingOpen;">
+                    <accordion-heading ng-click="isFeatureSettingOpen=!isFeatureSettingOpen;openFeatureSection(isFeatureSettingOpen)">
+                        <div class="panel-heading">
+                            <h4 title="{{ CurrentOUName }}">FEATURE SETTINGS FOR {{CurrentOUName | truncate_campGroupName }}</h4><i class="pull-right glyphicon" ng-class="{'glyphicon-minus-sign': isFeatureSettingOpen, 'glyphicon-plus-sign': !isFeatureSettingOpen}"></i></div>
+                    </accordion-heading>
+                    <div ng-show="isFeatureSettingOpen">
+                        <div class="panel-body collapse in">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-4 col-sm-6 mt10 mb10">
+                                    <div class="toggle">
+                                        <toggle-switch is-disabled="!showCaButton" ng-model="enableConvAna" on-label="Enable" off-label="Disable" class="primary switch" onClick="ga('send', 'event', { eventCategory: 'Toggle', eventAction: 'Switch', eventLabel: 'Data Append Toggle'});">
+                                            <toggle-switch>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-10 col-md-8">
+                                    <label class="control-label mt20" ng-show="!showCaButton">
+                                         Conversation Analytics<sup><span >&#174;</span></sup> Services are not currently available on your subscription. To order these services, please reach out to support.
+                                    </label>
+                                </div>
+
+                                <div class="col-sm-6 col-lg-10 col-md-8">
+                                    <label class="control-label mt20" ng-show="showCaButton">
+                                    Conversation Analytics<sup><span class="ConvAnalytics">&#174;</span></sup> Call Analysis
+                                </label>
+                                </div>
+                            </div>
+
+                            <div class="row mt20">
+                                <div class="col-lg-2 col-md-4 col-sm-6 mt10 mb10">
+                                    <div class="toggle">
+                                        <toggle-switch ng-model="enableSpam" is-disabled="!showSpambutton" on-label="Enable" off-label="Disable" class="primary switch">
+                                            <toggle-switch>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-10 col-md-8">
+                                    <label class="control-label mt20" ng-show="!showSpambutton">
+                                        Spam Guard Protection services are not currently available on your subscription. To order these services, please reach out to support.
+                                    </label>
+                                    <label class="control-label mt20" ng-show="showSpambutton">
+                                        Spam Guard Protection
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- DNI setting -->
+                            <div class="row mt20">
+                                <div class="col-lg-2 col-md-4 col-sm-6 mt10">
+                                    <div class="toggle">
+                                        <toggle-switch ng-model="shareDni" is-disabled="dniComponent || disable_share_dni || location_level_ou" on-label="Enable" off-label="Disable" class="primary switch " ng-disabled="true">
+                                            <toggle-switch>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-10 col-md-8">
+
+                                    <label class="control-label mt20" ng-show="!dniComponent && !disable_share_dni">
+                                        Share DNI (Website Call Tracking) code with Sub-Groups
+                                    </label>
+                                    <label class="control-label mt20" ng-show="!dniComponent && disable_share_dni">
+                                        This group's DNI code is shared with {{share_group_name}}
+                                    </label>
+                                </div>
+
+                                <!-- <div class="row mt20">
+                                    <div class="DNIset">
+                                        <div class="col-lg-2 col-md-4 col-sm-6">
+                                            <label class=" control-label">Host Domain</label>
+                                            <div class="">
+                                                <input type="text" class="form-control" name="destination_url" value="*.*" ng-model="destination_url" ng-pattern="/^[a-z0-9\*]+([\-\.]{1}[a-z0-9\*]+)*\.[a-z\*]{1,5}(:[0-9]{1,5})?(\/.*)?$/i" ng-required="destination_url" maxlength="35" validate-blur-forza="ouForm ,Host Domain">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-4 col-sm-6">
+                                            <label class=" control-label">Referring Website</label>
+                                            <div class="" ng-show="!showReferrerTextBox">
+                                                <select ng-init="selectedCallFlow.referrer = options[0]" data-placeholder="Select" class="form-control" id="source" ng-change="changeReferrer()" ng-model="referrer" ng-options="g.value as g.text for g in dniReferrer" ng-disabled="!canModify" validate-blur-forza=" Details, Referer">
+                                                    <option value="" ng-selected="true" disabled>-- Select --</option>
+
+                                                    <option value="{{g.value}}" ng-repeat="g in dniReferrer" ng-selected="referrer == g.value" ng-slected=""> {{g.text}}</option>
+                                                </select>
+                                                
+                                            </div>
+                                            <div class="" ng-show="showReferrerTextBox">
+                                                <input type="text" class="form-control" ng-model="referrer" value="" ng-readonly="!canModify" maxlength="35" validate-utf-eight placeholder="add New" ng-blur="changeReferrer()" validate-blur-forza=" Details, Referer">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-4 col-sm-6">
+                                            <label class="control-label">
+                                           (DNI)Type
+                                        </label>
+                                            <div class="">
+                                                <select ng-init="selectedCallFlow.dniType = options[0]" class="form-control" id="source" validate-blur-forza="Feature Settings, DNI Type" ng-model="dni_type" ng-disabled="!canModify">
+                                                    <option value="" ng-selected="true" disabled>-- Select --</option>
+
+                                                    <option value="{{dni.id}}" ng-repeat="dni in dniTypeList" ng-selected="dni_type == dni.id" ng-slected=""> {{dni.text}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-4 col-sm-6">
+                                            <label class=" control-label">HTML Class</label>
+                                            <div class="">
+                                                <input type="text" class="form-control" name="dni_element" ng-model="dni_element" value="cvz" ng-required="selectedCallFlow.showDNI" maxlength="35" validate-utf-eight validate-blur-forza="ouForm, HTML Class">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-4 col-sm-6" ng-show="dni_type == 'session'">
+                                            <label class=" control-label">TTL</label>
+                                            <div class="">
+                                                <input type="number" class="form-control" ng-readonly="!canModify" name="dni_ttl" ng-model="dni_ttl" value="" ng-readonly="!canModify" ng-required="showDNI && dniType == 'session'" maxlength="35" validate-utf-eight validate-blur-forza="ouForm, TTL" min="1"
+                                                    ng-pattern="/^[0-9]+$/">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-4 col-sm-6" style="margin-top:35px;">
+                                            <div class="">
+                                                <a ng-click="dniParams('lg')" class="text-left" ng-disabled="!canModify">Custom Parameters</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+
+                            <div class="panel-footer text-right">
+                                <!--  <button class="btn btn-primary" type="submit" ng-click="saveDefaultGroupSetting()" ng-disabled="submitted1 || formSubmit1"ng-show="canModify">Save</button> -->
+                                <button class="btn btn-primary" type="submit" ng-disabled="(ouForm.$invalid && submitted1) || formSubmit1" ng-click="saveDefaultGroupSetting()" onClick="ga('send', 'event', { eventCategory: 'Campaign', eventAction: 'Click', eventLabel: 'Save'});">Save</button>
+                                <button type="button" ng-click="resetFeatureSetting()" onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Reset', eventLabel: 'Reset Group Details'});" class="reset">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </accordion-group>
+        </div>
+    </form>
+
+    <!-- Tracking Number Settings -->
+    <form name="ouForm2" id="ouForm2" valid-submit="saveDefaultCallFlowSetting()" ng-hide="isAdmin" novalidate>
+        <div class="panel panel-midnightblue" ng-hide="isAdmin">
+            <accordion close-others="oneAtATime">
+                <accordion-group is-open="isTrackingNumberOpen">
+                    <accordion-heading ng-click="isTrackingNumberOpen=!isTrackingNumberOpen;openTrackingNumberSection(isTrackingNumberOpen)">
+                        <div class="panel-heading">
+                            <h4 title="{{ CurrentOUName }}">TRACKING NUMBER SETTINGS FOR {{ CurrentOUName | truncate_campGroupName }}</h4><i class="pull-right glyphicon" ng-class="{'glyphicon-minus-sign': isTrackingNumberOpen, 'glyphicon-plus-sign': !isTrackingNumberOpen}"></i>
+                        </div>
+                    </accordion-heading>
+                    <div ng-show="isTrackingNumberOpen">
+                        <div class="panel-body collapse in">
+                            <div class="row">
+                                <div class="col-sm-4 col-lg-2">
+                                    <label class="control-label pt-7">Repeat Interval (in hours)</label>
+                                </div>
+                                <div class="col-sm-4 col-lg-2">
+                                    <input type="number" id="rinterval" validate-blur-forza="Tracking Number Default Setting, Repeat Interval" class="form-control" ng-model="rinterval" ng-pattern="/^[0-9]+$/" required min="0" ng-disabled="!canModify">
+                                </div>
+                            </div>
+
+                            <!-- DNI setting -->
+                            <div class="row mt20">
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <label class="mt20 control-label">Host Domain</label>
+                                    <div class="">
+                                        <input type="text" class="form-control" name="destination_url" value="*.*" ng-model="destination_url" ng-pattern="/^[a-z0-9\*]+([\-\.]{1}[a-z0-9\*]+)*\.[a-z\*]{1,5}(:[0-9]{1,5})?(\/.*)?$/i" ng-required="destination_url" maxlength="35" validate-blur-forza="ouForm ,Host Domain">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <label class="mt20 control-label">Referring Website</label>
+                                    <div class="" ng-show="!showReferrerTextBox">
+                                        <select ng-init="selectedCallFlow.referrer = options[0]" data-placeholder="Select" class="form-control" id="source" ng-change="changeReferrer()" ng-model="referrer" ng-options="g.value as g.text for g in dniReferrer" ng-disabled="!canModify" validate-blur-forza=" Referer">
+                                                <option value="" ng-selected="true" disabled>-- Select --</option>
+                                
+                                                <option value="{{g.value}}" ng-repeat="g in dniReferrer" ng-selected="referrer == g.value" ng-slected=""> {{g.text}}</option>
+                                            </select>
+                                    </div>
+                                    <div class="" ng-show="showReferrerTextBox">
+                                        <input type="text" class="form-control" ng-model="referrer" value="" ng-readonly="!canModify" maxlength="35" validate-utf-eight placeholder="add New" ng-blur="changeReferrer()" validate-blur-forza="Referer">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <label class="mt20 control-label">DNI Type</label>
+                                    <div class="">
+                                        <select ng-init="selectedCallFlow.dniType = options[0]" class="form-control" id="source" validate-blur-forza="Feature Settings, DNI Type" ng-model="dni_type" ng-disabled="!canModify">
+                                                <option value="" > -- Select -- </option>
+                                                <option value="{{dni.id}}" ng-repeat="dni in dniTypeList" ng-selected="dni_type == dni.id" ng-slected=""> {{dni.text}}</option>
+                                            </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <label class="mt20 control-label">HTML Class</label>
+                                    <div class="">
+                                        <input type="text" class="form-control" name="dni_element" ng-model="dni_element" value="cvz" ng-required="selectedCallFlow.showDNI" maxlength="35" validate-utf-eight validate-blur-forza="ouForm, HTML Class">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-4 col-sm-6" ng-show="dni_type == 'session'">
+                                    <label class="mt20 control-label">TTL</label>
+                                    <div class="">
+                                        <input type="number" class="form-control" ng-readonly="!canModify" name="dni_ttl" ng-model="dni_ttl" value="" ng-readonly="!canModify" ng-required="showDNI && dniType == 'session'" maxlength="35" validate-utf-eight validate-blur-forza="ouForm, TTL" min="1"
+                                            ng-pattern="/^[0-9]+$/">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-4 col-sm-6" style="margin-top:55px;">
+                                    <div class="">
+                                        <a ng-click="dniParams('lg')" class="text-left" ng-disabled="!canModify">Custom Parameters</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt20">
+                                <div class="col-sm-3">
+                                    <div class="checkbox">
+                                        <md-checkbox ng-model="recordCall">
+                                            Record Call
+                                        </md-checkbox>
+                                    </div>
+                                </div>
+                                <div ng-show="recordCall">
+                                    <div class="col-sm-9">
+                                        <label class="col-sm-4 control-label pt-7">Play call recording disclaimer</label>
+                                        <div class="col-sm-6 col-sm-offset-1">
+                                            <select ng-model="playDisclaimer" class="form-control" id="source" ng-required="recordCall" validate-blur-forza="Play Disclaimer" onChange="ga('send', 'event', 'Form Event', 'Disclaimer Type simple', this.options[this.selectedIndex].value);">
+                                        <option ng-selected="playDisclaimer==='before'" value="before">Before voice prompt</option>
+                                        <option value="after">After voice prompt</option>
+                                        <option value="never">Never</option>
+                                    </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt20">
+                                <div class="col-sm-3">
+                                    <div class="checkbox">
+                                        <md-checkbox ng-model="voicePrompt1" ng-change="voiceTextChange()">
+                                            Play a voice prompt
+                                        </md-checkbox>
+                                    </div>
+                                </div>
+                                <div ng-show="voicePrompt1">
+                                    <div class="col-sm-8">
+                                        <div class="col-sm-12 col-lg-7 col-md-6 col-xs-12 mb10" ng-hide="!TTSSelected">
+                                            <input type="text" class="form-control" placeholder="Example: Please wait while we connect your call" value="" validate-blur-forza="Tracking Number Details, Voice Prompt" ng-model="voicePromptTTSText" ng-readonly="!canModify || !TTSSelected" ng-change="voiceTextChange()"
+                                                ng-required="voicePrompt1 && TTSSelected" ng-maxlength="512" maxlength="512">
+                                        </div>
+                                        <div class="col-sm-12 col-lg-7 col-md-6 col-xs-12 mb10" style="word-wrap: break-word;" ng-show="!TTSSelected" align="left">Selected Audio Filename: {{voicePromptText}}</div>
+                                        <div class="col-sm-12 col-lg-5 col-md-6 col-xs-12">
+                                            <a class="btn btn-default" style="" ng-show="TTSSelected  || hasValidVoiceURL" ng-disabled="!canModify || audioIsPlaying('prompt') || audioIsDownloading('prompt') || isNumberPool=='true'|| (!hasValidVoiceURL && !voicePromptTTSText)" ng-click="playVoiceAudio(voiceURL)">{{ (promptAudio === undefined || promptAudio.paused || promptAudio.ended ) ? 'Play' : 'Pause' }}<i class="{{(promptAudio === undefined || promptAudio.paused || promptAudio.ended) ? 'fa fa-play' : 'fa fa-pause'}}" style="margin-left:5px;"></i></a>
+                                            <a class="btn btn-default" style="margin-left:15px;" ng-click="showVoiceModal('lg')" ng-disabled="!canModify || isNumberPool=='true'" ng-show="TTSSelected ">Add<i class="fa fa-plus-circle" style="margin-left:5px;"></i></a>
+                                            <a class="btn btn-default" style="margin-left:15px;" ng-show="!TTSSelected " ng-disabled="!canModify || isNumberPool=='true'" ng-click="removeSelectedVoiceAudio()">Remove<i class="fa fa-minus-circle" style="margin-left:5px;"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt20">
+                                <div class="col-sm-3 ">
+                                    <div class="checkbox">
+                                        <md-checkbox ng-model="whisperPrompt1" value="" ng-change="whisperTextChange()">
+                                            Play whisper message before connecting
+                                        </md-checkbox>
+                                    </div>
+                                </div>
+                                <div ng-show="whisperPrompt1">
+                                    <div class="col-sm-8">
+                                        <div class="col-sm-12 col-lg-7 col-md-6 col-xs-12 mb10" ng-show="TTSWhisperSelected">
+                                            <input type="text" class="form-control" placeholder="Example: You are receiving a call from Mailer 1a" value="" validate-blur-forza="Tracking Number Details, Whisper message" ng-model="whisperTTSText" ng-readonly="!canModify || !TTSWhisperSelected" ng-required="whisperPrompt1 && TTSWhisperSelected"
+                                                ng-change="whisperTextChange()">
+                                        </div>
+                                        <div class="col-sm-12 col-lg-7 col-md-6 col-xs-12 mb10" style="word-wrap: break-word;" ng-hide="TTSWhisperSelected" align="left">Selected Audio Filename:{{whisperText}}</div>
+                                        <div class="col-sm-12 col-lg-5 col-md-6 col-xs-12">
+                                            <a class="btn btn-default " style="" ng-show="TTSWhisperSelected || hasValidWhisperURL" ng-disabled="!canModify || isNumberPool=='true'|| audioIsPlaying('whisper') || audioIsDownloading('whisper') || (!hasValidWhisperURL && !whisperTTSText.length) " ng-click="playWhisperAudio(whisperURL)">{{ (whisperAudio === undefined || whisperAudio.paused || whisperAudio.ended) ? 'Play' : 'Pause' }}<i class="{{(whisperAudio === undefined || whisperAudio.paused || whisperAudio.ended) ? 'fa fa-play' : 'fa fa-pause'}}" style="margin-left:5px;"></i></a>
+                                            <a class="btn btn-default " style="margin-left:15px;" ng-click="showWhisperModal('lg')" ng-disabled="!canModify || isNumberPool=='true'" ng-show="TTSWhisperSelected">Add<i class="fa fa-plus-circle" style="margin-left:5px;"></i></a>
+                                            <a class="btn btn-default " style="margin-left:15px;" ng-show="!TTSWhisperSelected" ng-disabled="!canModify || isNumberPool=='true'" ng-click="removeSelectedWhisperAudio()">Remove<i class="fa fa-minus-circle" style="margin-left:5px;"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt20">
+                                <div class="col-sm-3">
+                                    <label class="pt-7">Ring-to Phone Number</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class="col-sm-4">
+                                        <input type="text" name="aaaaaa1" class="form-control" id="ringtonumber" validate-blur-forza="Tracking Number Default Setting,Ring to Phone Number" checklength="10" maskinput ng-model="ringtoNum" data-inputmask="'mask':'(999) 999-9999'" ng-readonly="!canModify" validate-masked-phone-number>
+                                    </div>
+                                </diV>
+                            </div>
+
+                            <div class="panel-footer text-right">
+                                <button class="btn btn-primary" type="submit" ng-disabled="(ouForm2.$invalid && submitted1 || formSubmit1)" onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Click', eventLabel: 'Save Group Details'});">Save</button>
+                                <button type="button" ng-click="resetCallFlowSetting()" onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Reset', eventLabel: 'Reset Group Details'});" class="reset">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </accordion-group>
+        </div>
+    </form>
+
+    <!-- Coustom Source Settings -->
+    <div class="panel panel-midnightblue" ng-hide="isAdmin">
+        <accordion close-others="oneAtATime">
+            <accordion-group is-open="isCoustomSourceOpen">
+                <accordion-heading ng-click="isCoustomSourceOpen=!isCoustomSourceOpen;openCustomeSourceSection(isCoustomSourceOpen)">
+                    <div class="panel-heading">
+                        <h4 title="{{ CurrentOUName }}">CUSTOM SOURCES FOR {{ CurrentOUName | truncate_campGroupName }}</h4><i class="pull-right glyphicon" ng-class="{'glyphicon-minus-sign': isCoustomSourceOpen, 'glyphicon-plus-sign': !isCoustomSourceOpen}"></i>
+                    </div>
+                </accordion-heading>
+                <div ng-show="isCoustomSourceOpen">
+                    <div class="panel-body collapse in" style="min-height: 350px">
+                        <p>With your own custom sources, you can easily categorize your calls. When created, it becomes available to be applied for that group and any sub-groups below.</p>
+                        <div class="row ">
+                            <!-- <div class="col-offset-1">
+                            </div> -->
+                            <div class="col-lg-2 col-md-4 mt20 ">
+                                <label class="control-label">Custom Source 1</label>
+                                <div class="customSourceDropDown" ng-dropdown-multiselect-v2="" options="CS1Options" selected-model="customSourceModel" extra-settings="customSourceSettings" events="customSourceMethodsCS1" checkboxes="true">
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-4 mt20">
+                                <label class="control-label">Custom Source 2</label>
+                                <div ng-dropdown-multiselect-v2="" options="CS2Options" selected-model="customSourceModel" extra-settings="customSourceSettings" events="customSourceMethodsCS2" checkboxes="true">
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-4 mt20">
+                                <label class="control-label">Custom Source 3</label>
+                                <div ng-dropdown-multiselect-v2="" options="CS3Options" selected-model="customSourceModel" extra-settings="customSourceSettings" events="customSourceMethodsCS3" checkboxes="true">
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-4 mt20">
+                                <label class="control-label">Custom Source 4</label>
+                                <div ng-dropdown-multiselect-v2="" options="CS4Options" selected-model="customSourceModel" extra-settings="customSourceSettings" events="customSourceMethodsCS4" checkboxes="true">
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-4 mt20">
+                                <label class="control-label">Custom Source 5</label>
+                                <div ng-dropdown-multiselect-v2="" options="CS5Options" selected-model="customSourceModel" extra-settings="customSourceSettings" events="customSourceMethodsCS5" checkboxes="true">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-right">
+                        <button type="button" ng-click="clearCustomSources()" class="btn btn-primary">Clear</button>
+                        <button class="btn btn-danger" type="button" ng-click="multipleDelete()" ng-disabled="customSourceModel.length<1">Delete {{customSourceModel.length}} Selected</button>
+                    </div>
+                </div>
+            </accordion-group>
+    </div>
+
+    <!-- Call Action Settigs -->
+    <div class="panel panel-midnightblue" ng-hide="isAdmin">
+        <accordion close-others="oneAtATime">
+            <accordion-group is-open="isCallActionOpen">
+                <accordion-heading ng-click="isCallActionOpen=!isCallActionOpen;loadCallActionSection(isCallActionOpen)">
+                    <div class="panel-heading">
+                        <h4 title="{{ CurrentOUName }}">Call Actions Settings FOR {{ CurrentOUName | truncate_campGroupName }}</h4>
+                        <i class="pull-right glyphicon" ng-class="{'glyphicon-minus-sign': isCallActionOpen, 'glyphicon-plus-sign': !isCallActionOpen}"></i></div>
+                </accordion-heading>
+                <div ng-show="isCallActionOpen">
+                    <div class="panel-body collapse in col-md-12" style="z-index: 200;">
+                        <div class="col-md-12 mt20">
+                            <ul class="timeline">
+                                <li class="timeline-gray" ng-repeat="cAction in callActions">
+                                    <div class="timeline-icon"><i class="fa">{{$index + 1}}</i></div>
+                                    <div class="timeline-body">
+                                        <a ng-show="sizeOf(addCallAction.action_id) >= 1 && canModify" ng-click="removeCallAction(cAction.id)" title="delete">
+                                            <i class="fa fa-times" style="float:right;"></i>
+                                        </a>
+
+                                        <div class="timeline-header">
+
+                                            <span class="date">{{ showNumber($index + 1) }} Action</span>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <div class="row">
+                                                <div class="col-sm-1">
+                                                    <h3 style="display:inline;">If</h3>
+
+                                                </div>
+                                                <div class="col-sm-11">
+                                                    <div ng-repeat="(key, rule) in ruleDropDown[cAction.id]">
+                                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-sm-offset-1" ng-show="rule['join_type'] && key != 0" style="background:#e6e6e6;padding:1px 10px;margin-top:-1px;margin-bottom:-1px;border-left:1px solid #ccc;border-right:1px solid #ccc;z-index:100">
+                                                            <div style="width:auto;display:inline;">
+                                                                <select autocomplete="off" enable-save dt-id="cAction.id" add-call-action="addCallAction" ng-options="join_type as join_type for join_type in rule['join_type']" style="width:100%;display:inline;border:none;" class="form-control" ng-change="loadNextValue('join_type', 'fields', cAction.id, {{key}})"
+                                                                    ng-model="addCallAction.rule[cAction.id][key]['join_type']" ng-disabled="callActionComponent || !canModify">
+                                                              <option ng-selected="true" disabled value="action0"> -- Optional -- </option>
+                                                            </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-sm-11 col-xs-10" style="background:#e6e6e6;min-height:58px;padding:10px;border:1px solid #ccc;border-radius:4px;">
+                                                            <div style="width:auto;display:inline;" ng-show="rule['fields']">
+                                                                <!-- <select enable-save dt-id="cAction.id" add-call-action="addCallAction" style="width:auto;display:inline;border:none;" ng-change="loadNextValue('fields', 'operators',cAction.id, {{key}})" ng-model="addCallAction.rule[cAction.id][key]['fields']" class="form-control" ng-disabled="!canModify"> -->
+                                                                <select autocomplete="off" enable-save dt-id="cAction.id" add-call-action="addCallAction" ng-options="fields as fields for fields in rule['fields']" style="width:auto;display:inline;border:none;" ng-change="loadNextValue('fields', 'operators',cAction.id, {{key}})" ng-model="addCallAction.rule[cAction.id][key]['fields']"
+                                                                    class="form-control" ng-disabled="callActionComponent || !canModify">
+                                                                <option ng-selected="true" disabled value="action0"> -- Select -- </option>
+                                                              <!-- <option ng-selected="addCallAction.rule[cAction.id][key]['fields'] == fields" value="{{fields}}" ng-repeat="fields in rule['fields']"> {{fields}}</option> -->
+                                                            </select>
+                                                            </div>
+
+                                                            <div style="width:auto;display:inline;" ng-show="rule['operators']">
+                                                                <!-- <select enable-save dt-id="cAction.id" add-call-action="addCallAction" style="width:auto;display:inline;border:none;" ng-change="loadNextValue('fields', 'enum', cAction.id, {{key}})" ng-model="addCallAction.rule[cAction.id][key]['operators']" class="form-control" ng-disabled="!canModify"> -->
+                                                                <select autocomplete="off" enable-save dt-id="cAction.id" add-call-action="addCallAction" ng-options="operator as operator for operator in rule['operators']" style="width:auto;display:inline;border:none;margin-left: 2%;margin-right: 2%;" ng-change="loadNextValue('fields', 'enum', cAction.id, {{key}})"
+                                                                    ng-model="addCallAction.rule[cAction.id][key]['operators']" class="form-control" ng-disabled="callActionComponent || !canModify">
+                                                                    <option ng-selected="true" disabled value="action0"> -- Select -- </option>
+                                                                    <!-- <option ng-selected="addCallAction.rule[cAction.id][key]['operators'] == operator" value="{{operator}}"  ng-repeat="operator in rule['operators']">{{operator}}</option> -->
+                                                            </select>
+                                                            </div>
+                                                            <div style="width:auto;display:inline;" ng-show="rule['enum'].length > 0">
+                                                                <!-- <select enable-save dt-id="cAction.id" add-call-action="addCallAction" style="width:auto;display:inline;border:none;" class="form-control" ng-change="loadNextValue('fields', 'join_type', cAction.id, {{key}})" ng-model="addCallAction.rule[cAction.id][key]['enum']" ng-disabled="!canModify"> -->
+                                                                <select autocomplete="off" enable-save dt-id="cAction.id" add-call-action="addCallAction" ng-options="enum as enum for enum in rule['enum']" style="width:auto;display:inline;border:none;" class="form-control" ng-change="loadNextValue('fields', 'join_type', cAction.id, {{key}})"
+                                                                    ng-model="addCallAction.rule[cAction.id][key]['enum']" ng-disabled="callActionComponent || !canModify">
+                                                                <option ng-selected="true" disabled value="action0"> -- Select -- </option>
+                                                                <!-- <option ng-selected="addCallAction.rule[cAction.id][key]['enum'] == enum" value="{{enum}}" ng-repeat="enum in rule['enum']"> {{enum}}</option> -->
+                                                            </select>
+                                                            </div>
+                                                            <div style="width:auto;display:inline;" ng-class="{'has-error' : errors[cAction.id][key] }" ng-show="rule['enum'].length === 0">
+                                                                <input style="width:150px;display:inline;" maxlength="255" enable-save dt-id="cAction.id" add-call-action="addCallAction" type="text" class="form-control" class="form-control" ng-keypress="loadNextValue('fields', 'join_type', cAction.id, key)" ng-model="addCallAction.rule[cAction.id][key]['enum']">
+                                                            </div>
+                                                            <a title="Delete" ng-show="showRemoveRule(addCallAction.rule[cAction.id]) && rule['fields'] && canModify" ng-click="removeRule(key, cAction.id)"><i class="fa fa-times-circle"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt20 mb20">
+                                                <div class="col-sm-1">
+                                                    <h3 style="display:inline;">Then</h3>
+                                                </div>
+                                                <div class="col-sm-11">
+                                                    <div class="col-sm-11 col-xs-10" style="background:#e6e6e6;min-height:58px;padding:10px;border:1px solid #ccc;border-radius:4px;">
+                                                        <div class="col-sm-4 col-xs-3 callactionresponsive">
+                                                            <select style="min-width: 125px;display:inline;border:none;vertical-align: top;" ng-model=" addCallAction.actionOptions[cAction.id]" class="form-control" id="source" dt-id="cAction.id" add-call-action="addCallAction" enable-save ng-disabled="callActionComponent || !canModify"
+                                                                onChange="ga('send', 'event', 'Form Event', 'Call Action', this.options[this.selectedIndex].value);">
+                                                                    <option disabled value="action0"> -- Select -- </option>
+                                                                    <option value="email_alert">Send email alert to</option>
+                                                                    <option value="sms_alert">Send SMS to</option>
+                                                                    <option value="tag_call">Tag call as</option>
+                                                                    <!-- <option value="post_event">Post a conversion event to</option> -->
+                                                                    <option value="webhook">Trigger the webhook</option>
+                                                                    <!-- <option value="post_detail">Send call details to</option> -->
+                                                                    <option value="callback">Flag for call back</option>
+                                                                    <option value="doubleclick" ng-show="dcSetting">Process call for DoubleClick</option>
+                                                                    <option value="analytic" ng-show="gaSetting">Send call for Google Analytics</option>
+                                                                </select>
+                                                        </div>
+
+                                                        <div class="col-sm-8 col-xs-8 callactionresponsive">
+                                                            <div style="display:inline;" ng-show="addCallAction.actionOptions[cAction.id]=='email_alert'">
+                                                                <tags-input id="tagInputIdGroup" track-by-expr="$index" ng-blur="countElement(cAction.id, $event)" ng-keydown="countElement(cAction.id, $event)" ng-click="countElement(cAction.id, $event)" style="width:250px;display:inline;" ng-model="addCallAction.email[cAction.id]"
+                                                                    placeholder="{{addCallAction.email[cAction.id].length>0 ? '' : 'email@example.com'}}" dt-id="cAction.id" class="tags-div" maxLength=1024 add-call-action="addCallAction" ng-paste="countElement(cAction.id, $event)"
+                                                                    add-on-paste="true" key-property="id" display-property="text" placeholder="" value="" add-on-paste="true" on-tag-added="tagAdded(cAction.id, $tag)" template="my-custom-template"></tags-input>
+                                                                <input readonly type="text" id="remainingNum" class="form-control" ng-model="addCallAction.remainingText[cAction.id]">
+                                                            </div>
+                                                            <div style="display:inline;" ng-show="addCallAction.actionOptions[cAction.id]=='sms_alert'" ng-class="{'has-error' : invalidNumber }">
+                                                                <input type="text" id="smsNumber" ng-model="addCallAction.phone[cAction.id]" style="display:inline;" dt-id="cAction.id" add-call-action="addCallAction" enable-save class="form-control" maskinput data-inputmask="'mask':'(999) 999-9999'" ng-maxlength="14"
+                                                                    ng-minlength="14">
+                                                            </div>
+                                                            <div style="display:inline;" ng-show="addCallAction.actionOptions[cAction.id]=='tag_call'">
+                                                                <select ui-select2="select2Options(cAction.id)" ng-model="addCallAction.tagList[cAction.id]" ng-change="enableSave(cAction.id)" multiple style="width:50%;" ng-disabled="!canModify">
+                                                                    <option value="{{tag.tag_id}}" ng-repeat="tag in callActionTaggingOptions"> {{tag.tag_name}}</option>
+                                                                </select>
+                                                            </div>
+                                                            <div style="display:inline;" ng-show="addCallAction.actionOptions[cAction.id]=='post_event'">
+                                                                <select style="width:auto;display:inline;border:none;" dt-id="cAction.id" add-call-action="addCallAction" enable-save class="form-control" id="postTo" ng-model="addCallAction.postEvent[cAction.id]" ng-disabled="!canModify">
+                                                                        <option selected disabled value="action0"> -- Select -- </option>
+                                                                        <option value="email_alert">Acquisio</option>
+                                                                        <option value="sms_alert">Kenshoo</option>
+                                                                        <option value="doubleclick" ng-show="dcSetting">DoubleClick</option>
+                                                                        <option value="tag_call">Google Adwords</option>
+                                                                        <option value="post_event">Marin</option>
+                                                                    </select>
+                                                            </div>
+                                                            <div style="display:inline;" ng-show="addCallAction.actionOptions[cAction.id]=='webhook'">
+                                                                <select style="display:inline;border:none;" dt-id="cAction.id" add-call-action="addCallAction" enable-save class="form-control" id="triggerWebhook" ng-model="addCallAction.webhook[cAction.id]" ng-disabled="!canModify">
+                                                                        <option ng-selected="true" disabled value=""> -- Select -- </option>
+                                                                        <option ng-selected="wbhk.webhook_id == addCallAction.webhook[cAction.id]" value="{{wbhk.webhook_id}}" ng-repeat="wbhk in callActionWebhookOptions"> {{wbhk.webhook_name}}</option>
+                                                                </select>
+                                                                <!-- /#/set-webhook -->
+                                                                <a href="/#/set-webhook" target="_blank"><i class="fa fa-link" title="Jump to Webhook Settings"></i></a>
+                                                            </div>
+                                                            <div class="col-sm-6" ng-show="addCallAction.actionOptions[cAction.id]=='post_detail'">
+                                                                <select style="width:auto;display:inline;" dt-id="cAction.id" add-call-action="addCallAction" enable-save class="form-control" id="sendCDRto" ng-model="addCallAction.sendCallDetails[cAction.id]" ng-disabled="!canModify">
+                                                                        <option selected disabled value="action0"> -- Select -- </option>
+                                                                        <option value="email_alert">Salesforce</option>
+                                                                        <option value="sms_alert">Marketo</option>
+                                                                        <option value="tag_call">Zapier</option>
+                                                                    </select>
+                                                            </div>
+                                                            <div style="display:inline;" ng-show="addCallAction.actionOptions[cAction.id]=='callback'">
+                                                                <input type="hidden" style="width:50%;display:inline;margin-left:20px" dt-id="cAction.id" add-call-action="addCallAction" enable-save class="form-control" id="callbackFlag" ng-model="addCallAction.callbackFlag[cAction.id]" value="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="timeline-footer text-right">
+                                            <div ng-show="callActions.length < 10">
+                                                <a class="btn btn-inverse pull-left" ng-show="callActions.length == ($index + 1)" ng-click="addNewCallAction(cAction.id)" ng-disabled="callActionComponent || !canModify || !addNewStep" onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Click', eventLabel: 'Add Call Action'});">Add Action</a>
+                                            </div>
+
+                                            <button class="btn btn-primary" type="button" ng-hide="addCallAction.callActionFormSubmitted[cAction.id]" ng-disabled="callActionComponent || !canModify || !addNewStep" ng-click="saveCallAction(cAction.id, false)" onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Click', eventLabel: 'Save Group Details'});">Save</button>
+                                            <button type="button" ng-disabled="callActionComponent || !canModify || !addNewStep" ng-hide="addCallAction.callActionFormSubmitted[cAction.id]" ng-click="setDefaultCallAction(cAction.id)" onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Reset', eventLabel: 'Reset Group Details'});"
+                                                class="reset">Reset</button>
+                                        </div>
+                                </li>
+                            </ul>
+                            </div>
+                        </div>
+                    </div>
+            </accordion-group>
+        </accordion>
+        </div>
+        <!-- subgroup -->
+        <div ng-show="userAccess.user" ng-controller="OldSubOrgUnitController" style="padding-top: 0px;padding-bottom: 0px">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-midnightblue">
+                        <accordion close-others="oneAtATime">
+                            <accordion-group is-open="isSubGroupOpen">
+                                <accordion-heading ng-click="isSubGroupOpen=!isSubGroupOpen">
+                                    <div class="panel-heading">
+                                        <h4 title="{{ CurrentOUName }}">Sub-Groups FOR {{ CurrentOUName | truncate_campGroupName }}</h4>
+                                        <i class="pull-right glyphicon" ng-class="{'glyphicon-minus-sign': isSubGroupOpen, 'glyphicon-plus-sign': !isSubGroupOpen}"></i></div>
+                                </accordion-heading>
+                                <div ng-show="isSubGroupOpen">
+                                    <div class="panel-body collapse in table-responsive" persistent-scroll-bar>
+                                        <div class="" sticky-nav>
+                                            <button class="btn btn-default pull-left mt10" id="addUser" ng-click="addSubgroup(); resizeWindow();" ng-disabled="!canAddSub || isReadonly"><i class="fa fa-plus-circle"></i> Add Sub-Group</button>
+                                            <!-- Export functionality start- -->
+                                            <div id="" class="table-to-scrape" style="display: inline-block;">
+                                                <div class="container-fluid">
+                                                    <div class="row mt10" style="padding:0 20px 20px 20px;">
+                                                        <div class="btn-group" uib-dropdown style="color: black; ">
+
+                                                            <button ng-hide='isSafari' type="button" class="btn btn-sm btn-default btn-last width100 reset" ng-csv='getCSVGroupData("csv", "groups")' filename='{{groupsReportFileName}}' csv-header='getGroupsHeader()'>
+                                                                    <i class="fa fa-cloud-download"></i><span class="export">Export Groups</span>
+                                                            </button>
+                                                            <button ng-hide='!isSafari' type="button" class="btn btn-sm btn-default btn-last width100 reset" ng-click='getCSVGroupData("csv")' filename='{{groupsReportFileName}}'>
+                                                                    <i class="fa fa-cloud-download"></i><span class="export">Export Groups</span>
+                                                            </button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <dir-pagination-controls pagination-id="pg-subgroups" ng-hide="subgroups.length === 0 || subgroups[0].org_unit_id === undefined" class="pull-right mt10"></dir-pagination-controls>
+                                            <!-- Export functionality End- -->
+                                        </div>
+                                        <div class="" style="" sticky-table-header3>
+                                            <table id="table_sub_group" class="table table-striped">
+                                                <thead>
+                                                    <tr style="font-weight: bold; margin-top: 80px;">
+                                                        <th ng-repeat="th in subUserHeaders">{{th}}</th>
+                                                        <th class="text-right" ng-repeat="th in actionHeader">{{th}}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tr dir-paginate="subgroup in subgroups | itemsPerPage: pageSize" current-page="currentPage" pagination-id="pg-subgroups">
+                                                    <td>
+                                                        <!-- NON-editable OUID -->
+                                                        {{ subgroup.org_unit_id }}
+                                                    </td>
+                                                    <td>
+                                                        <!-- editable name (text with validation) -->
+                                                        <span editable-text="subgroup.org_unit_name" e-name="org_unit_name" title="{{ subgroup.org_unit_name }}" onbeforesave="validateData($data, ' Group Name')" e-ng-model="org_unit_name" e-form="rowform" e-required e-maxlength="200" e-validate-blur-forza="Group Details, Group Name">
+                                        {{ subgroup.org_unit_name || '' | truncate_campGroupName }}
+                                    </span>
+                                                    </td>
+                                                    <td>
+                                                        <!-- editable external id (text with validation) -->
+                                                        <span editable-text="subgroup.org_unit_ext_id" e-ng-model="org_unit_ext_id" e-name="org_unit_ext_id" e-form="rowform" e-validate-blur-forza="Group Details, External ID" e-maxlength="64">
+                                        {{ subgroup.org_unit_ext_id || '' }}
+                                    </span>
+                                                    </td>
+                                                    <td>
+                                                        <!-- editable industry (select-remote) -->
+                                                        <span editable-select="subgroup.industry_id" e-name="industry_id" onbeforesave="validateData($data, 'Industry')" e-ng-model="industry_id" e-form="rowform" e-ng-options="ind.value as ind.text for ind in industries" e-validate-blur-forza="Group Details, Industry"
+                                                            e-required>
+                                        {{ showIndustry(subgroup) }}
+                                    </span>
+                                                    </td>
+                                                    <td>
+                                                        <!-- editable phone numer (text with validation) -->
+                                                        <span editable-text="subgroup.phone_number" e-ng-model="subgroup_phone" e-name="phone_number" onbeforesave="validateData($data, 'Phone')" e-form="rowform" e-required e-maskinput e-data-inputmask=" 'mask': '(999) 999-9999'" e-validate-blur-forza="Group Details, Phone">
+                                        {{ subgroup.phone_number || '' | tel}}
+                                    </span>
+                                                    </td>
+                                                    <td>
+                                                        <!-- editable city (select-remote) -->
+                                                        <span editable-text="subgroup.city" e-ng-model="subgroup_city" e-name="city" e-form="rowform" e-validate-blur-forza="Group Details, City">
+                                        {{ subgroup.city || ''}}
+                                    </span>
+                                                    </td>
+                                                    <td>
+                                                        <!-- editable industry (select-remote) -->
+                                                        <span editable-select="subgroup.state" e-name="state" e-ng-model="state" e-form="rowform" e-ng-options="c.value as c.text group by c.subgroup for c in states" e-validate-blur-forza="Group Details, State">
+                                        {{ showState(subgroup) }}
+                                    </span>
+                                                    </td>
+                                                    <!--<td>
+                                    <span editable-text="subgroup.state" e-ng-model="subgroup_state" e-name="state" e-form="rowform" e-validate-blur-forza="Group Details, State">
+                                      {{ subgroup.state || ''}}
+                                    </span>
+                                  </td>-->
+                                                    <td>
+                                                        <!-- editable zip (select-remote) -->
+                                                        <span editable-text="subgroup.zip" e-ng-model="subgroup_zip" e-name="zip" e-form="rowform" e-validate-blur-forza="Group Details, Zipcode" onbeforesave="validateData($data, 'Zip')">
+                                        {{ subgroup.zip || ''}}
+                                    </span>
+                                                    </td>
+                                                    <td class="text-right" style="white-space: nowrap">
+                                                        <!-- form -->
+                                                        <form editable-form name="rowform" onbeforesave="saveSubgroup($data, subgroup.org_unit_id, rowform, $index)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted==subgroup">
+                                                            <button type="submit" ng-disabled="rowform.$waiting || isReadonly" ng-click="resizeWindow();" class="btn btn-sm btn-primary">
+                                                                Save
+                                                            </button>
+                                                            <button type="button" ng-disabled="rowform.$waiting || isReadonly" ng-click="cancelAdd($index, subgroup.org_unit_id, rowform); resizeWindow();" class="btn btn-sm btn-default">
+                                                                Cancel
+                                                            </button>
+                                                        </form>
+                                                        <div class="buttons" ng-show="!rowform.$visible">
+                                                            <button class="btn btn-sm btn-primary" ng-click="setCurrentOU(subgroup.org_unit_id, subgroup.org_unit_name); resizeWindow();scrollToTop()">Select</button>
+                                                            <button class="btn btn-sm btn-primary" ng-disabled="isReadonly" ng-click="rowform.$show(); resizeWindow();">Edit</button>
+                                                            <button class="btn btn-sm btn-danger" ng-disabled="isReadonly || isDeleteClicked" ng-click="deleteOU($index, subgroup.org_unit_id); resizeWindow();">Delete</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="stickyNavClass"></div>
+                                    </div>
+                                    <!-- <div class="panel-footer text-right" style="padding: 40px 15px 40px 15px;"> -->
+                                    <!-- The panel footer buttons for offsetting should only show if the number of records in the returned dataset exceed 100 -->
+                                    <!-- <button class="btn btn-info" onClick="ga( 'send', 'event', { eventCategory: 'Sub-Groups Details', eventAction: 'Offset', eventLabel: 'First Page'});" >First</button>
+                                                            <button class="btn btn-primary" onClick="ga( 'send', 'event', { eventCategory: 'Sub-Groups Details', eventAction: 'Offset', eventLabel: 'Prev 100'});" >Prev 100</button>
+                                                            <button class="btn btn-midnightblue disabled" type="submit" >Showing 1 - 100 of 134</button>
+                                                            <button class="btn btn-primary" onClick="ga( 'send', 'event', { eventCategory: 'Sub-Groups Details', eventAction: 'Offset', eventLabel: 'Next 100'});" >Next 100</button>
+                                                            <button class="btn btn-info" onClick="ga( 'send', 'event', { eventCategory: 'Sub-Groups Details', eventAction: 'Offset', eventLabel: 'Last Page'});" >Last</button> -->
+                                    <!--    <dir-pagination-controls pagination-id="pg-subgroups"></dir-pagination-controls>
+                                    </div> -->
+                                </div>
+                            </accordion-group>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- user -->
+        <div ng-controller="UsersTableController" ng-show="userAccess.user" style="padding-top: 0px;padding-bottom: 0px">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-midnightblue">
+                        <accordion close-others="oneAtATime">
+                            <accordion-group is-open="isUserPanelOpen">
+                                <accordion-heading ng-click="isUserPanelOpen=!isUserPanelOpen">
+                                    <div class="panel-heading">
+                                        <h4 title="{{ CurrentOUName }}">Users FOR {{CurrentOUName | truncate_campGroupName }}</h4>
+                                        <i class="pull-right glyphicon" ng-class="{'glyphicon-minus-sign': isUserPanelOpen, 'glyphicon-plus-sign': !isUserPanelOpen}"></i></div>
+                                </accordion-heading>
+                                <div ng-show="isUserPanelOpen">
+                                    <div class="panel-body collapse in table-responsive" persistent-scroll-bar>
+                                        <div class="" sticky-nav>
+                                            <button class="btn btn-default pull -left" id="addUser" ng-click="addUser()"><i class="fa fa-plus-circle"></i> Add User</button>
+
+                                            <!-- Export functionality start- -->
+                                            <div id="" class="table-to-scrape" style="display: inline-block;">
+                                                <div class="container-fluid">
+                                                    <div class="row mt10" style="padding:0 20px 20px 20px;">
+                                                        <div class="btn-group" uib-dropdown style="color: black; ">
+                                                            <button ng-hide='isSafari' type="button" ng-disabled="users.length == 0 || users[0].id === undefined" class="btn btn-sm btn-default btn-last width100 reset" ng-csv='getCSVUserData("csv", "users")' filename='{{usersReportFileName}}' csv-header='getUsersHeader()'>
+                                                         <i class="fa fa-cloud-download"></i><span class="export">Export Users</span>
+                                                          </button>
+                                                            <button ng-hide='!isSafari' type="button" ng-disabled="users.length == 0 || users[0].id === undefined" class="btn btn-sm btn-default btn-last width100 reset" ng-click='getCSVUserData("csv")' filename='{{usersReportFileName}}'>
+                                                         <i class="fa fa-cloud-download"></i><span class="export">Export Users</span>
+                                                          </button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <dir-pagination-controls pagination-id="pg-users" ng-hide="users.length == 0 || users[0].id === undefined" class="pull-right mt10">
+                                            </dir-pagination-controls>
+                                        </div>
+
+                                        <div class="stickyClass" style="" sticky-table-header3>
+                                            <table id="table_group_user" class="table table-striped table-hover">
+                                                <thead>
+                                                    <tr style="font-weight: bold; margin-top: 80px;">
+                                                        <th style="min-width: 120px;" ng-repeat="header in groupUserHeaders">{{header}}</th>
+                                                        <th ng-repeat="header in groupUserTruncHeaders" class="trunc">{{header}}</th>
+                                                        <th class="text-right" ng-repeat="action in actionHeader">{{action}}</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tr dir-paginate="user in users | itemsPerPage: pageSize" current-page="currentPage" pagination-id="pg-users">
+                                                    <td>
+                                                        <!-- editable username (text with validation) -->
+                                                        <span editable-text="user.fname" e-name="fname" onbeforesave="validateData($data, 'First Name')" e-ng-model="fname" e-form="rowform" e-required e-maxlength="35" e-validate-blur-forza="Users Details, First Name">
+                                    {{ user.fname || '' }}
+                                </span>
+                                                    </td>
+                                                    <td>
+                                                        <!-- editable username (text with validation) -->
+                                                        <span editable-text="user.lname" e-name="lname" onbeforesave="validateData($data, 'Last Name')" e-ng-model="lname" e-form="rowform" e-required e-maxlength="35" e-validate-blur-forza="Users Details, Last Name">
+                                    {{ user.lname || '' }}
+                                </span>
+                                                    </td>
+                                                    <td>
+                                                        <!-- editable username (text with validation) -->
+                                                        <span editable-text="user.email" e-ng-model="user_email" e-name="email" onbeforesave="validateData($data, 'Email')" e-form="rowform" e-required e-validate-blur-forza="Users Details, Email" e-maxlength="64">
+                                    {{ user.email || '' }}
+                                </span>
+                                                    </td>
+                                                    <td>
+                                                        <!-- editable external id (text with validation) -->
+                                                        <span editable-text="user.user_ext_id" e-ng-model="user_ext_id" e-name="user_ext_id" e-form="rowform" e-validate-blur-forza="Users Details, External Id" e-maxlength="20">
+                                    {{ user.user_ext_id || '' }}
+                                </span>
+                                                    </td>
+                                                    <td>
+                                                        <!-- editable agent_ring_to (text with validation) -->
+                                                        <span editable-text="user.agent_ring_to" e-ng-model="agent_ring_to" e-name="agentringto" onbeforesave="validateData($data, 'Agent ring-to')" e-form="rowform" e-maskinput e-data-inputmask=" 'mask': '(999) 999-9999'" e-validate-blur-forza="Users Details, Agent Ring To">
+                                    {{ user.agent_ring_to || '' | tel }}
+                                </span>
+                                                    </td>
+                                                    <td>
+                                                        <!-- editable agent_code (text with validation) -->
+                                                        <span editable-number="user.agent_code" e-ng-model="agent_code" e-name="agentcode" e-form="rowform" e-required onbeforesave="validateData($data, 'Agent ID' , user.id)" e-validate-blur-forza="Users Details, Agent Code" e-min="0">
+                                    {{ user.agent_code || '' }}
+                                </span>
+                                                    </td>
+                                                    <td>
+                                                        <!-- editable group (select-remote) -->
+                                                        <span editable-select="user.role" e-name="role" onbeforesave="validateData($data, 'Role')" e-form="rowform" e-ng-options="g.id as g.text disable when g.disabled for g in roles" e-ng-init="g.id=0"  e-validate-blur-forza="Users Details, Role" e-required>
+                                    {{ showRoles(user) }}
+                                </span>
+                                                    </td>
+                                                    <td>
+                                                        <!-- editable status (select-local) -->
+                                                        <span editable-select="user.status" e-name="status" onbeforesave="validateData($data, 'Status', user.id)" e-form="rowform" e-ng-options="g.text as g.text for g in statuses">
+                                    {{ showStatuses(user) }}
+                                </span>
+                                                    </td>
+                                                    <td class="text-right" style="white-space: nowrap" disable-all="isReadonly">
+                                                        <!-- form -->
+                                                        <form editable-form name="rowform" onbeforesave="saveUser($data, user.id, rowform)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted==user">
+                                                            <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-primary">
+                                                            Save
+                                                        </button>
+                                                            <button type="button" ng-disabled="rowform.$waiting" ng-click="cancelAdd($index, user.id, rowform)" class="btn btn-sm btn-default">
+                                                            Cancel
+                                                        </button>
+                                                        </form>
+                                                        <div class="buttons" ng-show="!rowform.$visible">
+                                                            <button class="btn btn-sm btn-primary" ng-disabled="isReadonly" ng-click="rowform.$show();">Edit</button>
+                                                            <span ng-hide="user.id==userId">
+                                        <button class="btn btn-sm btn-info-alt" ng-disabled="isReadonly" data-toggle="modal" data-target="#myModal" data-backdrop="static"
+                                            data-keyboard="false" ng-click="getUser(user.id,user.role);">User Permissions</button>
+                                    </span>
+                                                            <button class="btn btn-sm btn-info-alt" ng-disabled="isReadonly" ng-show="isShowChangePwd" ng-click="showModal( 'sm',user)">Change Password</button>
+                                                            <span ng-hide="user.id==userId">
+                                        <button class="btn btn-sm btn-danger" ng-disabled="isReadonly" ng-click="removeUser(user.id)">Delete</button>
+                                    </span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                        </div>
+                                        <div class="modal fade" id="myModal" role="dialog">
+                                            <div class="modal-dialog" style="width: 50%;">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" ng-click="cancle()" class="close" data-dismiss="modal" style="margin-top:-10px !important;">&times;</button>
+
+                                                        <h4 class="modal-title">User Permissions</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="container-fluid">
+                                                            <div class="row">
+                                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                                    <div class="col-sm-1 col-md-1 col-lg-1 accessaudiowidth">                                                                  
+                                                                        <p class="pull-left access" >Access Audio </p></div>
+                                                                        <div class="col-sm-5 col-md-5 col-lg-5 pull-right scorewidth"> 
+                                                                        <toggle-switch ng-model="access_audio" on-label="Yes" off-label="No" class="primary switch" ng-change="disableScoreCallButton()">
+                                                                        </toggle-switch>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                                    <div class="row">
+                                                                        <div class="col-sm-2 col-md-2 col-lg-2 accessaudiowidth"> 
+                                                                            <p class="pull-right access">Score Calls</p>
+                                                                        </div>
+                                                                        <div class="col-sm-10 col-md-10 col-lg-10 pull-right scorewidth"> 
+                                                                            <toggle-switch is-disabled="accessAudioValue || scoreCallPermission || !isScoreCallAccess" ng-model="score_calls" on-label="Yes" off-label="No" class="primary switch">
+                                                                            </toggle-switch>
+                                                                        </div>
+                                                                        <div ng-show="!isScoreCallAccess" class="col-sm-12 col-md-12 col-lg-12 text-center"><span>To enable Call Scoring, please contact support team.</span></div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div ng-show="fetchingUserPermissions" class="container-fluid">
+                                                            <div id="spiner" >
+                                                                <img id="img-spiner" src="../../img/pageloading.gif" alt="loading" />
+                                                            </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-6 col-lg-6 mt20">
+                                                                    <div style="font-size :13px; font-weight: bold;">
+                                                                        <span>Group Access</span>
+                                                                    </div>
+                                                                    <!-- <tree-view checkbox reload-on="update" click="addSelectedGroup(node)" model="groupList"></tree-view> -->
+                                                                    <ul style="height: 300px ; font-family: Maven Pro,Segoe UI,Droid Sans,Tahoma,Arial,sans-serif; font-weight: bold; font-size :13px; border: 1px solid #a9a9a9; overflow-y : auto; padding: 0px;list-style-type: none;">
+																		<li ng-repeat="group in groupsList" ng-init="showAll = true">
+																			<span 
+																				ng-show="group.ous.length > 0" 
+																				class="show-hide" 
+																				style = "padding : 4px;" 
+																				ng-click="showAll = !showAll">
+																				<i 
+																					ng-class="!showAll ? 'fa fa-plus-square' : 'fa fa-minus-square'">
+																				</i>
+																			</span>
+																			<input type="checkbox" ng-model="group.selected" ng-disabled="group.disabled" ng-change="selectChange($index,null,null,group.selected,1)">
+																			<label style="margin : 0px;" title="{{ group.org_unit_name }}">{{ group.org_unit_name | truncate_campGroupName }}
+																			</label>
+																			<ul ng-show="showAll" style="list-style-type: none;">
+																				<li ng-repeat="grp in group.ous" ng-init="showNode[$index] = true">	
+																					<span 
+																						ng-show="grp.ous.length > 0" 
+																						class="show-hide" 
+																						style = "padding : 4px;" 
+																						ng-click="showNode[$index] = !showNode[$index]">
+																						<i 
+																							ng-class="!showNode[$index] ? 'fa fa-plus-square' : 'fa fa-minus-square'">
+																						</i>
+																					</span>
+																					<input type="checkbox" ng-model="grp.selected" ng-disabled="grp.disabled" ng-change="selectChange($parent.$index,$index,null,grp.selected,2)">
+																					<label style="margin : 0px;" title="{{ grp.org_unit_name }}">{{ grp.org_unit_name | truncate_campGroupName }}
+																					</label>
+																					<ul ng-show="showNode[$index]" style="list-style-type: none;">
+																						<li ng-repeat="g in grp.ous">
+																							<input type="checkbox" ng-model="g.selected" ng-disabled="g.disabled" ng-change="selectChange($parent.$parent.$index,$parent.$index,$index,g.selected,3)">
+																							<label style="margin : 0px;" title="{{ g.org_unit_name }}">{{ g.org_unit_name  | truncate_campGroupName }}
+																							</label>
+																						</li>
+																					</ul>
+																				</li>
+																			</ul>
+																		</li>
+																	</ul>
+                                                                </div>
+                                                                <div class="col-md-6 col-lg-6 mt20">
+                                                                    <div style="font-weight: bold; font-size :13px;">
+                                                                        <span>Reporting Access</span>
+                                                                    </div>
+                                                                    <report-list checkbox report="addSelectedReport(node)" reportmodel="accessReportData">
+                                                                        </tree-view>
+                                                                </div>
+                                                                <!-- </div> -->
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="Permissions-btn col-md-12 col-lg-12 mt20">
+                                                                    <button class="btn btn-primary pull-right" ng-click="saveUserPermissions()" data-dismiss="modal">Save</button>
+                                                                    <button style="margin-right : 20px;" class="btn btn-primary pull-right" ng-click="cancle()" data-dismiss="modal">Cancel</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="stickyNavClass"></div>
+                                    </div>
+                            </accordion-group>
+                            </div>
+                    </div>
+                </div>
+                <!-- </div> -->
+                <!-- container -->

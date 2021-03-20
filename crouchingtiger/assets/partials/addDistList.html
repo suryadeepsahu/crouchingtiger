@@ -1,0 +1,63 @@
+<style type="text/css">
+  body > [uib-modal-window]:not([modal-render]) {
+    display: none;
+  }
+</style>
+<div class="modal-header">
+  <h3 class="modal-title">{{distributionListHeadingText}}</h3>
+  <!-- Unless they are editing an existing list. Then it should say "Edit Distribution List" -->
+</div>
+
+<form name="distributionList" id="distributionList" valid-submit="saveDistributionList()" novalidate>
+  <div class="modal-body">
+    <div class="container-fluid" >
+    	<!--<div class="row">
+    		<div class="col-md-12 mt20">
+          	<label class="col-sm-2 control-label">From</label>
+          	<div class="col-sm-6">
+              	<input type="email" class="form-control" placeholder="test@test.com" ng-model="listData.from_label" required validate-email validate-utf-eight validate-blur-forza="Distribution List, From Email">
+         		</div>
+         		<div class="col-sm-4">
+              	<span> via &lt;no-reply@messages.services&gt; </span>
+              </div>
+        	</div>
+    	</div>-->
+      <div class="row mt10" >
+        <div class="col-md-12 mt20">
+              <div class="col-md-2">Distribution List Name</div>
+              <div class="col-md-6">
+              <input type="text" class="form-control" placeholder="New List Name" maxlength="60" ng-model="listData.list_name" required validate-utf-eight
+                  validate-blur-forza="Distribution List, Distribution List Name">
+              </div>
+        </div>
+          <!-- <div class="col-md-9 mt20" style="height:380px;">
+          <div class="col-md-12">Choose a campaign to select all of it's Assigned Users or choose individual users here</div>
+          <div class="col-md-12">
+            <div
+                isteven-multi-select
+                input-model="dropdownListData"
+                output-model="distributionMultiselect"
+                remove-headers-show-users="true"
+                campaign-users="campaignUsers"
+                button-label="name"
+                item-label="name icon"
+                tick-property="ticked"
+                group-property="msGroup"
+                >
+            </div>
+          </div>
+        </div> -->
+        <div class="col-md-12 mt20 mb20">
+          <label class="col-md-2 control-label">Emails:</label>
+          <div class="col-md-6">
+              <input type="text" class="form-control" placeholder="Comma Separated" ng-model="listData.additionalEmails" validate-utf-eight validate-blur-forza="Distribution List, Emails" multiple-emails>
+          </div>
+        </div>
+      </div>
+    <div style="clear:both" class="modal-footer">
+      <button class="btn btn-primary" type="submit" ng-disabled="distributionActive">Save List</button>
+      <button class="btn btn-default-alt" ng-click="cancel()" type="button">Cancel</button>
+    </div>
+  </div>
+</div>
+</form>

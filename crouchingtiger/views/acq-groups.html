@@ -1,0 +1,293 @@
+<!-- -->
+
+<style>
+    ._GAhr{float:right}
+    ._GAhr,._GAocb{background-color:#ffffff;border:0;border-right:1px solid #bfbfbf;border-top:1px solid #bfbfbf;border-top-right-radius:4px;display: none;height:29px;padding-left:5px;padding-right:10px}
+    ._GAef:HOVER ._GAhr{display:block;border-right:0px solid #bfbfbf;border-top:0px solid #bfbfbf}
+</style>
+<div id="callflowreport" ng-controller="CallFlowsReportController">
+    <div id="page-heading">
+        <!--<ol class="breadcrumb">
+            <li><a href="#/">Acquisition</a></li>
+            <li class="active">Call Flows</li>
+        </ol>-->
+        <h1>{{ reportTitle[whichReport] }}</h1>
+        <div class="options">
+            <div class="btn-toolbar">
+                <div class="btn-group" dropdown>
+                    <!--<button type="button" class="btn btn-default dropdown-toggle">-->
+                    <!--Export as <span class="caret"></span>-->
+                    <!--</button>-->
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">CSV</a></li>
+                        <li><a href="#">TSV</a></li>
+                        <li><a href="#">Excel</a></li>
+                        <!--<li class="divider"></li>-->
+                        <li><a href="#">PDF</a></li>
+                    </ul>
+                </div>
+                <div class="pull-right" style="margin-left:10px;">
+                    <button class="btn btn-default ng-isolate-scope" daterangepicker="drp_options" date-begin="drp_start" date-end="drp_end" onapplychange="changeDateRange()">
+                        <i class="fa fa-calendar"></i> <span style="margin-left: 5px" class="ng-binding">{{drp_start +' - '+ drp_end}}</span> <b class="caret"></b>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid mt10 mb10" >
+            <div class="row">
+                <div class="col-md-12 clearfix text-right" >
+
+                    <!--<div ng-controller="DateRangePickerDemo" class="pull-left ng-scope col-md-10">-->
+                    <!--<button class="btn btn-default ng-isolate-scope" daterangepicker="drp_options" date-begin="drp_start" date-end="drp_end">-->
+                    <!--<i class="fa fa-calendar"></i> <span style="margin-left: 5px" class="ng-binding">{{ drp_start + ' - ' + drp_end }}</span> <b class="caret"></b>-->
+                    <!--</button>-->
+                    <!--<button ng-click="updateDateRange()">Apply Date Range</button>-->
+                    <!--</div>-->
+                    <button ng-click="resetCharts()" class="btn btn-primary">Reset Charts</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        ._GAhr{float:right}
+        ._GAhr,._GAocb{background-color:#ffffff;border:0;border-right:1px solid #bfbfbf;border-top:1px solid #bfbfbf;border-top-right-radius:4px;display: none;height:29px;padding-left:5px;padding-right:10px}
+        ._GAef:HOVER ._GAhr{display:block;border-right:0px solid #bfbfbf;border-top:0px solid #bfbfbf}
+        ._GAwC{background:no-repeat url(../img/sprites.png) -327px -521px;height:21px;margin-bottom:3px;margin-top:3px;width:21px; cursor:pointer;}
+        .dc-chart{float:none;}
+        span.handle{display:none;}
+        .chartizzle .panel-heading h4{font-size:11px;}
+    </style>
+
+    <!-- Begin charts row -->
+
+
+    <div class="container-fluid pb0"  id="callflowcharts">
+        <div class="row">
+            <div class="col-md-6">
+                <panel panel-class="panel-midnightblue" heading="Call Volume by Group" class="panelmove">
+                    <!--<panel-controls>
+                        <a href="javascript:;"><i class="fa fa-trash-o"></i></a>
+                        <a href="javascript:;"><i class="fa fa-wrench"></i></a>
+                    </panel-controls>-->
+                    <div class="text-center">
+                        <dc-chart chartconfig="chartsConfigs[13]" chartcollection="dcCharts" xf="xf1" dc="dc1" id="chart13" template="standard"></dc-chart>
+                    </div>
+                </panel>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <panel panel-class="panel-midnightblue" heading="Call By Day of Week" class="panelmove">
+                            <!--<panel-controls>
+                        <a href="javascript:;"><i class="fa fa-trash-o"></i></a>
+                        <a href="javascript:;"><i class="fa fa-wrench"></i></a>
+                    </panel-controls>-->
+                            <div class="text-center">
+                                <dc-chart chartconfig="chartsConfigs[10]" chartcollection="dcCharts" xf="xf1" dc="dc1" id="chart10" template="standard"></dc-chart>
+                            </div>
+                        </panel>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <panel panel-class="panel-midnightblue" heading="Conversion Over Time" class="panelmove">
+                            <!--<panel-controls>
+                        <a href="javascript:;"><i class="fa fa-trash-o"></i></a>
+                        <a href="javascript:;"><i class="fa fa-wrench"></i></a>
+                    </panel-controls>-->
+                            <div class="text-center">
+                                <dc-chart chartconfig="chartsConfigs[11]" chartcollection="dcCharts" xf="xf1" dc="dc1" id="chart11" template="standard"></dc-chart>
+                            </div>
+                        </panel>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <panel panel-class="panel-midnightblue" heading="Calls Over Time" class="panelmove">
+                    <!--<panel-controls>
+                        <a href="javascript:;"><i class="fa fa-trash-o"></i></a>
+                        <a href="javascript:;"><i class="fa fa-wrench"></i></a>
+                    </panel-controls>-->
+                    <div class="text-center">
+                        <dc-chart chartconfig="chartsConfigs[9]" chartcollection="dcCharts" xf="xf1" dc="dc1" id="chart09" template="standard"></dc-chart>
+                    </div>
+                </panel>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2 chartizzle">
+                <tile type="midnightblue">
+                    <tile-heading>
+                        Total Calls
+                    </tile-heading>
+                    <div class="text-center">
+                        <dc-chart chartconfig="chartsConfigs[1]" chartcollection="dcCharts" xf="xf1" dc="dc1" id="chart1" template="standard"></dc-chart>
+                    </div>
+                </tile>
+            </div>
+            <div class="col-md-2 chartizzle">
+                <tile type="midnightblue">
+                    <tile-heading>
+                        Total Leads
+                    </tile-heading>
+                    <div class="text-center">
+                        <dc-chart chartconfig="chartsConfigs[2]" chartcollection="dcCharts" xf="xf1" dc="dc1" id="chart2" template="standard"></dc-chart>
+                    </div>
+                </tile>
+            </div>
+            <div class="col-md-2 chartizzle">
+                <tile type="midnightblue">
+                    <tile-heading>
+                        % Leads of Calls
+                    </tile-heading>
+                    <div class="text-center">
+                        <dc-chart chartconfig="chartsConfigs[3]" chartcollection="dcCharts" xf="xf1" dc="dc1" id="chart3" template="standard"></dc-chart>
+                    </div>
+                </tile>
+            </div>
+            <div class="col-md-2 chartizzle">
+                <tile type="midnightblue">
+                    <tile-heading>
+                        Avg Lead Qual
+                    </tile-heading>
+                    <div class="text-center">
+                        <dc-chart chartconfig="chartsConfigs[4]" chartcollection="dcCharts" xf="xf1" dc="dc1" id="chart4" template="standard"></dc-chart>
+                    </div>
+                </tile>
+            </div>
+            <div class="col-md-2 chartizzle">
+                <tile type="midnightblue">
+                    <tile-heading>
+                        Conversion
+                    </tile-heading>
+                    <div class="text-center">
+                        <dc-chart chartconfig="chartsConfigs[5]" chartcollection="dcCharts" xf="xf1" dc="dc1" id="chart5" template="standard"></dc-chart>
+                    </div>
+                </tile>
+            </div>
+            <div class="col-md-2 chartizzle">
+                <tile type="midnightblue">
+                    <tile-heading>
+                        Conversion %
+                    </tile-heading>
+                    <div class="text-center">
+                        <dc-chart chartconfig="chartsConfigs[6]" chartcollection="dcCharts" xf="xf1" dc="dc1" id="chart6" template="standard"></dc-chart>
+                    </div>
+                </tile>
+            </div>
+        </div>
+        <!--<div class="row">
+            <div class="col-md-2 chartizzle">
+                <panel panel-class="panel-gray" heading="Avg Duration (seconds)" class="panelmove">
+                    <panel-controls>
+                        <a href="javascript:;"><i class="fa fa-trash-o"></i></a>
+                        <a href="javascript:;"><i class="fa fa-wrench"></i></a>
+                    </panel-controls>
+                    <div class="text-center">
+                        <dc-chart chartconfig="chartsConfigs[7]" chartcollection="dcCharts" xf="xf1" dc="dc1" id="chart7" template="standard"></dc-chart>
+                    </div>
+                </panel>
+            </div>
+            <div class="col-md-2 chartizzle">
+                <panel panel-class="panel-gray" heading="Unique Calls" class="panelmove">
+                    <panel-controls>
+                        <a href="javascript:;"><i class="fa fa-trash-o"></i></a>
+                        <a href="javascript:;"><i class="fa fa-wrench"></i></a>
+                    </panel-controls>
+                    <div class="text-center">
+                        <dc-chart chartconfig="chartsConfigs[8]" chartcollection="dcCharts" xf="xf1" dc="dc1" id="chart08" template="standard"></dc-chart>
+                    </div>
+                </panel>
+            </div>
+        </div> -->
+        <div class="row">
+
+
+
+
+
+            <div class="col-md-12 chartizzle mt20">
+                <panel panel-class="panel-inverse" heading="Data Table" class="panelmove">
+                    <div class="col-md-6">
+                        <label class="control-label">Secondary Grouping</label>
+
+                        <select style="width:auto;display:inline;" class="form-control" ng-model="secondaryGrouping" ng-change="changeSecondaryGrouping(secondaryGrouping)">
+                            <optgroup label="Secondary Group Options">
+                                <option value="campaign">Campaign</option>
+                                <option value="call_low">Call Flow</option>
+                            </optgroup>
+                        </select>
+
+                        <!--<button class="btn btn-primary " ng-click="changeSecondaryGrouping()" type="submit" onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Click', eventLabel: 'Update Sec Group'});" >Update Secondary Group</button>-->
+                    </div>
+                    <div class="col-md-6 input-group mb10">
+                        <input type="text" ng-model="searchBoxFilter" class="form-control" placeholder="Search Filter" ng-change="applySearchTextFilter(searchBoxFilter)">
+                        <!--<button class="btn btn-info" ng-click="applySearchTextFilter(searchBoxFilter)">Apply contains filter</button>-->
+                    </div>
+
+                    <div class="text-center">
+                        <dc-chart chartconfig="chartsConfigs[12]" chartcollection="dcCharts" secgroup="secondaryGrouping" primgroup="primaryGrouping" xf="xf1" dc="dc1" id="chart12" template="datatable" exportcsv="exportCsv()"></dc-chart>
+                    </div>
+                </panel>
+            </div>
+        </div>
+
+    </div>
+</div> <!-- end-->
+<!-- Start Jeffs CF charts-->
+
+
+<!--<script src="../scripts/chart/dashboard.js"></script>-->
+<!--end Jeffs CF charts-->
+
+
+
+<!-- End charts row -->
+
+<!-- Table no grouping -->
+<!--<div class="container-fluid pt0" ng-controller="TablesAdvancedController2">-->
+<!--<div class="row">-->
+<!--<div class="col-md-12">-->
+<!---->
+<!--<panel panel-class="panel-primary" data-heading="Call Flows">-->
+
+<!--&lt;!&ndash; <alert>This is an advanced demonstration of ngGrid's remote data and pagination capabilities. Please check <a target="_blank" href="http://angular-ui.github.io/ng-grid/">the official docs</a> for more information.</alert>&ndash;&gt;-->
+
+<!--<panel-controls>-->
+<!--&lt;!&ndash;<a href="javascript:;"><i class="fa fa-cog"></i></a>-->
+<!--<a href="javascript:;"><i class="fa fa-wrench"></i></a>&ndash;&gt; -->
+<!--<a href=""><panel-control-collapse class="fa fa-chevron-down"></panel-control-collapse></a>-->
+<!--</panel-controls>-->
+
+<!--<div class="input-icon right mb10">-->
+<!--<i class="fa fa-search"></i>-->
+<!--<input type="text" ng-model="filterOptions.filterText" class="form-control" placeholder="Search Filter">-->
+<!--</div>-->
+
+
+
+<!--<div style="" ng-grid="gridOptions"></div>-->
+
+<!--</panel>-->
+
+<!--</div>-->
+<!--</div>-->
+<!--</div> -->
+<!-- end table no grouping -->
+<!--<div class="container-fluid pt0" ng-controller="CFController">-->
+<!--<div class="row">-->
+<!--<div class="col-md-12">-->
+<!---->
+<!---->
+
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!-- table phone grouping -->
+
+<!-- end table phone grouping -->
+<!-- container -->

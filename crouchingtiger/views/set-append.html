@@ -1,0 +1,44 @@
+		<div id="page-heading">
+			<!--<ol class="breadcrumb">
+				<li><a href="#/">Dashboard</a></li>
+				<li>Extras</li>
+			</ol>-->
+
+			<h1>Data Append</h1>
+			<div class="options">
+                <div class="btn-toolbar">
+                    <!--<a href="#" class="btn btn-default hidden-xs"><i class="fa fa-cog"></i></a>-->
+                </div>
+            </div>
+		</div>
+		<div class="container-fluid" ng-controller="DataAppendController">
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-midnightblue">
+						<div class="panel-body no-border">
+							<div class="container-fluid" >
+                                <div class="row">
+                                    <div class="col-md-12 mb10">
+                                        <p>
+                                        Our optional Data Append service captures and displays third-party data associated with the caller’s phone number by performing a Reverse Phone Number lookup. This data is displayed in a way that provides a consolidated view of caller information and can be leveraged in many different ways to help drive strategic decision making. We acquire complete information on over 65% of all calls and on over 96% of calls we acquire at least one of the following: Business Name, Name, Gender, Address, City, State, Zip Code, Country, Carrier, Rate Center. This data will be displayed on the 'Calls'> 'Details'> 'Info' tab.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-6 col-md-12 mt10 mb10">
+                                        <div class="">
+																					<toggle-switch ng-model="append_active" ng-change="setAppendAct()"  on-label="Enabled" off-label="Disabled" class="primary switch" onClick="ga('send', 'event', { eventCategory: 'Toggle', eventAction: 'Switch', eventLabel: 'Data Append Toggle'});"><toggle-switch>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+						</div>
+                        <div class="panel-footer text-right">
+
+
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div> <!-- container -->

@@ -1,0 +1,506 @@
+
+    
+
+<style>
+._GAhr{float:right}
+._GAhr,._GAocb{background-color:#ffffff;border:0;border-right:1px solid #bfbfbf;border-top:1px solid #bfbfbf;border-top-right-radius:4px;display: none;height:29px;padding-left:5px;padding-right:10px}
+._GAef:HOVER ._GAhr{display:block;border-right:0px solid #bfbfbf;border-top:0px solid #bfbfbf}
+</style>
+        <div id="page-heading">
+            <!--<ol class="breadcrumb">
+                <li><a href="#/">Acquisition</a></li>
+                <li class="active">Call Flows</li>
+            </ol>-->
+            <div class="container-fluid" style="padding-top:10px;">
+            <div class="row">
+                <div class="col-md-12 clearfix">
+                                   
+                                        
+                                
+                    <div ng-controller="DateRangePickerDemo" class="pull-left ng-scope col-md-10">
+                                                <button class="btn btn-default ng-isolate-scope" daterangepicker="drp_options" date-begin="drp_start" date-end="drp_end">
+                                                    <i class="fa fa-calendar"></i> <span style="margin-left: 5px" class="ng-binding">October 6, 2014 - November 7, 2014</span> <b class="caret"></b>
+                                                </button>
+					</div>
+                    
+                    <div class="pull-right  col-md-2">
+                        <div class="btn-toolbar">
+                            <div class="btn-group" style="float:right;" dropdown>
+                                <button type="button" class="btn btn-default dropdown-toggle">
+                                    Export as <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                  <li><a href="#">CSV</a></li>
+                                  <li><a href="#">TSV</a></li>
+                                  <li><a href="#">Excel</a></li>
+                                  <!--<li class="divider"></li>-->
+                                  <li><a href="#">PDF</a></li>
+                                </ul>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    </div>
+				</div>
+            </div>
+            
+			</div>
+<style>
+._GAhr{float:right}
+._GAhr,._GAocb{background-color:#ffffff;border:0;border-right:1px solid #bfbfbf;border-top:1px solid #bfbfbf;border-top-right-radius:4px;display: none;height:29px;padding-left:5px;padding-right:10px}
+._GAef:HOVER ._GAhr{display:block;border-right:0px solid #bfbfbf;border-top:0px solid #bfbfbf}
+._GAwC{background:no-repeat url(../img/sprites.png) -327px -521px;height:21px;margin-bottom:3px;margin-top:3px;width:21px; cursor:pointer;}
+</style>
+<!-- Begin charts row -->
+        <div class="container-fluid pb0">
+
+			<div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-gray">
+                        <div class="panel-body no-border">
+                        <!-- Summary Widget Begin -->
+							<div class="row mb10" ng-show="showDetails">
+                                <div class="visitor-sparklines col-xs-6 col-sm-2 col-md-2">
+                                        <div class="sparkline-block">
+                                            <span sparklines="{
+                                            lineWidth: 1.5,
+                                            type: 'line',
+                                            width: '90px',
+                                            height: '20px',
+                                            lineColor: '#b3bcc7',
+                                            fillColor: 'rgba(179,188,199,0.1)',
+                                            spotColor: false,
+                                            minSpotColor: false,
+                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                                            highlightSpotColor: '#b3bcc7',
+                                            spotRadius: 3,
+                                            maxSpotColor: false}" data-data="[251,933,653,759,1022,1702,565,1913,889,674]"></span>
+                                        </div>
+                                    <h3 style="text-align: center; margin: 0;">215,451</h3>
+                                    <p style="text-align: center; margin: 0; color:black;">Total Calls</p>
+                                    <p class="text-center text-muted ng-scope">(50% of total)</p>
+                                    <hr class="hidden-md hidden-sm hidden-lg">
+                                </div>
+                                <div class="visitor-sparklines col-xs-6 col-sm-2 col-md-2">
+                                        <div class="sparkline-block">
+                                            <span sparklines="{
+                                            lineWidth: 1.5,
+                                            type: 'line',
+                                            width: '90px',
+                                            height: '20px',
+                                            lineColor: '#b3bcc7',
+                                            fillColor: 'rgba(179,188,199,0.1)',
+                                            spotColor: false,
+                                            minSpotColor: false,
+                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                                            highlightSpotColor: '#b3bcc7',
+                                            spotRadius: 3,
+                                            maxSpotColor: false}" data-data="[1225,6533,2953,3469,21282,7354,1655,2567,1234,677]"></span>
+                                        </div>
+                                    <h3 style="text-align: center; margin: 0;">200,170</h3>
+                                    <p style="text-align: center; margin: 0; color:black;">Answered Calls</p>
+                                    <p class="text-center text-muted ng-scope">(40% of total)</p>
+                                    <hr class="hidden-md hidden-sm hidden-lg">
+                                </div>
+                                <div class="visitor-sparklines col-xs-6 col-sm-2 col-md-2">
+                                        <div class="sparkline-block">
+                                            <span sparklines="{
+                                            lineWidth: 1.5,
+                                            type: 'line',
+                                            width: '90px',
+                                            height: '20px',
+                                            lineColor: '#b3bcc7',
+                                            fillColor: 'rgba(179,188,199,0.1)',
+                                            spotColor: false,
+                                            minSpotColor: false,
+                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                                            highlightSpotColor: '#b3bcc7',
+                                            spotRadius: 3,
+                                            maxSpotColor: false}" data-data="[5,3,7,6,2,4,6,8,6,4]"></span>
+                                        </div>
+                                    <h3 style="text-align: center; margin: 0;">15,234</h3>
+                                    <p style="color:black; text-align: center; margin: 0;">Missed Calls</p>
+                                    <p class="text-center text-muted ng-scope">(60% of total)</p>
+                                </div>
+                                 <div class="visitor-sparklines col-xs-6 col-sm-2 col-md-2">
+                                        <div class="sparkline-block">
+                                            <span sparklines="{
+                                            lineWidth: 1.5,
+                                            type: 'line',
+                                            width: '90px',
+                                            height: '20px',
+                                            lineColor: '#b3bcc7',
+                                            fillColor: 'rgba(179,188,199,0.1)',
+                                            spotColor: false,
+                                            minSpotColor: false,
+                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                                            highlightSpotColor: '#b3bcc7',
+                                            spotRadius: 3,
+                                            maxSpotColor: false}" data-data="[2,4,7,6,5,3,2,3,5,2]"></span>
+                                        </div>
+                                    <h3 style="text-align: center; margin: 0;">9,536</h3>
+                                    <p style="color:black; text-align: center; margin: 0;">Repeat Calls</p>
+                                    <p class="text-center text-muted ng-scope">(10% of total)</p>
+                                    <hr class="hidden-md hidden-lg">
+                                </div>
+                                <div class="visitor-sparklines col-xs-6 col-sm-2 col-md-2">
+                                        <div class="sparkline-block">
+                                            <span sparklines="{
+                                            lineWidth: 1.5,
+                                            type: 'line',
+                                            width: '90px',
+                                            height: '20px',
+                                            lineColor: '#b3bcc7',
+                                            fillColor: 'rgba(179,188,199,0.1)',
+                                            spotColor: false,
+                                            minSpotColor: false,
+                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                                            highlightSpotColor: '#b3bcc7',
+                                            spotRadius: 3,
+                                            maxSpotColor: false}" data-data="[68,83,33,90,20,76,85,65,34,52]"></span>
+                                        </div>
+                                    <h3 style="text-align: center; margin: 0;">02:23 min.</h3>
+                                    <p style="color:black; text-align: center; margin: 0;">Call Time</p>
+                                    <p class="text-center text-muted ng-scope">(Average)</p>
+                                    <hr class="hidden-md hidden-lg">
+                                </div>
+                                <div class="visitor-sparklines col-xs-6 col-sm-2 col-md-2">
+                                        <div class="sparkline-block">
+                                            <span sparklines="{
+                                            lineWidth: 1.5,
+                                            type: 'line',
+                                            width: '90px',
+                                            height: '20px',
+                                            lineColor: '#b3bcc7',
+                                            fillColor: 'rgba(179,188,199,0.1)',
+                                            spotColor: false,
+                                            minSpotColor: false,
+                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                                            highlightSpotColor: '#b3bcc7',
+                                            spotRadius: 3,
+                                            maxSpotColor: false}" data-data="[41,33,53,79,62,47,35,23,25,64]"></span>
+                                        </div>
+                                    <h3 style="text-align: center; margin: 0;">539,942</h3>
+                                    <p style="color:black; text-align: center; margin: 0;">Total Minutes</p>
+                                    <p class="text-center text-muted ng-scope">(80% of plan)</p>
+                                    <hr class="hidden-md hidden-lg">
+                                </div>    
+                            </div>
+                        <!-- Summary Widget End -->
+                        
+                        <!-- Main Charts Begin -->
+                            <div class="row">
+                            
+                                <div class="col-md-4 clearfix _GAef" ng-controller="DashboardController">
+                                	
+                                    <div class="_GAhr" style="opacity: 1;">
+                                    	<div class="_GAJH _GAb-_GAp-_GAr ACTION-editWidget TARGET-1">
+                                        	<div class="_GAwC" ng-click="showDetails=!showDetails"></div>
+                                        </div>
+                                    </div>
+                                    
+                                   <div class="mb20 mt20" flot-chart style="width: 100%; height:250px" 
+                                        data-flot-data="plotRevenueData"
+                                        data-flot-options="plotRevenueOptions"
+                                    >
+                                    </div>
+                                </div>
+                            
+                            	<div class="col-md-4 clearfix _GAef" ng-controller="FlotChartsController">
+                                    <div class="_GAhr" style="opacity: 1;">
+                                    	<div class="_GAJH _GAb-_GAp-_GAr ACTION-editWidget TARGET-2">
+                                        	<div class="_GAwC"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb20 mt20" flot-chart style="width: 98%; height:230px; margin:0px 15px;" 
+                                        data-flot-data="pieData"
+                                        data-flot-options="{ series: { pie: { show: true } },  grid: { hoverable: true, clickable: true } }"
+                                    ></div>
+                                </div>
+                            <style>
+							  .visitor-sparklines{margin:15px 0}
+							  .visitor-sparklines h3{font-size:24px;}
+							  .info-tiles, .shortcut-tiles {margin-bottom:0px;}
+							</style>
+                                <div class="col-md-4 _GAef" >
+                                	<div class="_GAhr" style="opacity: 1;">
+                                    	<div class="_GAJH _GAb-_GAp-_GAr ACTION-editWidget TARGET-2">
+                                        	<div class="_GAwC"></div>
+                                        </div>
+                                    </div>
+                                	<div class="visitor-sparklines col-xs-6 col-sm-4 col-md-6">
+                                        <div class="sparkline-block">
+                                            <span sparklines="{
+                                            lineWidth: 1.5,
+                                            type: 'line',
+                                            width: '90px',
+                                            height: '20px',
+                                            lineColor: '#b3bcc7',
+                                            fillColor: 'rgba(179,188,199,0.1)',
+                                            spotColor: false,
+                                            minSpotColor: false,
+                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                                            highlightSpotColor: '#b3bcc7',
+                                            spotRadius: 3,
+                                            maxSpotColor: false}" data-data="[251,933,653,759,1022,1702,565,1913,889,674]"></span>
+                                        </div>
+                                    <h3 style="text-align: center; margin: 0;">215,451</h3>
+                                    <p style="text-align: center; margin: 0; color:black;">Total Calls</p>
+                                    <p class="text-center text-muted ng-scope">(50% of total)</p>
+                                    <hr class="hidden-md hidden-sm hidden-lg">
+                                </div>
+                                <div class="visitor-sparklines  col-xs-6 col-sm-4 col-md-6">
+                                        <div class="sparkline-block">
+                                            <span sparklines="{
+                                            lineWidth: 1.5,
+                                            type: 'line',
+                                            width: '90px',
+                                            height: '20px',
+                                            lineColor: '#b3bcc7',
+                                            fillColor: 'rgba(179,188,199,0.1)',
+                                            spotColor: false,
+                                            minSpotColor: false,
+                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                                            highlightSpotColor: '#b3bcc7',
+                                            spotRadius: 3,
+                                            maxSpotColor: false}" data-data="[1225,6533,2953,3469,21282,7354,1655,2567,1234,677]"></span>
+                                        </div>
+                                    <h3 style="text-align: center; margin: 0;">200,170</h3>
+                                    <p style="text-align: center; margin: 0; color:black;">Answered Calls</p>
+                                    <p class="text-center text-muted ng-scope">(40% of total)</p>
+                                    <hr class="hidden-md hidden-sm hidden-lg">
+                                </div>
+                                <div class="visitor-sparklines  col-xs-6 col-sm-4 col-md-6">
+                                        <div class="sparkline-block">
+                                            <span sparklines="{
+                                            lineWidth: 1.5,
+                                            type: 'line',
+                                            width: '90px',
+                                            height: '20px',
+                                            lineColor: '#b3bcc7',
+                                            fillColor: 'rgba(179,188,199,0.1)',
+                                            spotColor: false,
+                                            minSpotColor: false,
+                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                                            highlightSpotColor: '#b3bcc7',
+                                            spotRadius: 3,
+                                            maxSpotColor: false}" data-data="[5,3,7,6,2,4,6,8,6,4]"></span>
+                                        </div>
+                                    <h3 style="text-align: center; margin: 0;">15,234</h3>
+                                    <p style="color:black; text-align: center; margin: 0;">Missed Calls</p>
+                                    <p class="text-center text-muted ng-scope">(60% of total)</p>
+                                </div>
+                                 <div class="visitor-sparklines col-xs-6 col-sm-4 col-md-6">
+                                        <div class="sparkline-block">
+                                            <span sparklines="{
+                                            lineWidth: 1.5,
+                                            type: 'line',
+                                            width: '90px',
+                                            height: '20px',
+                                            lineColor: '#b3bcc7',
+                                            fillColor: 'rgba(179,188,199,0.1)',
+                                            spotColor: false,
+                                            minSpotColor: false,
+                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                                            highlightSpotColor: '#b3bcc7',
+                                            spotRadius: 3,
+                                            maxSpotColor: false}" data-data="[2,4,7,6,5,3,2,3,5,2]"></span>
+                                        </div>
+                                    <h3 style="text-align: center; margin: 0;">9,536</h3>
+                                    <p style="color:black; text-align: center; margin: 0;">Repeat Calls</p>
+                                    <p class="text-center text-muted ng-scope">(10% of total)</p>
+                                    <hr class="hidden-md hidden-lg">
+                                </div>
+                                
+                                   <!--<div class="_GAhr" style="opacity: 1;">
+                                    	<div class="_GAJH _GAb-_GAp-_GAr ACTION-editWidget TARGET-2">
+                                        	<div class="_GAwC"></div>
+                                        </div>
+                                    </div>
+                                   
+                                   <div class="mb20 mt20" flot-chart style="width: 100%; height:250px" 
+                                        data-flot-data="plotStatsData"
+                                        data-flot-options="plotStatsOptions"
+                                    >
+                                    </div>-->
+                                </div>
+                                
+                            </div>
+                        <!-- Main Charts End -->
+                        
+                        <!-- Chart Picker Begin -->    
+                            <div class="panel-footer" style="display:none;">
+                            <div class="row">
+                                <div class="visitor-sparklines col-xs-6 col-sm-2 col-md-2">
+                                        <div class="sparkline-block">
+                                            <span sparklines="{
+                                            lineWidth: 1.5,
+                                            type: 'line',
+                                            width: '90px',
+                                            height: '20px',
+                                            lineColor: '#b3bcc7',
+                                            fillColor: 'rgba(179,188,199,0.1)',
+                                            spotColor: false,
+                                            minSpotColor: false,
+                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                                            highlightSpotColor: '#b3bcc7',
+                                            spotRadius: 3,
+                                            maxSpotColor: false}" data-data="[251,933,653,759,1022,1702,565,1913,889,674]"></span>
+                                        </div>
+                                    <h3 style="text-align: center; margin: 0;">215,451</h3>
+                                    <p style="text-align: center; margin: 0; color:black;">Total Calls</p>
+                                    <p class="text-center text-muted ng-scope">(50% of total)</p>
+                                    <hr class="hidden-md hidden-sm hidden-lg">
+                                </div>
+                                <div class="visitor-sparklines col-xs-6 col-sm-2 col-md-2">
+                                        <div class="sparkline-block">
+                                            <span sparklines="{
+                                            lineWidth: 1.5,
+                                            type: 'line',
+                                            width: '90px',
+                                            height: '20px',
+                                            lineColor: '#b3bcc7',
+                                            fillColor: 'rgba(179,188,199,0.1)',
+                                            spotColor: false,
+                                            minSpotColor: false,
+                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                                            highlightSpotColor: '#b3bcc7',
+                                            spotRadius: 3,
+                                            maxSpotColor: false}" data-data="[1225,6533,2953,3469,21282,7354,1655,2567,1234,677]"></span>
+                                        </div>
+                                    <h3 style="text-align: center; margin: 0;">200,170</h3>
+                                    <p style="text-align: center; margin: 0; color:black;">Answered Calls</p>
+                                    <p class="text-center text-muted ng-scope">(40% of total)</p>
+                                    <hr class="hidden-md hidden-sm hidden-lg">
+                                </div>
+                                <div class="visitor-sparklines col-xs-6 col-sm-2 col-md-2">
+                                        <div class="sparkline-block">
+                                            <span sparklines="{
+                                            lineWidth: 1.5,
+                                            type: 'line',
+                                            width: '90px',
+                                            height: '20px',
+                                            lineColor: '#b3bcc7',
+                                            fillColor: 'rgba(179,188,199,0.1)',
+                                            spotColor: false,
+                                            minSpotColor: false,
+                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                                            highlightSpotColor: '#b3bcc7',
+                                            spotRadius: 3,
+                                            maxSpotColor: false}" data-data="[5,3,7,6,2,4,6,8,6,4]"></span>
+                                        </div>
+                                    <h3 style="text-align: center; margin: 0;">15,234</h3>
+                                    <p style="color:black; text-align: center; margin: 0;">Missed Calls</p>
+                                    <p class="text-center text-muted ng-scope">(60% of total)</p>
+                                </div>
+                                 <div class="visitor-sparklines col-xs-6 col-sm-2 col-md-2">
+                                        <div class="sparkline-block">
+                                            <span sparklines="{
+                                            lineWidth: 1.5,
+                                            type: 'line',
+                                            width: '90px',
+                                            height: '20px',
+                                            lineColor: '#b3bcc7',
+                                            fillColor: 'rgba(179,188,199,0.1)',
+                                            spotColor: false,
+                                            minSpotColor: false,
+                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                                            highlightSpotColor: '#b3bcc7',
+                                            spotRadius: 3,
+                                            maxSpotColor: false}" data-data="[2,4,7,6,5,3,2,3,5,2]"></span>
+                                        </div>
+                                    <h3 style="text-align: center; margin: 0;">9,536</h3>
+                                    <p style="color:black; text-align: center; margin: 0;">Repeat Calls</p>
+                                    <p class="text-center text-muted ng-scope">(10% of total)</p>
+                                    <hr class="hidden-md hidden-lg">
+                                </div>
+                                <div class="visitor-sparklines col-xs-6 col-sm-2 col-md-2">
+                                        <div class="sparkline-block">
+                                            <span sparklines="{
+                                            lineWidth: 1.5,
+                                            type: 'line',
+                                            width: '90px',
+                                            height: '20px',
+                                            lineColor: '#b3bcc7',
+                                            fillColor: 'rgba(179,188,199,0.1)',
+                                            spotColor: false,
+                                            minSpotColor: false,
+                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                                            highlightSpotColor: '#b3bcc7',
+                                            spotRadius: 3,
+                                            maxSpotColor: false}" data-data="[68,83,33,90,20,76,85,65,34,52]"></span>
+                                        </div>
+                                    <h3 style="text-align: center; margin: 0;">02:23 min.</h3>
+                                    <p style="color:black; text-align: center; margin: 0;">Call Time</p>
+                                    <p class="text-center text-muted ng-scope">(Average)</p>
+                                    <hr class="hidden-md hidden-lg">
+                                </div>
+                                <div class="visitor-sparklines col-xs-6 col-sm-2 col-md-2">
+                                        <div class="sparkline-block">
+                                            <span sparklines="{
+                                            lineWidth: 1.5,
+                                            type: 'line',
+                                            width: '90px',
+                                            height: '20px',
+                                            lineColor: '#b3bcc7',
+                                            fillColor: 'rgba(179,188,199,0.1)',
+                                            spotColor: false,
+                                            minSpotColor: false,
+                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                                            highlightSpotColor: '#b3bcc7',
+                                            spotRadius: 3,
+                                            maxSpotColor: false}" data-data="[41,33,53,79,62,47,35,23,25,64]"></span>
+                                        </div>
+                                    <h3 style="text-align: center; margin: 0;">539,942</h3>
+                                    <p style="color:black; text-align: center; margin: 0;">Total Minutes</p>
+                                    <p class="text-center text-muted ng-scope">(80% of plan)</p>
+                                    <hr class="hidden-md hidden-lg">
+                                </div>    
+                            </div>
+                        	</div>
+                        <!-- Chart Picker End -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</div>           
+<!-- End charts row -->
+
+<!-- Table no grouping -->
+        <div class="container-fluid pt0" ng-controller="TablesAdvancedController">
+            <div class="row">
+              <div class="col-md-12">
+              
+                    <panel panel-class="panel-primary" data-heading="Call Flows">
+
+                       <!-- <alert>This is an advanced demonstration of ngGrid's remote data and pagination capabilities. Please check <a target="_blank" href="http://angular-ui.github.io/ng-grid/">the official docs</a> for more information.</alert>-->
+
+                        <panel-controls>
+                            <!--<a href="javascript:;"><i class="fa fa-cog"></i></a>
+                            <a href="javascript:;"><i class="fa fa-wrench"></i></a>--> 
+                            <a href=""><panel-control-collapse class="fa fa-chevron-down"></panel-control-collapse></a>
+                        </panel-controls>
+
+                        <div class="input-icon right mb10">
+                            <i class="fa fa-search"></i>
+                            <input type="text" ng-model="filterOptions.filterText" class="form-control" placeholder="Search Filter">
+                        </div>
+
+
+
+                        <div style="" ng-grid="gridOptions"></div>
+
+                    </panel>
+
+                </div>
+            </div>
+
+        </div> 
+<!-- end table no grouping -->
+
+<!-- table phone grouping -->
+       
+<!-- end table phone grouping -->        
+        <!-- container -->

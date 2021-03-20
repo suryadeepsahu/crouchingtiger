@@ -1,0 +1,1719 @@
+<script>
+
+function maxLengthCheck(object) {
+if (object.value.length > object.maxLength) {
+object.value = object.value.slice(0, object.maxLength)
+}
+}
+
+var captainModalInstanceCtrl = function($scope, $uibModalInstance) {
+$scope.ok = function() {
+$uibModalInstance.close();
+};
+
+$scope.cancel = function() {
+$uibModalInstance.dismiss('cancel');
+};
+};
+</script>
+<script type="text/ng-template" id="my-custom-template">
+<div class="tag-template">
+<div>
+    <span apply-css class="tag-span" ng-class="$getTagClass()">{{$getDisplayText()}}</span>
+    <a class="remove-button" ng-click="$removeTag()">&#215;</a>
+</div>
+</div>
+</script>
+<script type="text/javascript">
+
+function ddlToolTips(ddlTt) {  
+        if (ddlTt.value == 'before') {  
+            ddlTt.title = "Before voice prompt";  
+        } else if(ddlTt.value == 'after'){
+            ddlTt.title = "After voice prompt";
+        } else {
+            ddlTt.title = "Never";
+        }
+    }  
+    var specialKeys = new Array();
+    specialKeys.push(8); //Backspace
+    function IsNumeric(e) {
+        var keyCode = e.which ? e.which : e.keyCode
+        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1);
+        document.getElementById("error").style.display = ret ? "none" : "inline";
+        return ret;
+    }
+</script>
+<!-- style -->
+<style>
+panel-controls>a.activate {
+opacity: 1;
+text-decoration: none;
+color: #e5e5e5;
+}
+md-checkbox[disabled]{
+    opacity: 0.65;
+}
+.cursor-pointer{
+    cursor: pointer;
+}
+panel-controls>a.activate:hover {
+color: #fff;
+}
+
+.customDisabled{
+    pointer-events:none;
+    opacity: .65;
+}
+.start-date .btn-danger {
+display: none
+}
+#scheduledDays .checkbox{
+margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#locationdiv ul {
+max-height: 150px;
+overflow-y: scroll;
+}
+
+
+hr { 
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-style: dashed;
+  border-width: 1px;
+} 
+
+.timeline-gray .timeline-body {
+border-color: #ccc;
+background-color: #efefef !important;
+}
+.timeline-gray .timeline-body:after {
+border-right-color: #ccc !important;
+}
+
+.timeline-gray .timeline-time {
+color: #ccc;
+}
+
+.timeline>li .timeline-header,
+.timeline>li .timeline-body h3 {
+color: #575759;
+}
+
+.datespace {
+height: 110px;
+}
+
+.postCallIvrchange{
+pointer-events: none;
+cursor :not-allowed;
+}
+.promt{
+     word-wrap: break-word;
+}
+
+.triggerWebhook{
+    margin-top: -8px;
+}
+button[id=export_btn]:disabled {
+  background: #504f4f;
+}
+.controls-fixed {
+        background-color: #FFFFFF;
+        left: 260px;
+        /* margin: 31px 0px; */
+        padding: 0px 15px;
+        position: fixed;
+        bottom: 316px;
+        top: 40px;
+        z-index: 101;
+        width: 77%;
+        height: 55px;
+    }
+
+
+@media only screen and (max-width: 1152px) {
+        .controls-fixed {
+            width: 77%;
+        }
+    }
+
+@media only screen and (max-width: 1280px){
+    .space {
+        margin-left: 5%;
+    }
+}    
+    @media only screen and (min-width: 1025px) and (max-width: 1280px) {
+        .controls-fixed {
+            width: 79%;
+        }
+    }
+    
+    @media (min-width: 1360px) and (min-width: 1366px) {
+        .controls-fixed {
+            width: 79%;
+        }
+    }
+    
+    @media only screen and (min-width: 1440px) {
+        .controls-fixed {
+            width: 80%;
+        }
+    }
+    
+    @media only screen and (min-width: 1600px) and (max-width: 1680px) {
+        .controls-fixed {
+            width: 82%;
+        }
+    }
+    
+    @media only screen and (min-width: 1824px) and (max-width: 1920px) {
+        .controls-fixed {
+            width: 84%;
+        }
+    }
+
+@media (min-width: 480px) {
+    .col-x-6{
+        width: 50%;
+    }
+
+    .col-x-12{
+        width: 100%;
+    }
+}
+
+.fixZindexIssue {
+pointer-events: all !important
+}
+
+.convirza-radio-button {
+margin-right: 10px !important;
+display: inline !important;
+}
+
+.webhook {
+margin-top: 5px;
+}
+
+.shorten-word{
+    word-break: break-all;
+}
+
+.disabled {
+pointer-events: none;
+}
+.glyphicon-minus-sign,
+.glyphicon-plus-sign {
+    margin-top: 8px;
+    font-size: 15px;
+ }
+ .panel-heading h4{
+    color: #fff;
+ }
+ ul#columnpicker {
+  height: 525px;
+}
+#picker{
+    left: -250px !important;
+    /*right: 5px !important;*/
+    top: initial !important;
+    top: -150px !important;
+}
+.multiselect-parent .dropdown-toggle {
+    width: 150px;
+    margin-top: 0px;
+}
+.multiselect-parent .dropdown-menu {
+    width: 100%;
+}
+.multiselect-parent .dropdown-menu>li>a {
+    padding: 5px 5px;
+}
+md-radio-button.md-checked .md-off {
+border-color: grey !important;
+}
+
+md-radio-button .md-on {
+background-color: #2f7db2 !important;
+}
+
+md-checkbox.md-checked .md-icon {
+background-color: #2f7db2 !important;
+}
+
+[id*="input"] {
+min-width: 200px;
+}
+
+#fieldPicker .container {
+padding-left: 0px;
+}
+
+@media (max-width: 991px) {
+.timeline>li .timeline-icon {
+z-index: 100;
+float: left;
+margin-left: -20px;
+margin-bottom: 10px;
+}
+}
+
+
+sm-date-time-picker label {
+display: none;
+}
+
+sm-date-time-picker md-input-container {
+margin: 0 0;
+}
+#picker{
+    z-index: 9999;
+}
+
+
+@media only screen and (min-width: 1367px) {
+.scheduleDiv {
+width: 80% !important;
+}
+}
+
+/* [id*="input"] {
+    min-width: 60px;
+} */
+/*#schedule button.sm-picker-icon.md-icon-button.md-button.md-ink-ripple {
+    margin-left: 45px;
+}
+#schedule1 button.sm-picker-icon.md-icon-button.md-button.md-ink-ripple {
+    margin-left: 45px;
+}*/
+@media (max-width: 1150px) and (min-width: 768px) {
+#end-date-picker md-input-container #picker {
+left: initial !important;
+right: 0px !important;
+}
+}
+
+@media (max-width: 700px) and (min-width: 600px) {
+#end-date-picker md-input-container #picker {
+left: 50px !important;
+right: initial;
+}
+}
+
+@media (max-width: 1150px) and (min-width: 768px) {
+#start-date-picker md-input-container #picker {
+left: 0px !important;
+/*right: 0px !important*/
+}
+}
+
+@media (max-width: 700px) and (min-width: 600px) {
+#start-date-picker md-input-container #picker {
+left: 50px !important;
+right: initial;
+}
+}
+
+@media (max-width: 599px) {
+md-toolbar .date-time-header {
+font-size: 25px;
+}
+}
+
+
+md-toolbar:not(.md-menu-toolbar) {
+background-color: #474747 !important;
+}
+
+</style>
+<!-- end style -->
+<!-- Page Header -->
+<div id="page-heading">
+<h1>Campaign Builder</h1>
+<div class="options">
+<div class="btn-toolbar">
+    <a href="#/set-campaign" class="btn btn-default hidden-xs" title="Campaign List"><i class="fa fa-chevron-left"></i> <i class="fa fa-list"></i></a>
+</div>
+</div>
+</div>
+<div class="container-fluid">
+<div class="row">
+<div class="col-md-12" ng-controller="CampaignFormController">
+    <page-loader is-loading-api="isLoadingApi"></page-loader>
+    <div class="container-fluid">
+        <form novalidate name="campForm" id="campForm" ng-submit="saveCampaign()">
+            <!-- Campaign Details Container -->
+            <accordion close-others="oneAtATime1">
+            <div class="panel panel-midnightblue">
+                 <div class="panel-heading cursor-pointer"  ng-click="isCampaignDetailsOpen =!isCampaignDetailsOpen">
+                    <accordion-heading>
+                        <h4 title="{{panelHeading}}">CAMPAIGN DETAILS FOR   {{ panelHeading | truncate_campGroupName }} </h4>
+                        <i class="pull-right glyphicon" ng-class="{'glyphicon-minus-sign': isCampaignDetailsOpen, 'glyphicon-plus-sign': !isCampaignDetailsOpen}"></i>
+                    </accordion-heading>
+                </div>
+                <div class="panel-body collapse in" ng-show="isCampaignDetailsOpen">
+                    <div class="form-group row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 mt20" >
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-3 mt20 col-md-offset-1 ">
+                                    <label class="control-label" style="padding-top:8px;">Campaign Name</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 mt20 ">
+                                     <input type="text" placeholder="Type Campaign Name" class="form-control" ng-model="name" maxlength="200" required validate-blur-forza="Campaign Details, Campaign Name" ng-readonly="!canModify">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-3 mt20 col-md-offset-1 ">
+                                    <label class="control-label" style="padding-top:8px;">Campaign External ID</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 mt20 ">
+                                    <input type="text" class="form-control" placeholder="Type Campaign External ID (Optional)" ng-model="campExtId" value="" maxlength="65" validate-utf-eight validate-blur-forza="Campaign ID, Campaign Name" ng-readonly="!canModify">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-3 mt20 col-md-offset-1 ">
+                                    <label class="control-label" style="padding-top:8px;">Campaign Owner</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 mt20 ">
+                                    <select ui-select2 ng-model="assSalesRep" style="width:100%" ng-disabled="!canModify" validate-utf-eight>
+                                        <optgroup label="{{ou.ouName}}" ng-repeat="ou in ownersPickList" ng-readonly="!canModify">
+                                            <option ng-if="assSalesRep" value="{{user.id}}" ng-repeat="user in ou.userList" ng-readonly="!canModify"> {{user.name}}</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 mt20" style="border-left: solid 1px #ccc">
+                            <div class="row">
+                                 <div class="col-lg-11 col-md-11 col-sm-11 mt20 col-md-offset-1">
+                                    <label class="control-label12">Active?</label>
+                                    <toggle-switch ng-model="campActive"  id="CSSActive" ng-change="activeToggle()" ng-disabled="!canModify" on-label="Yes" off-label="No" class="primary switch"  style="margin-left: 25px;">
+                                    </toggle-switch>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4 mt20 col-md-offset-1" >
+                                    <label class="control-label">Start Date and Time ({{timezoneString}})</label>
+                                </div>
+                                <div class="col-lg-7 col-md-7 col-sm-7 ">
+                                    <div class="input-group start-date" id="start-date-picker" style="padding-left: 15px">
+                                        <!--close-on-select="true"  -->
+                                        <sm-date-time-picker ng-model="dateTime.startDate.date" initial-date="dateTime.startDate.date" data-min-date="dateTime.startDate.minDate" fname="Start Date" lable="Start" on-focus="true" flex="50" flex-sm="100" flex-xs="100" is-required="{{true}}" format="DD MMMM YYYY hh:mm A" mode="date-time" week-start-day="Sunday" disable-year-selection="false" disable="dateIsNotEditable">
+                                        </sm-date-time-picker>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4 mt20 col-md-offset-1" >
+                                    <label class="control-label">End Date and Time ({{timezoneString}})</label>
+                                </div>
+                                <div class="col-lg-7 col-md-7 col-sm-7 ">
+                                    <div class="input-group" id="end-date-picker" style="padding-left: 15px" >
+                                        <sm-date-time-picker ng-readonly="true" ng-model="dateTime.endDate.date" initial-date="dateTime.endDate.date" data-min-date="dateTime.endDate.minDate" fname="End Date" lable="End" on-focus="true" flex="50" flex-sm="100" flex-xs="100" format="DD MMMM YYYY hh:mm A" mode="date-time" week-start-day="Sunday" disable-year-selection="false" disable="endDateIsNotEditable">
+                                        </sm-date-time-picker>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="showReferral && referralSubscription" id="referral-container"> 
+                                <div class="col-lg-7 col-md-7 col-sm-7 mt20 col-md-offset-1">
+                                    <label class="control-label">Play referral recording at campaign end and delete tracking numbers after referral period?</label>
+                                </div>
+                                 <div class="col-lg-2 col-md-2 col-sm-2 mt20 " style="margin-left: 30px;">
+                                    <input icheck type="checkbox" ng-model="referralChecked" ng-change="referralClick();" name="referral-checkbox" value="active" style="cursor:pointer;" ng-disabled="disableReferral" id="referral-checkbox" ng-click="toggleReferralCheckbox();">
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 mt10 col-md-offset-1">
+                                    <label class="control-label">Ring to Phone Number</label>
+                                </div>
+
+                               
+
+                        <div class="col-lg-5 col-md-5 col-sm-5 ">
+                            <input type="text"class="form-control" name="referralNumber" validate-blur-forza="Campaign Details,Ring to Phone Number" ng-required="referralChecked" rid="referralNumber" ng-model="referralNumber" style=" height:30px; display:inline-block;" ng-disabled="!referralChecked" data-inputmask="'mask':'(999) 999-9999'" maskinput ng-readonly="disableReferral" checklength="10" validate-masked-phone-number>
+                             <p class="fontChange" >For the next 30 days, notify users to call this phone number</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+     
+        <!-- saving campaign Details -->
+            <div class="panel-footer text-right">
+                <button class="btn btn-primary" ng-disabled="savingCampaign || campForm.referralNumber.$invalid || campForm.referralNumber.chatAt(1)==0" type="submit" ng-show="canModify"> Save Campaign Details
+                </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div ng-controller="PhoneNumbersEditableController">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <accordion close-others="oneAtATime1">
+                        <div class="panel panel-midnightblue" ng-show="!isNewCamp">
+                            <div class="panel-heading cursor-pointer"  ng-click="isTrackingNumbersOpen =!isTrackingNumbersOpen">
+                                <accordion-heading>
+                                <h4 title="{{name}}">TRACKING NUMBERS FOR {{ name | truncate_campGroupName }} </h4>
+                                <i class="pull-right glyphicon" ng-class="{'glyphicon-minus-sign': isTrackingNumbersOpen, 'glyphicon-plus-sign': !isTrackingNumbersOpen}"></i>
+                                </accordion-heading>
+                            </div>
+                            <div  ng-show="isTrackingNumbersOpen">
+                            <div class="panel-body collapse in table-responsive" persistent-scroll-bar> 
+                                    <div style="margin-bottom:20px;">
+                                        <button class="btn btn-info" ng-click="loadCallFlow()" ng-show="canModify&& !isNewCamp" onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Click', eventLabel: 'Add Tracking Number'});">Add Tracking Number</button>
+                                         <div class="btn btn-group" uib-dropdown style="color: black;margin-left: 5px; " ng-show="canModify&& !isNewCamp">
+                                            <button ng-hide='isSafari'id="export_btn" type="button" ng-disabled="phoneNumbers.length === 0" class="btn btn-default btn-last width100 reset" ng-csv='getCSVGroupData()' filename='{{groupsReportFileName}}' csv-header='getGroupsHeader()'>
+                                                    <i class="fa fa-cloud-download"></i><span class="export"> Export</span>
+                                            </button>
+                                            <button ng-hide='!isSafari' id="export_btn" type="button" ng-disabled="phoneNumbers.length === 0" class="btn btn-default btn-last width100 reset" ng-click='getCSVGroupData()' filename='{{groupsReportFileName}}'>
+                                                    <i class="fa fa-cloud-download"></i><span class="export"> Export </span>
+                                            </button>
+                                         </div>                             
+                                        <dir-pagination-controls pagination-id="pg-phoneNumbers" ng-hide="phoneNumbers.length === 0"  on-page-change="pageChanged(newPageNumber)" class="pull-right"></dir-pagination-controls>
+                                    </div>               
+                                    <div >
+                                       <table  class="table table-striped sticky-header table-hover" >
+                                            <thead>
+                                                <tr style="font-weight: bold;padding-top: 5px;padding-bottom: 5px">
+                                                    <th ng-repeat="th in campaignBuilderHeader">{{th}}</th>
+                                                    <th class="text-right" ng-repeat="action in actionHeader">{{action}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr dir-paginate="pnumber in phoneNumbers | itemsPerPage: 100" total-items="totalDataRows" current-page="currentPage" pagination-id="pg-phoneNumbers" id="{{ 'rowdataitem' + $index }}" class="datapoint_{{$index}}"><!-- {{canModify&& !isNewCamp}} -->
+                                                    <td>
+                                                        <!-- Phone Number -->
+                                                        <span e-name="phone" e-form="rowform" e-required>
+                                                    {{ pnumber.phonep || '' }}
+                                                    </span>
+                                                    </td>
+                                                    <td>
+                                                        <!-- Name -->
+                                                        <span e-name="name" e-form="rowform" e-required>
+                                                    {{ pnumber.name || '' }}
+                                                    </span>
+                                                    </td>
+                                                    <td>
+                                                        <!-- Ring-to-Number -->
+                                                        <span e-name="phone" e-form="rowform">
+                                                        {{ pnumber.route_type == 'Voicemail' ? 'Voicemail' : pnumber.ringto}}
+                                                    </span>
+                                                    </td>
+                                                    <td>
+                                                        <!-- Tracking Number Type -->
+                                                        <span e-name="value" e-form="rowform">
+                                                     {{ pnumber.route_type}} 
+                                                    </span>
+                                                    </td>
+                                                    <td >
+                                                        <!-- channels -->
+                                                        <span e-name="channels" e-form="rowform">
+                                                         {{ pnumber.channels || '' }} 
+                                                    </span>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <!-- Spam Guard -->
+                                                        <span e-name="spam_guard" e-form="rowform">
+                                                            <img src='assets/img/spam.jpg' class='spam_gurad' ng-show="pnumber.spam_guard" style="margin-right: 50%;" >
+                                                    <!-- <i class="fa fa-check-circle-o" aria-hidden="true" style="margin-right: 50%;"></i><-- {{ pnumber.rinterval || '' }} ---->
+                                                    </span>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <!-- SMS -->
+                                                        <span e-name="sms" e-form="rowform">
+                                                            <img src='assets/img/spam.jpg' class='spam_gurad' ng-show="pnumber.sms_enabled" style="margin-right: 50%;" >
+                                                    </span>
+                                                    </td>
+                                                    <td>
+                                                        <!-- Status -->
+                                                        <span e-name="status" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+                                                        <span ng-if="pnumber.status2 === 'Referral'">Referral until {{ pnumber.end_date }}</span>
+                                                        <span ng-if="pnumber.status2 !== 'Referral'">{{ pnumber.status2 || '' }}</span>
+                                                        </span>
+                                                    </td>
+                                                    <td style="white-space: nowrap">
+                                                        <!-- Actions -->
+                                                        <form editable-form name="rowform" onbeforesave="saveUser($data, pnumber.id)" ng-show="0" class="form-buttons form-inline" shown="inserted == number">
+                                                            <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-primary">Save</button>
+                                                            <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">Cancel</button>
+                                                        </form>
+                                                        <div class="buttons text-right" ng-show="pnumber.showButtons">
+                                                            <button class="btn" ng-class="{ 'btn-sm btn-primary' : pnumber.status2 !== 'Referral', 'btn-default disabled fixZindexIssue' : pnumber.status2 === 'Referral' }" ng-disabled="pnumber.status2 === 'Referral'" ng-click="loadCallFlow(pnumber)">
+                                                               Edit
+                                                            </button>
+                                                            <button class="btn" ng-class="{ 'btn-sm btn-midnightblue' : pnumber.status2 !== 'Referral', 'btn-default disabled fixZindexIssue' : pnumber.status2 === 'Referral' }" ng-click="loadCallActions(pnumber)" ng-disabled="userAccess.callaction === undefined || userAccess.callaction < 4 || pnumber.status2 === 'Referral'">
+                                                                Call Actions
+                                                            </button>
+                                                            <button class="btn" ng-class="{ 'btn-sm btn-danger' : pnumber.status2 !== 'Referral', 'btn-default disabled fixZindexIssue' : pnumber.status2 === 'Referral' }" ng-disabled="pnumber.status2 === 'Referral'" ng-click="removeNumber(pnumber)" ng-show="canModify">
+                                                                Delete
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div ng-show= "phoneNumbers.length > 15">
+                                            <button class="btn btn-info pull-left" ng-click="loadCallFlow()" ng-show="canModify&& !isNewCamp" onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Click', eventLabel: 'Add Tracking Number'});">Add Tracking Number</button>
+                                             <div class="btn btn-group pull-left" uib-dropdown style="color: black;margin-left: 5px; " ng-show="canModify&& !isNewCamp">
+                                                <button ng-hide='isSafari'id="export_btn" type="button" ng-disabled="phoneNumbers.length === 0" class="btn btn-default btn-last width100 reset" ng-csv='getCSVGroupData()' filename='{{groupsReportFileName}}' csv-header='getGroupsHeader()'>
+                                                        <i class="fa fa-cloud-download"></i><span class="export"> Export</span>
+                                                </button>
+                                                <button ng-hide='!isSafari' id="export_btn" type="button" ng-disabled="phoneNumbers.length === 0" class="btn btn-default btn-last width100 reset" ng-click='getCSVGroupData()' filename='{{groupsReportFileName}}'>
+                                                        <i class="fa fa-cloud-download"></i><span class="export"> Export </span>
+                                                </button>
+                                             </div>  
+
+                                            <dir-pagination-controls class="pull-right" pagination-id="pg-phoneNumbers" ng-hide="phoneNumbers.length === 0"  on-page-change="pageChanged(newPageNumber)" ></dir-pagination-controls>
+                                        </div>               
+                                    </div>
+                                    <div class="stickyNavClass"></div>     
+                            </div>
+                        </div>
+                        </div>
+                    </accordion>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid" id="callFlow" ng-hide="!hideCallAction">
+            <form name="singlecallForm" id="singlecallForm" novalidate valid-submit="proceedToCallFlowUpdate()">
+                <div class="row" ng-cloak>
+                    <div class="col-md-12" style="z-index: 100; margin-bottom: -20px;">
+                        <accordion close-others="oneAtATime1">
+                            <div class="panel panel-midnightblue" ng-show="showCallFlow">
+                                <div class="panel-heading cursor-pointer" id="addTrackingNumber" ng-click="isAddTrackingNumbersOpen =!isAddTrackingNumbersOpen">
+                                    <accordion-heading>
+                                    <h4 ng-if="isNew" title="{{name}}">Add Tracking Number For {{ name | truncate_campGroupName }} </h4>
+                                        <h4 ng-if="!isNew" title="{{name}}" >Edit Tracking Number For {{ name | truncate_campGroupName }}</h4>
+                                     <i class="pull-right glyphicon" ng-class="{'glyphicon-minus-sign': isAddTrackingNumbersOpen, 'glyphicon-plus-sign': !isAddTrackingNumbersOpen}"></i>
+                                    </accordion-heading>
+                                </div>
+                                <div ng-show="isAddTrackingNumbersOpen">
+                                    <div class="panel-body">
+                                        <div class="addTrackingNumbersProgressLoader">
+                                           <img src="./img/pageloading.gif" class="ProgressLoader-img" alt="pageloading"/ > 
+                                        </div>
+                                        <div class="row" >
+                                            <div class="col-lg-6 col-md-6 col-sm-12 mt20 mb20 pull-left">
+                                                <div class="row">
+                                                    <label class="" style="color: #1f407d !important;margin-left: 10px;">CONFIGURE NUMBER</label>
+                                                </div>
+                                                <div  ng-Show="isNew">
+                                                    <div class="col-md-offset-1 col-lg-11 col-md-11 col-sm-12 mt20 radio mt0" ng-init="selectedCallFlow.callflowOption = 'singleNumber'" ng-Show="isNew">
+                                                         <md-radio-group ng-model="selectedCallFlow.callflowOption" ng-change = "resNumChange();">
+                                                             <md-radio-button class="convirza-radio-button" ng-readonly="!canModify" ng-model="selectedCallFlow.callflowOption" name="callflowOption" ng-change="showSubmit()" id="optionsRadios1" value="singleNumber" >
+                                                                 Single Number
+                                                             </md-radio-button>
+                                                             <md-radio-button class="convirza-radio-button" ng-readonly="!canModify" ng-model="selectedCallFlow.callflowOption" name="callflowOption" ng-change="showSubmit()" id="optionsRadios2" value="numberPool" >
+                                                                 Number Pool
+                                                             </md-radio-button>
+                                                             <md-radio-button class="convirza-radio-button" ng-readonly="!canModify" ng-model="selectedCallFlow.callflowOption" name="callflowOption" ng-change="showSubmit()" id="optionsRadios3" value="reservedNumber" >
+                                                                 Reserved Number
+                                                             </md-radio-button>
+                                                         </md-radio-group>
+                                                     </div>
+                                                    <div class="col-md-offset-1 col-lg-4 col-md-4 col-sm-12 mt20" ng-hide="selectedCallFlow.callflowOption == 'reservedNumber'">
+                                                    <label>NPA-NXX (Area Code)</label>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 mt15" ng-hide="selectedCallFlow.callflowOption == 'reservedNumber'">
+                                                        <div class="input-icon right" id="locationdiv" >
+                                                        <i ng-show = "loadingLocations" class="fa fa-refresh fa-spin"></i>
+                                                        <input type="text" no-long-dist id="rateCenterAddress" autocomplete="off" ng-model="selectedCallFlow.address" placeholder="Type in an Area Code or City" uib-typeahead="address for address in getLocation($viewValue)" validate-blur-forza="Tracking Number Details, NPA-NXX (Area Code)" typeahead-loading="loadingLocations" class="form-control" ng-focus="onFocus(selectedCallFlow.address)" ng-blur="lostFocus(selectedCallFlow.address)" ng-change="selectedCallFlow.num='';onFocus(selectedCallFlow.address);showSubmit();" ng-Show="isNew" typeahead-wait-ms="300" ng-disabled="!canModify ||selectedCallFlow.quantity >1" ng-required="(selectedCallFlow.callflowOption == 'singleNumber' || selectedCallFlow.callflowOption == 'numberPool') && isNew">
+                                                        </div>                                                                                               
+                                                    </div>                                           
+                                                </div>
+                                                <div ng-Show="isNew">
+                                                    <div class="col-md-offset-1 col-lg-4 col-md-4 col-sm-12 mt20" ng-show="selectedCallFlow.callflowOption == 'reservedNumber'">
+                                                        <label>Reserved Number</label>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 mt15" ng-show="selectedCallFlow.callflowOption == 'reservedNumber'">
+                                                          <div class="input-icon right" >
+                                                             <div ng-Show="isNew" class="input-icon right">
+                                                                    <i id="loadResNum" class="fa fa-refresh fa-spin"></i>
+                                                                 <select no-long-dist ng-init="selectedCallFlow.num = ''" class="form-control" ng-model="selectedCallFlow.num" ng-disabled="loadResNum" validate-blur-forza="Tracking Number Details, Reserved Number" ng-options="num.pretty_number for num in resNumList track by num.number" ng-focus="" id="source" ng-required="selectedCallFlow.callflowOption == 'reservedNumber' && isNew" ng-change="setNewNumber(selectedCallFlow.num,selectedCallFlow.address);showSubmit();">
+                                                                     <option ng-selected="true" disabled value=""> -- Select -- </option>
+                                                                     <option value="more">More...</option>
+                                                                 </select>
+                                                             </div>
+                                                          </div>
+                                                    </div>
+                                                </div>
+                                                <div ng-hide="selectedCallFlow.callflowOption == 'reservedNumber'"> 
+                                                        <!-- <div ng-if='LoadTrackingNumber'>
+                                                                <div class="newTrackingLoader">
+                                                                        <img src="./img/pageloading.gif" class="TrackingLoader-img" alt="trackingnumbers"/ > 
+                                                                </div>
+                                                        </div>                                     -->
+                                                        <div ng-show="selectedCallFlow.callflowOption == 'singleNumber'">
+                                                            <div class="col-md-offset-1 col-lg-4 col-md-4 col-sm-12 mt20">
+                                                             <label class=" control-label">Tracking Number</label>
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                                                             <div ng-Show="isNew" class="input-icon right">
+                                                                 <i id="LoadTrackingNumber" no-long-dist ng-show="selectedCallFlow.address" class="fa fa-refresh fa-spin"></i>
+                                                                 <select no-long-dist ng-init="selectedCallFlow.num = ''" class="form-control mt15" ng-model="selectedCallFlow.num" ng-click="LoadTrackingNumber = false"  validate-blur-forza="Tracking Number Details, Tracking Number" ng-options="num as num.pretty_number for num in numList track by num.number" id="source" ng-required="selectedCallFlow.callflowOption == 'singleNumber' && isNew" ng-change="setNewNumber(selectedCallFlow.num,selectedCallFlow.address);showSubmit();" ng-disabled="!canModify || LoadTrackingNumber ||loadingLocations">
+                                                                     <option ng-selected="true" disabled value=""> -- Select -- </option>
+                                                                     <option value="num">More...</option>
+                                                                 </select>
+                                                                 
+                                                             </div>
+                                                             <br>
+                                                             <label ng-Hide="isNew" class="mt5">{{selectedCallFlow.phonep}}</label>
+                                                            </div>
+                                                        </div>
+                                                         <div ng-show="selectedCallFlow.callflowOption == 'numberPool' ">
+                                                            <div class="col-md-offset-1 col-lg-4 col-md-4 col-sm-12 mt20">
+                                                             <label class=" control-label">Quantity</label>
+                                                            </div>
+                                                             <div class="col-lg-6 col-md-6 col-sm-12 mt15">
+                                                                 <input type="number" class="form-control" validate-blur-forza="Tracking Number Details, Quantity"  ng-change="showSubmit()" ng-pattern="/^[0-9]+$/" ng-model="selectedCallFlow.numberPool" min="1" max="99" ng-required="selectedCallFlow.callflowOption == 'numberPool'" >
+                                                             </div>
+                                                         </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 mt20 mb20" style="border-left: solid 1px #ccc" >                
+                                                <div class="row mt20">
+                                                    <div class="col-md-offset-1 col-lg-1 col-md-1 col-sm-12 mt20">
+                                                         <label class="control-label" style="padding-top:8px;">Active?</label>
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-2 col-sm-12 mt20">
+                                                        <toggle-switch ng-model="cfactive"  ng-change="toggleCallFlow()" on-label="Yes" off-label="No" class="primary switch" is-disabled="!canModify || (selectedCallFlow.quantity >1 && isNew)">
+                                                        </toggle-switch>
+                                                    </div>
+                                                      
+                                                    <div class="" ng-show="showSpambutton">
+                                                        <div class="col-lg-2 col-md-2 col-sm-12 mt20 spamguardChange">
+                                                        <label class="control-label" style="padding-top:8px;padding-left:10px;">Spam Guard?</label>
+                                                        </div>
+
+                                                        <div class="col-lg-2 col-md-2 col-sm-12 mt20">
+                                                        <toggle-switch ng-model="selectedCallFlow.spamActive" is-disabled="!canModify || ((selectedCallFlow.quantity >1 && isNew)) || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'hangup'"  on-label="YES" off-label="NO" class="primary switch">
+                                                        </toggle-switch>
+                                                        </div>
+                                                    </div>
+                                                    <div class="" ng-show="showSMSbutton && selectedCallFlow.smsFeature">
+                                                        <div class="col-lg-1 col-md-1 col-sm-12 mt20 spamguardChange">
+                                                        <label class="control-label" style="padding-top:8px;padding-left:10px;">SMS?</label>
+                                                        </div>
+
+                                                        <div class="col-lg-2 col-md-2 col-sm-12 mt20">
+                                                        <toggle-switch ng-model="selectedCallFlow.smsActive" is-disabled="(!canModify || (selectedCallFlow.quantity > 1 && isNew)) || (selectedCallFlow.callflowOption != 'singleNumber' && selectedCallFlow.callflowOption != 'reservedNumber')"  on-label="YES" off-label="NO" class="primary switch">
+                                                        </toggle-switch>
+                                                        </div>
+                                                    </div>
+                                                    <div class="" ng-show="showSMSbutton && !selectedCallFlow.smsFeature">
+                                                        <div class="col-lg-1 col-md-1 col-sm-12 mt20 spamguardChange">
+                                                        <label class="control-label" style="padding-top:8px;padding-left:10px;">SMS?</label>
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2 col-sm-12 mt20">
+                                                        <toggle-switch ng-model="selectedCallFlow.smsActive" is-disabled="(!canModify || (selectedCallFlow.quantity > 1 && isNew)) || (selectedCallFlow.callflowOption != 'singleNumber' && selectedCallFlow.callflowOption != 'reservedNumber')"  on-label="YES" off-label="NO" class="warning switch">
+                                                        </toggle-switch>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-offset-1 col-lg-4 col-md-4 col-sm-12 mt20" ng-class="selectedCallFlow.callflowOption == 'reservedNumber'">
+                                                        <label class=" control-label">Tracking Number Name</label>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 mt15">
+                                                        <input type="text" name = "Name" class="form-control" placeholder="Type Unique Tracking Number Name" validate-blur-forza="Tracking Number Details, Name" ng-model="selectedCallFlow.name" maxlength="50" required ng-readonly="!canModify" disable-comma ng-disabled="!canModify" ng-change="showSubmit()">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-offset-1 col-lg-4 col-md-4 col-sm-4 mt20">
+                                                        <label class=" control-label">Ad Source</label>
+                                                    </div>
+                                                    <div class=" col-lg-6 col-md-6 col-sm-4 mt15">
+                                                        <select ng-init="selectedCallFlow.channel = options[0]" class="form-control" id="source" 
+                                                        validate-blur-forza="Tracking Number Details, Ad Source"
+                                                         ng-model="selectedCallFlow.channel" ng-change="showSubmit()" 
+                                                         onChange="ga('send', 'event', 'Form Event', 'Campaign Ad Source', this.options[this.selectedIndex].value);" 
+                                                         ng-options="  c.sub_category group by c.category  && c.category disable when c.category == 'API' for c in channels" 
+                                                         required ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew)">
+                                                            <option ng-selected="true" disabled value=""> -- Select -- </option>
+                                                        </select> 
+                                                    </div>
+                                                </div>                                  
+                                            </div>
+                                        </div>                                    
+                                        <div class="row">                                        
+                                            <div class="col-lg-6 col-md-6 col-sm-12 mb20" id ="routingDiv" ng-init="getGeoLocationList()">
+                                               <div class="row">
+                                                   <label class="" style="color: #1f407d !important;margin-left: 10px;">CONFIGURE ROUTING OPTIONS</label>
+                                               </div>                                           
+                                                  <div class="col-md-offset-1 col-lg-4 col-md-4 col-sm-12 mt15" style="padding-left: 1px;">
+                                                      <label>Route Calls By</label>
+                                                  </div>
+                                                   <div class="col-lg-6 col-md-6 col-sm-12 mt10 ">                                        
+                                                        <select ng-init="selectedCallFlow.routetype = selectedCallFlow.routetype" ng-model="selectedCallFlow.routetype" class="form-control" id="source" data-placeholder="Select" onChange="ga('send', 'event', 'Form Event', 'Tracking Number Type', this.options[this.selectedIndex].value);" ng-change="showSubmit(); pauseCurrentPlayingAudio();" ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew)" required validate-blur-forza="Tracking Number Details, Route Type">
+                                                            <option ng-selected="true" disabled value="">-- Select -- </option>
+                                                            <option value="simple">Forwarding to a phone number</option>
+                                                            <option value="ivr">Interactive Voice Response</option>
+                                                            <option value="geo">GeoRoute to a location</option>
+                                                            <option value="PercentageBasedRoute">Based on a percentage</option>     
+                                                            <option value="voicemail" ng-hide="!voicemailComponent">Send directly to voicemail</option>                                                  
+                                                            <option value="outbound" ng-selected="selectedCallFlow.routetype == 'outbound'" ng-if="selectedCallFlow.callflowOption !== 'numberPool'">Outbound</option>
+                                                            <option value="schedule">Follow a schedule</option>
+                                                            <option value="hangup">Hangup</option>
+                                                            </select>
+                                                        </div>
+                                                        
+                                                    <!-- *******************************Geo Route********************************** -->
+
+                                                    <div class="row" ng-show="selectedCallFlow.routetype === 'geo'">
+                                                            <div class="col-md-offset-1 col-lg-4 col-md-4 col-sm-12 mt15">
+                                                                <label>Route By</label>
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-6 col-sm-12 mt10 ">
+                                                                <select ng-init="selectedCallFlow.routeBy = selectedCallFlow.routeBy" ng-model="selectedCallFlow.routeBy" class="form-control"
+                                                                    id="source" data-placeholder="Select" onChange="ga('send', 'event', 'Form Event', 'Tracking Number Type', this.options[this.selectedIndex].value);"
+                                                                    ng-change="showSubmit()" ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew)" required
+                                                                    validate-blur-forza="Tracking Number Details, Route By">
+                                                                    <option ng-selected="true" disabled value=""> -- Select a List-- </option>
+                                                                    <option value="claimedState">Claimed State</option>
+                                                                    <option value="Claimed">Claimed Zip-code</option>
+                                                                    <option value="Npa">Caller Area Code Proximity</option>
+                                                                    <option value="Zipcode">Zip-code Proximity</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="" ng-show="selectedCallFlow.routetype === 'geo'">
+                                                                    <div class="col-md-offset-1 col-lg-4 col-md-4 col-sm-12 mt15">
+                                                                        <label>Use location list</label>
+                                                                    </div>
+                                                                    <div class="col-lg-4 col-md-4 col-sm-12 mt15">
+                                                                        <!-- <select ng-model="selectedCallFlow.geoList" ng-focus="getGeoLocationList()" validate-blur-forza="Tracking Number Details, Use location list"   ng-change="showSubmit();" ng-required="selectedCallFlow.routetype=='geo'"
+                                                                            class="form-control" id="geolist" ng-disabled="!canModify || selectedCallFlow.quantity >1">
+                                                                            <option ng-selected="true" disabled value=""> -- Select -- </option>
+                                                                            <option value="{{loc.id}}" ng-repeat="loc in georoutelocations" ng-selected="selectedCallFlow.geoList == loc.id">
+                                                                                {{loc.name}}</option>
+                                                                        </select> -->
+                                                                        <select class="form-control" id="geolist" ng-model="locObj" ng-focus="getGeoLocationList()" validate-blur-forza="Tracking Number Details, Use location list" ng-change="showSubmit();changeLocId(locObj);" ng-required="selectedCallFlow.routetype=='geo'" ng-options="loc as loc.name for loc in georoutelocations track by loc.id" ng-disabled="!canModify" data-placeholder="-- Select --">
+                                                                            <option ng-selected="true" disabled value=""> -- Select -- </option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-lg-1 col-md-1 col-sm-12 mt15">
+                                                                        <a class="btn btn-info" href="#/set-location" target="_blank" ng-enabled="canModify">Manage Location Lists</a>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                
+                                                                <div class="" ng-show="selectedCallFlow.routeBy=='Npa'  ||  selectedCallFlow.routeBy=='Zipcode'">
+                                                                    <div class="col-md-offset-1 col-lg-4 col-md-4 col-sm-12 mt15">
+                                                                        <label>Proximity Limit</label>
+                                                                    </div>
+                                                                    <div class="col-lg-3 col-md-3 col-sm-12 mt15 " style="width: 110px;">                               
+                                                                        <input class="form-control" decimals="1" min="0" max-numbers="6" max="99999.9" ng-readonly="!canModify" validate-blur-forza="Tracking Number Details, Proximity Limit" ng-required="selectedCallFlow.routeBy=='Npa' || selectedCallFlow.routeBy=='Zipcode'" ng-model="selectedCallFlow.radius" ng-change="showSubmit()">     
+                                                                    </div>
+                                                                    <div class="col-lg-4 col-md-5 col-sm-5 mt15">
+                                                                        <label>
+                                                                            Miles from nearest ring-to location
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                        </div>                                                    
+                                                                                                               
+                                                    
+                                                    <!-- *******************************Geo Route******************************************* -->
+
+                                                    <!-- Outbound start-->
+                                                    <div ng-show="selectedCallFlow.routetype == 'outbound'">
+                                                        <div class="row">
+                                                            <div class="col-md-offset-1 col-lg-4 col-md-4 col-sm-12 mt20" ng-show = "selectedCallFlow.routetype !=='voicemail' ">
+                                                                <label>
+                                                                    Create a 4 Digit Authorization Pin
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-lg-2 col-md-2 col-sm-12 mt15" ng-show = "selectedCallFlow.routetype !=='voicemail' ">
+                                                                <input type="text" name="pin" class="form-control"  maskinput ng-model="selectedCallFlow.pin" validate-blur-forza="Tracking Number Details, 4 Digit Authorization Pin" data-inputmask="'mask':'9999'" ng-change="showSubmit()" ng-minlength="4" ng-maxlength="4" ng-pattern="/^[0-9]+$/" maxlength="4" min="0" max="9999">
+                                                            </div> 
+                                                        </div> 
+                                                        <div class="row">
+                                                            <div class="col-md-offset-1 col-lg-4 col-md-4 col-sm-12 mt20" ng-show = "selectedCallFlow.routetype !=='voicemail' ">
+                                                                <label>
+                                                                    Set Caller Id To
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-6 col-sm-12 mt10 " ng-show = "selectedCallFlow.routetype !=='voicemail' ">
+                                                                <select ng-init="selectedCallFlow.routetype = selectedCallFlow.routetype" ng-model="selectedCallFlow.caller_id" 
+                                                               ng-options="setCallerId.value as setCallerId.key for setCallerId in setCallerIdList" class="form-control" id="source" data-placeholder="Select" onChange="ga('send', 'event', 'Form Event', 'Tracking Number Type', this.options[this.selectedIndex].value);" ng-change="showSubmit()" ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew)" required validate-blur-forza="Tracking Number Details,  Set Caller Id">
+                                                               <option ng-selected="true" disabled value=""> -- Select -- </option>
+                                                                </select> 
+                                                            </div>
+                                                        </div>  
+                                                    </div>
+                                                    <!-- Outbound start-->
+                                                    <!-- following a schedule  Start-->
+                                                    <div class="row">
+                                                        <div class="col-md-offset-1 col-lg-4 col-md-4 col-sm-12 mt20" ng-show = "selectedCallFlow.routetype =='schedule' ">
+                                                            <label>
+                                                                Time Zone
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-12 mt15" ng-show = "selectedCallFlow.routetype =='schedule' ">
+                                                            <select class="form-control" ng-model="selectedCallFlow.timezone" ng-disabled="isConvirzaAdmin" ng-options="timeZone.text for timeZone in timeZones track by timeZone.value" data-placeholder="- Select -"  style="width:100%"  validate-blur-forza="Tracking Number Details, Timezone" ng-required="selectedCallFlow.routetype =='schedule' "  ng-change="showSubmit()">
+                                                             <option ng-selected="true" disabled value="">-- Select -- </option>
+                                                            </select>
+                                                        </div>  
+                                                    </div>
+                                                    <!-- following a schedule  End-->
+                                                                                         
+                                                    <div class="col-md-offset-1 col-lg-4 col-md-4 col-sm-12 mt20" ng-hide = "selectedCallFlow.routetype =='voicemail' || selectedCallFlow.routetype =='schedule' || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'PercentageBasedRoute' || selectedCallFlow.routetype =='ivr' || selectedCallFlow.routetype == 'hangup'" style="padding-left:0px">
+                                                        <!-- <label>{{selectedCallFlow.routetype === 'geo' ? 'Fallback Number' : 'Ring to Phone Number'}}</label> -->
+                                                        <label>Ring to Phone Number</label>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 mt15" ng-show=" selectedCallFlow.routetype =='geo'">
+                                                        <input type="text" name="ringToNumber" class="form-control" validate-blur-forza="Tracking Number Details, Ring to Phone Number" checklength="10" maskinput ng-model="selectedCallFlow.ringtoNum"ng-required="selectedCallFlow.routetype=='simple' || selectedCallFlow.routetype =='schedule' || selectedCallFlow.routetype=='geo'" data-inputmask="'mask':'(999) 999-9999'" ng-readonly="!canModify || (selectedCallFlow.quantity >1 && isNew)" ng-change="showSubmit()">
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-12 mt15" ng-hide = " selectedCallFlow.routetype =='voicemail' || selectedCallFlow.routetype =='schedule' || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'PercentageBasedRoute' || selectedCallFlow.routetype =='ivr' || selectedCallFlow.routetype == 'hangup' || selectedCallFlow.routetype =='geo'" >
+                                                        <input type="text" name="ringToNumber" class="form-control" validate-blur-forza="Tracking Number Details, Ring to Phone Number" checklength="10" maskinput ng-model="selectedCallFlow.ringtoNum"ng-required="selectedCallFlow.routetype=='simple' || selectedCallFlow.routetype =='schedule' || selectedCallFlow.routetype=='geo'" data-inputmask="'mask':'(999) 999-9999'" ng-readonly="!canModify || (selectedCallFlow.quantity >1 && isNew)" ng-change="showSubmit()">
+                                                    </div>
+                                                    <div class="col-lg-1 col-md-1 col-sm-12 mt15" ng-hide = "selectedCallFlow.routetype =='schedule' || selectedCallFlow.routetype =='voicemail' || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'PercentageBasedRoute' || selectedCallFlow.routetype =='ivr' || selectedCallFlow.routetype == 'hangup' || selectedCallFlow.routetype =='geo'" >
+                                                       <button type="button" class="btn btn-info" ng-click="openOverflowBox=!openOverflowBox" ng-hide="openOverflowBox" ng-disabled="!singlecallForm.ringToNumber.$valid">Add Overflow Number</button> 
+                                                       <!-- <button type="button" class="btn btn-default" ng-click="openOverflowBox=!openOverflowBox" ng-hide="!openOverflowBox">Remove Hunting Option</button>  -->
+                                                </div>
+                                                <div class="col-md-offset-5 col-lg-7 col-md-7 col-sm-7 mt15" ng-show = "selectedCallFlow.routetype === 'geo'">
+                                                    <label ng-show="selectedCallFlow.routeBy=='Claimed'">If callers zip code is not in the claimed zip code list , all calls will be forwarded to this number.</label>
+                                                    <label ng-show="selectedCallFlow.routeBy=='Npa' || selectedCallFlow.routeBy=='Zipcode'">All calls beyond Proximity limit will be forwarded to this number.</label>
+                                                    <label ng-show="selectedCallFlow.routeBy=='claimedState'">If callers state is not in claimed list, All calls will be forwarded to this number.</label>
+                                                </div>
+                                                <div class="row" style="margin-left: 8%" ng-hide = "selectedCallFlow.routetype =='schedule' || selectedCallFlow.routetype =='voicemail'|| selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'PercentageBasedRoute' || selectedCallFlow.routetype =='ivr' || selectedCallFlow.routetype =='hangup'">
+                                                        <overflow-routing overflow-numbers="overflowNumbers" is-simultaneous-ring="isSimultaneousRing" ng-show="openOverflowBox" overflow-validation-header="overflowValidationHeader" open-overflow-box="openOverflowBox" current-over-flow-number="currentOverFlowNumber" by-default-ring="defaultsRings" show-submit= "showSaveButtonOverflow()" > </overflow-routing> 
+                                                </div>
+
+                                                </div>                                         
+                                            <div class="col-lg-6 col-md-6 col-sm-12 mt20 mt20 ">
+                                                <div class="row" ng-hide="selectedCallFlow.routetype == 'PercentageBasedRoute' || selectedCallFlow.routetype =='ivr' ||  selectedCallFlow.routetype =='schedule'">
+                                                    <div class="col-md-offset-1 col-lg-4 col-md-4 col-sm-12 mt20 ">
+                                                         <label class="control-label" ng-class="{ 'customDisable' : !voicemailComponent || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'hangup'}">
+                                                            Activate Voicemail ?
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-1 col-md-1 col-sm-12 mt20">
+                                                            <md-checkbox ng-model="selectedCallFlow.activateVoicemail" ng-class="{ 'customDisable' : !voicemailComponent || selectedCallFlow.routetype == 'outbound'}" ng-disabled="!canModify || (selectedCallFlow.quantity >1 && isNew) || userAccess.postcallivr == voicemail || !voicemailComponent || selectedCallFlow.routetype === 'voicemail' || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'hangup'" ng-click="disableRecordCall();">                                                       
+                                                        </md-checkbox>
+                                                    </div>
+                                                    <div class="col-lg-5 col-md-5 col-sm-12 mt20" ng-class="{ 'customDisable' : !voicemailComponent || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'hangup' }" style="margin-left:5px">
+                                                             <p class="fontChange"> To customize greetings and number of rings for voicemail, please click Advanced Settings section</p>
+                                                    </div>
+                                                </div>    
+                                                <div class="row mb10 mt20" ng-show="selectedCallFlow.routetype =='ivr'">
+                                                        <div class="col-sm-3">
+                                                            <label>Play a voice prompt</label>
+                                                        </div>
+                                                        <div class="col-lg-5 col-md-5 col-sm-12" ng-show="TTSIVRSelected">
+                                                            <textarea rows="3" style="resize:none" class="form-control fontChange" placeholder="Example: Press 1 for x department, Press 2 for..." validate-blur-forza="Tracking Number Details, Play a voice prompt first" ng-model="selectedCallFlow.voicepromptTTSText"  ng-change="voiceTextIVRChange();showSubmit()" ng-required="TTSIVRSelected"></textarea>
+                                                            <!-- <input type="text" class="form-control fontChange" placeholder="Example: Press 1 for x department, Press 2 for..." validate-blur-forza="Tracking Number Details, Play a voice prompt first" ng-model="selectedCallFlow.voicepromptTTSText"  ng-change="voiceTextIVRChange();showSubmit()" ng-required="TTSIVRSelected" style="height: 65px;"> -->
+                                                        </div>
+                                                        <div class="col-sm-12 col-lg-5 col-md-5 col-xs-12 shorten-word" ng-hide="TTSIVRSelected" align="left">Selected Audio Filename: {{selectedCallFlow.voicepromptText}}</div>
+                                                        <div class="col-sm-12 col-lg-1 col-md-2 col-xs-12 fontChange pull-left">
+                                                            <a class="btn btn-default playpadding" ng-click="showIVRVoiceModal('lg')" ng-disabled="disableBtn || whisperAudioIsPlaying() || !canModify || audioIsPlaying('voicePromt')" ng-show="TTSIVRSelected" style="float:left" ondblclick="return false;"><i class="fa fa-plus-circle" promtType="VoicePromt"></i></a>
+                                                            <a class="btn btn-default playpadding mt5" ng-show="!TTSIVRSelected" ng-click="removeSelectedIVRVoiceAudio()" style="float:left"><i class="fa fa-trash-o"></i></a>
+                                                            <a class="btn btn-primary playpadding mt5" ng-show="TTSIVRSelected || hasValidTTSVoiceURL" ng-disabled="whisperAudioIsPlaying() || audioIsPlaying('ivr') || audioIsDownloading() || (!selectedCallFlow.voicepromptTTSText.length && !hasValidTTSVoiceURL)" ng-click="playTTSVoiceAudio(selectedCallFlow.voicepromptURL);disablePlayBtn($event)">{{ (ivrAudio1 === undefined || ivrAudio1.paused || ivrAudio1.ended ) ? '' : '' }}<i class="{{(ivrAudio1 === undefined || ivrAudio1.paused || ivrAudio1.ended) ? 'fa fa-play' : 'fa fa-pause'}}" style="margin-left:5px;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                <div class="row" ng-show ="selectedCallFlow.routetype =='simple'">
+                                                    <div class="col-md-offset-1 col-lg-4 col-md-4 col-sm-12 mt15 ">
+                                                         <label>
+                                                            Set Caller Id To
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 mt10">
+                                                        <select class="form-control" ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew)" ng-model="selectedCallFlow.dnis_as_cid">
+                                                            <option value="caller_id">Caller ID</option>
+                                                            <option value="tracking_number">Tracking Number(ODN)</option>                                                              
+                                                        </select>
+                                                    </div>                                                        
+                                                </div>
+                                                <div class="row" ng-show="selectedCallFlow.routetype == 'geo' && (selectedCallFlow.routeBy == 'Claimed' || selectedCallFlow.routeBy == 'Zipcode')">
+                                                    <div class="col-md-offset-1 col-lg-4 col-md-4 col-sm-12 mt20 ">
+                                                         <label class="control-label">
+                                                            Use a custom geolocation prompt
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-1 col-md-1 col-sm-12 mt20">
+                                                        <md-checkbox ng-model="selectedCallFlow.playGeoLocationPrompt" ng-disabled="!canModify">                                                       
+                                                        </md-checkbox>
+                                                    </div>
+                                                    <div class="row mb10 mt20" ng-show="selectedCallFlow.playGeoLocationPrompt">
+                                                        <div class="col-lg-4 col-md-4 col-sm-12" ng-show="TTGeoloLocationPromptSelected">
+                                                            <textarea rows="3" style="resize:none" class="form-control fontChange" placeholder="Please enter your zip code..." validate-blur-forza="Tracking Number Details, Play a voice prompt first" ng-model="selectedCallFlow.geoLocationPromptTTSText"  ng-change="voiceTextGeoLocationPromptChange(); showSubmit()" ng-required="TTGeoloLocationPromptSelected"></textarea>
+                                                        </div>
+                                                        <div class="col-sm-12 col-lg-5 col-md-5 col-xs-12 shorten-word" ng-hide="TTGeoloLocationPromptSelected" align="left">Selected Audio Filename: {{selectedCallFlow.geoLocationPromptText}}</div>
+                                                        <div class="col-sm-12 col-lg-1 col-md-2 col-xs-12 fontChange pull-left">
+                                                            <a class="btn btn-default playpadding" ng-click="showGeLocationVoiceModal('lg')" ng-disabled="disableBtn || whisperAudioIsPlaying() || !canModify || audioIsPlaying('geolocation')" ng-show="TTGeoloLocationPromptSelected" style="float:left" ondblclick="return false;"><i class="fa fa-plus-circle" promtType="VoicePromt"></i></a>
+                                                            <a class="btn btn-default playpadding mt5" ng-show="!TTGeoloLocationPromptSelected" ng-click="removeSelectedGeoloLocationPrompt()" style="float:left"><i class="fa fa-trash-o"></i></a>
+                                                            <a class="btn btn-primary playpadding mt5" ng-show="TTGeoloLocationPromptSelected || hasValidGeoloLocationPromptURL" ng-disabled="whisperAudioIsPlaying() || audioIsPlaying('geolocation') || audioIsDownloading() || (!selectedCallFlow.geoLocationPromptTTSText.length && !hasValidGeoloLocationPromptURL)" ng-click="playGeoLocationVoiceAudio(selectedCallFlow.geoLocationPromptURL);disablePlayBtn($event)">{{ (geoLocationAudio === undefined || geoLocationAudio.paused || geoLocationAudio.ended ) ? '' : '' }}<i class="{{(geoLocationAudio === undefined || geoLocationAudio.paused || geoLocationAudio.ended) ? 'fa fa-play' : 'fa fa-pause'}}" style="margin-left:5px;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>                    
+                                            </div>
+                                        </div>
+                                        <div class="row scheduleDiv" ng-show="selectedCallFlow.routetype =='schedule'">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6" >
+                                                    <div class=" col-md-offset-1 col-lg-4 col-md-4" ><b> Schedule Day(s) of the week </b></div>
+                                                    <div class="col-lg-7 col-md-7"><b> Schedule Time of day</b></div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6" >
+                                                    <div class="col-lg-8 col-md-8"> <b>Ring to Phone Number</b></div>
+                                                    <div class="col-lg-2 col-md-2" ng-class="{ 'customDisable' : !voicemailComponent }"> <b>Activate Voicemail</b></div>
+                                                    <div class="col-lg-2 col-md-2"><b>Delete </b></div>
+                                                </div>
+                                            </div>
+                                                   
+                                            <div ng-repeat="scheduleData in scheduleInfo">
+                                                <div class="row mt10">
+                                                    <div class="col-lg-6 col-md-6" >
+                                                        <div class=" col-md-offset-1 col-lg-4 col-md-4"> 
+                                                            <ng-dropdown-multiselect-v3 sch-index="$index" id="scheduledDays" checkboxes="true" options="scheduledDays" selected-model="scheduleData.days" extra-settings="settings" events="scheduleEvents">
+                                                            </ng-dropdown-multiselect-v3>
+                                                        </div>
+
+                                                        
+                                                        <div class="col-lg-3 col-md-3"> 
+                                                            <select autocomplete="off" class="form-control" validate-blur-forza="Tracking Number Details, FromTime" ng-required="selectedCallFlow.routetype =='schedule' " ng-model="scheduleData.fromTime" ng-change="checkCurrentSchedule($index);showSubmit();formationscheduleTimeSlots($index)" ng-disabled="isConvirzaAdmin" ng-options="scheduleTime for scheduleTime in scheduleTimeSlots" data-placeholder="- Select -" style="width:100% ;max-width: 100px">
+                                                            <option ng-selected="true" disabled value="action0">-- Select -- </option>
+
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-lg-1 col-md-1">
+                                                            <label style="text-align: center;padding-top: 10px">
+                                                             To
+                                                            </label>
+                                                        </div> 
+                                                        <div class="col-lg-3 col-md-3"> 
+                                                           <select autocomplete="off" class="form-control " validate-blur-forza="Tracking Number Details, ToTime" ng-required="selectedCallFlow.routetype =='schedule' " ng-model="scheduleData.toTime"  ng-change="checkCurrentSchedule($index);showSubmit()" ng-disabled="isConvirzaAdmin" ng-options="scheduleTime for scheduleTime in scheduleData.scheduleEndTimeSlots" data-placeholder="- Select -" style="width:100% ;max-width: 100px">
+                                                            <option ng-selected="true" disabled value="action0">-- Select -- </option>
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <div class="col-lg-8 col-md-8" >
+                                                            <input type="text" name="scheduleRingtoNumber{{$index}}" class="form-control" validate-blur-forza="Tracking Number Details, Ring to Phone Number" checklength="10" maskinput ng-model="scheduleData.ringTo" ng-change="showAddOverflow($index);showSubmit()"  ng-required="selectedCallFlow.routetype =='schedule'" data-inputmask="'mask':'(999) 999-9999'" ng-readonly="!canModify || (selectedCallFlow.quantity >1 && isNew)" style="width: 40%;float: left;margin-right: 5%;">
+                                                            <button type="button" class="btn btn-primary" ng-click="scheduleData.openOverflowBox=!scheduleData.openOverflowBox;showSubmit()" ng-hide="scheduleData.openOverflowBox" ng-disabled="checkRingToNumberSchedule(scheduleData.ringTo)"> Add Overflow Number</button> 
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2" style="text-align: center; margin-top: 5px"> 
+                                                            <md-checkbox ng-model="scheduleData.activateVoicemail" ng-disabled="!canModify || !voicemailComponent || (selectedCallFlow.quantity >1 && isNew)"  ng-change="showSubmit()" ng-click="disableRecordCall($index)">                                                          
+                                                            </md-checkbox> 
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2">
+                                                             <a class="btn btn-default"  ng-disabled="scheduleInfo.length<2" ng-click="removeSchedule($index);showSubmit()" > <i class="fa fa-trash-o"></i></a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin-left: 4%; padding-left: 10px; " ng-show = "selectedCallFlow.routetype !=='voicemail' ">
+                                                        <div class="col-lg-6 col-md-6 col-sm-12">
+                                                             <overflow-routing overflow-numbers="scheduleData.overflowNumbers" is-simultaneous-ring="scheduleData.simultaneousRings" ng-show="scheduleData.openOverflowBox" overflow-validation-header="overflowValidationHeader" open-overflow-box="scheduleData.openOverflowBox" current-over-flow-number="currentOverFlowNumber" by-default-ring="defaultsRings" show-submit= "showSaveButtonOverflow()"> </overflow-routing>
+                                                        </div> 
+                                                    </div>
+                                                    <div class="row mt10" style="margin-left: 4%; padding-left: 10px;" ng-show="$index == scheduleInfo.length-1" >
+                                                        <div class="col-lg-6 col-md-6 col-sm-12 ">
+                                                             <a class="btn btn-primary"  ng-click="addSchedule()" ng-disabled="showAddSchedule || !(scheduleInfo.length < 10)" >Add a Schedule </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6">
+                                                     <div class=" col-md-offset-1 col-lg-4 col-md-4 col-sm-12 mt20">
+                                                        <label>Default Ring to Number </label>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md- col-sm-12 mt15" ng-hide = " selectedCallFlow.routetype =='voicemail' || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'PercentageBasedRoute'" >
+                                                        <!-- <input type="text" name="ringtoNumber" ng-change= "replaceMasking();showSubmit()" class="form-control" validate-blur-forza="Tracking Number Details, Default Ring to Number" checklength="10" maskinput ng-model="selectedCallFlow.ringtoNum"  data-inputmask="'mask':'(999) 999-9999'" ng-required="selectedCallFlow.routetype =='schedule'" ng-readonly="!canModify || (selectedCallFlow.quantity >1 && isNew)" validate-masked-phone-number required="required" style="width: 70%;float: left;margin-right: 5%;"> -->
+                                                        <!-- <input type="text" name="ringtoNumber" class="form-control" checklength="10" maskinput ng-model="selectedCallFlow.ringtoNum"  data-inputmask="'mask':'(999) 999-9999'" ng-readonly="!canModify || (selectedCallFlow.quantity >1 && isNew)" ng-change="showSubmit()"> -->
+                                                        <input type="text" name="ringtoNumber" class="form-control" checklength="10" maskinput ng-model="selectedCallFlow.ringtoNum"  validate-blur-forza="Tracking Number Details, Default Ring to Number" data-inputmask="'mask':'(999) 999-9999'" ng-readonly="!canModify || (selectedCallFlow.quantity >1 && isNew)" validate-masked-phone-number ng-change="replaceMasking();showSubmit();activateVoicemailSchedule(); ">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-12"  ng-disabled="!activatevm">
+                                                    <div class="row">
+                                                    <div class="col-md-offset-1 col-lg-4 col-md-4 col-sm-12 mt20 ">
+                                                         <label ng-class="{ 'customDisable' : !voicemailComponent }">
+                                                            Activate Voicemail ?
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-1 col-md-1 col-sm-12 mt20">
+                                                            <md-checkbox ng-model="selectedCallFlow.activateVoicemail" ng-class="{ 'customDisable' : !voicemailComponent }" ng-disabled="!canModify || (selectedCallFlow.quantity >1 && isNew) || userAccess.postcallivr == voicemail || !voicemailComponent || selectedCallFlow.routetype === 'voicemail' || !activatevm " ng-click="disableRecordCall($index);">                                                       
+                                                        </md-checkbox>
+                                                    </div>
+                                                    <div class="col-lg-5 col-md-5 col-sm-12 mt20" ng-class="{ 'customDisable' : !voicemailComponent }" style="padding-left:0px">
+                                                             <p class="fontChange"> To customize greetings and number of rings for voicemail, please click Advanced Settings section</p>
+                                                    </div>
+                                                </div>    
+                                                                                     
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="row multilevel mb20" style="margin: 20px" ng-if ="selectedCallFlow.routetype == 'ivr'">
+                                                        <div ng-repeat="cAction in ivrActions" >
+                                            <multi-level-ivr level="multlevelivr.ivr" ivr-actions="ivrActions" c-action="cAction" caction-id="$index" show-ivr-voice-modal="showIvrVoiceModal(cAction)" voice-text-ivr-change ="voiceTextIvrChange(cAction)" voice-prompts="prompts" disable-save-for-schedule="disableSaveForSchedule"
+                                             remove-selected-ivr-voice-audio="removeSelectedIvrVoiceAudio(cAction)" voicemail-component="voicemailComponent" disable-r-c="disableRC" audio-is-playing="audioIsPlaying('ivr')" audio-is-downloading ="audioIsDownloading()" play-Tts-Voice-Audio ="playTtsVoiceAudio(cAction)" stop-Audio="stopAudio()"
+                                             georoutelocations="georoutelocations" show-submit-overflow= "showSaveButtonOverflow()" show-submit="showSubmit()" is-Location-Ivr="false" default-Data="defaultData" by-default-ring="selectedCallFlow.Overflow"></multi-level-ivr>     
+                                                        </div>
+                                                    </div>
+                                                   
+                                        
+                                                     <div ng-show="selectedCallFlow.routetype =='PercentageBasedRoute'">
+                                            <div class="row">
+                                                <div class="col-lg-5 col-md-5" >
+                                                    <div class=" col-md-offset-1 col-lg-4 col-md-4" ><b> Percent of Calls </b></div>
+                                                    <div class="col-lg-7 col-md-7"> <b>Ring to Phone Number</b></div>
+                                                </div>
+                                                <div class="col-lg-7 col-md-7" >                                                    
+                                                    <div class="col-md-offset-3 col-lg-2 col-md-2" style=" width: 212px;text-align: center;" ng-class="{ 'customDisable' : !voicemailComponent }"> <b>Activate Voicemail</b></div>
+                                                    <div class="col-lg-2 col-md-2"><b>Delete </b></div>
+                                                </div>
+                                            </div>
+                                            <div ng-repeat="percentInfoData in percentInfo | orderBy:'route_order'">
+                                                <div class="row mt10">
+                                                    <div class="col-lg-5 col-md-5" >
+                                                        <div class=" col-md-offset-1 col-lg-4 col-md-4"> 
+                                                            <input type="number" class="form-control" validate-blur-forza="Tracking Number Details, Percentage" ng-model="percentInfoData.percentage" ng-readonly="percentInfoData[$index].readonly" ng-blur="percentageCount($index)" ng-enter="percentageCount($index)" data-inputmask="'mask':'99%'" maxlength="2" ng-readonly="!canModify" ng-maxlength="2" maxlength="2" min="1" max="99" oninput="maxLengthCheck(this)" rowid="2" ng-required="numPer >= $index" ng-pattern="/^[0-9]+$/">
+                                                        </div>
+
+                                                        <div class="col-lg-7 col-md-7"> 
+                                                            <input type="text" class="form-control" check-duplicate=""validate-blur-forza="Tracking Number Details, Ring to Phone Number" validate-masked-phone-number required="required" ng-change="showSubmit();" checklength="10" maskinput ng-model="percentInfoData.ringToNum" ng-readonly="percentInfoData[$index].readonly" data-inputmask="'mask':'(999) 999-9999'" id="ringToNum[$index]" ng-readonly="!canModify" ng-required="numPer >= $index" focus>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-lg-7 col-md-7">
+                                                        <div class="col-lg-3 col-md-3">                                                            
+                                                            <button type="button" class="btn btn-info" ng-disabled="checkRingToNumberPercent(percentInfoData.ringToNum) " ng-click="percentInfoData.openOverflowBox=!percentInfoData.openOverflowBox" ng-hide="percentInfoData.openOverflowBox" >Add Overflow Number</button> 
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2" style="text-align: center; margin-top: 5px; width: 211px;">
+                                                            <md-checkbox ng-model="percentInfoData.activateVoicemail" ng-class="{ 'customDisable' : !voicemailComponent }" ng-disabled="!canModify || (selectedCallFlow.quantity >1 && isNew) || !voicemailComponent" ng-click="disableRecordCall($index)">
+                                                            </md-checkbox> 
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2">
+                                                             <a class="btn btn-default" ng-disabled="percentInfo.length == 1" ng-click="removePercentNumber($index)"> <i class="fa fa-trash-o"></i></a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin-left: 4%; padding-left: 10px; " ng-show = "selectedCallFlow.routetype !=='voicemail' ">
+                                                        <div class="col-lg-6 col-md-6 col-sm-12">
+                                                             <overflow-routing overflow-numbers="percentInfoData.overflowNumbers" is-simultaneous-ring="percentInfoData.isSimultaneousRing" ng-show="percentInfoData.openOverflowBox"  overflow-validation-header= "overflowValidationHeader" open-overflow-box="percentInfoData.openOverflowBox" current-over-flow-number="currentOverFlowNumber" by-default-ring="defaultsRings" show-submit= "showSaveButtonOverflow()"> </overflow-routing>
+                                                        </div> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                                          
+                    <!-- End Percentage based Tracking Number -->
+
+
+                                        <div class="row mt10">
+                                            <div class="col-md-12 advancedTracking">
+                                                 <accordion close-others="oneAtATime1">
+                                                        <div class="panel-heading cursor-pointer" id="ADVANCEDSETTING"  ng-click="isAdvancedTrackingNumbersOpen =!isAdvancedTrackingNumbersOpen">
+                                                                <accordion-heading>
+                                                                <h4>ADVANCED TRACKING NUMBER SETTING {{selectedCallFlow.callflowlabel}}</h4>
+                                                                <i class="pull-right glyphicon" ng-class="{'glyphicon-minus-sign': isAdvancedTrackingNumbersOpen, 'glyphicon-plus-sign': !isAdvancedTrackingNumbersOpen}"></i>
+                                                                </accordion-heading>
+                                                        </div>    
+                                                        <div class="panel-body" id="panelBodyBorder" ng-show="isAdvancedTrackingNumbersOpen" style="border-top: 2px solid #4697ce">
+                                                            <div class="form-group row">
+                                                                <div class="col-lg-6 col-md-6 col-sm-12" style="border-right: solid 1px #ccc" >
+                                                                    <div class="row">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-4 mt20">
+                                                                          <label class="control-label"  ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'voicemail'}">Call Value</label>
+                                                                        </div>
+                                                                         <div class="col-lg-6 col-md-6 col-sm-4 mt10">
+                                                                            <input placeholder="Optional" onkeydown="javascript: return event.keyCode == 69 ? false : true" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}" type="number" validate-blur-forza="Tracking Number Details, Call Value" ng-model="selectedCallFlow.value" class="form-control ng-valid-number fontChange" ng-maxlength="6" ng-pattern="/^[0-9]+$/" maxlength="6" min="0" max="999999" ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew) || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'voicemail'" ng-change="showSubmit()">
+                                                                        </div>    
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-4 mt20">
+                                                                        <label class="control-label"  ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'outbound'}">Repeat Interval (hours)</label>
+                                                                        </div>
+                                                                         <div class="col-lg-6 col-md-6 col-sm-12 mt15">
+                                                                            <input type="number" class="form-control fontChange" onkeydown="javascript: return event.keyCode == 69 ? false : true"  validate-blur-forza="Tracking Number Details, Repeat Interval" ng-model="selectedCallFlow.rinterval" ng-pattern="/^[0-9]+$/" ng-required="selectedCallFlow.routetype != 'outbound' && selectedCallFlow.routetype != 'voicemail'" ng-max="8760" max="8760" min="0" ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew)||selectedCallFlow.routetype == 'outbound'" ng-change="showSubmit()">
+                                                                        </div> 
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-12 mt15">
+                                                                        <label class="control-label" ng-class="{ 'customDisable' : !voicemailComponent || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'hangup'}">Voicemail</label>
+                                                                        </div>
+                                                                         <div class="col-lg-2 col-md-2 col-sm-12 mt10">                                       
+                                                                            <select class="form-control fontChange " ng-class="{ 'customDisable' : !voicemailComponent || selectedCallFlow.routetype == 'voicemail'}" ng-model="selectedCallFlow.voicemail_rings_count" ng-change="showSubmit()" 
+                                                                                ng-disabled="!voicemailComponent || userAccess.postcallivr == voicemail ||  userAccess.voicemail < 4 ||selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'hangup'" >
+                                                                                    <option value="1" ng-selected="selectedCallFlow.voicemail_rings_count == 1"> 1</option>
+                                                                                    <option value="2" ng-selected="selectedCallFlow.voicemail_rings_count == 2"> 2</option>
+                                                                                    <option value="3" ng-selected="selectedCallFlow.voicemail_rings_count == 3"> 3</option>
+                                                                                    <option value="4" ng-selected="selectedCallFlow.voicemail_rings_count == 4"> 4</option>
+                                                                                    <option value="5" ng-selected="selectedCallFlow.voicemail_rings_count == 5"> 5</option>
+                                                                                    <option value="6" ng-selected="selectedCallFlow.voicemail_rings_count == 6"> 6</option>
+                                                                                    <option value="7" ng-selected="selectedCallFlow.voicemail_rings_count == 7"> 7</option>
+                                                                                    <option value="8" ng-selected="selectedCallFlow.voicemail_rings_count == 8"> 8</option>
+                                                                                    <option value="9" ng-selected="selectedCallFlow.voicemail_rings_count == 9"> 9</option>
+                                                                                    <option value="10" ng-selected="selectedCallFlow.voicemail_rings_count == 10"> 10</option>
+                                                                                </select>
+                                                                        </div>
+                                                                        <div class="col-lg-4 col-md-4 col-sm-4 mt10">
+                                                                            <p class="fontChange"  ng-class="{ 'customDisable' : !voicemailComponent || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'hangup' }">Number of rings on last ring-to number before being triggered </p>
+                                                                        </div>  
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-12 mt10">
+                                                                            <label class="control-label"  ng-class="{ 'customDisable' : !voicemailComponent  || selectedCallFlow.routetype == 'outbound'|| selectedCallFlow.routetype == 'hangup' }">Configure Voicemail Greetings</label>
+                                                                        </div>
+                                                                         <div class="col-sm-12 col-lg-5 col-md-5 col-xs-12 mt10 fontChange" ng-show="TTSvoicemailGreetingsSelected">
+                                                                            <textarea rows="3" style="resize:none" class="form-control" ng-disabled="!voicemailComponent" ng-class="{'customDisable' : !voicemailComponent }"   placeholder="Example: Our Agents are busy right now, Please leave your message and we will get back to you" ng-model="selectedCallFlow.voicemailGreetingsTTSText" data-toggle="tooltip" data-placement="top" title="{{selectedCallFlow.voicemailGreetingsTTSText}}" tooltip  ng-readonly="!canModify || !TTSvoicemailGreetingsSelected || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'hangup'" ng-change="voiceTextChange('voicemailGreetings')"></textarea>
+                                                                        </div>
+                                                                            <div class="col-sm-12 col-lg-5 col-md-5 col-xs-12 mt10 shorten-word fontChange" ng-class="{ 'customDisable' : !voicemailComponent || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'hangup' }" ng-disabled = "selectedCallFlow.routetype == 'hangup'" ng-show="!TTSvoicemailGreetingsSelected">Selected Audio Filename: {{selectedCallFlow.voicemailGreetingsText}}
+                                                                            </div> 
+                                                                        <div class="col-sm-12 col-lg-1 col-md-2 col-xs-12 mt10 fontChange">
+                                                                            <a class="btn btn-default playpadding pull-right" ng-click="showVoicemailModal('lg'); disableClickOnVoicemail();" ng-disabled="isVoicemailOpen || !canModify || !voicemailComponent || (selectedCallFlow.quantity > 1 && isNew) || selectedCallFlow.routetype == 'outbound' || audioIsPlaying('voicePromt') || selectedCallFlow.routetype == 'hangup'" ng-class="{'customDisable' : !voicemailComponent }" ng-show="TTSvoicemailGreetingsSelected " ondblclick="return false;"><i class="fa fa-plus-circle"></i></a>
+                                                                            <a class="btn btn-default playpadding pull-right" ng-show="!TTSvoicemailGreetingsSelected" id="voicemail" ng-disabled="!canModify || !voicemailComponent ||  (selectedCallFlow.quantity > 1 && isNew) || selectedCallFlow.routetype == 'hangup'" ng-class="{ 'customDisable' : !voicemailComponent || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'hangup'}" ng-click="removeSelectedVoiceAudio('voicemailGreetings')"><i class="fa fa-trash-o"></i></a>
+                                                                            <a class="btn btn-primary playpadding pull-right mt5" ng-show="TTSvoicemailGreetingsSelected  || hasValidvoicemailGreetingsURL" ng-disabled="!canModify  || !voicemailComponent || (selectedCallFlow.quantity > 1 && isNew) || audioIsPlaying('greeting') || audioIsDownloading() || (!hasValidvoicemailGreetingsURL && !selectedCallFlow.voicemailGreetingsTTSText) || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'hangup'" ng-class="{'customDisable' : !voicemailComponent }" ng-click="playVoiceAudioPromt(selectedCallFlow.VoiceMainGreetingURL, 'voicemailGreetings')">{{ (greetingAudio === undefined || greetingAudio.paused || greetingAudio.ended ) ? '' : '' }}<i class="{{(greetingAudio === undefined || greetingAudio.paused || greetingAudio.ended) ? 'fa fa-play' : 'fa fa-pause'}}"></i></a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-12 mt10">
+                                                                        <label class="control-label" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'hangup'}">Pre-call Webhook</label><br>
+                                                                            <p class="control-label fontChange triggerWebhook" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'hangup'}" >When call connects, trigger</p>
+                                                                        </div>
+                                                                        <div class="col-lg-5 col-md-5 col-sm-12 mt10 " ng-show="!showWebHookTextBox">   
+                                                                            <md-checkbox ng-model="selectedCallFlow.preCallWebhook" ng-change="showSubmit()" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'hangup'}" ng-disabled="!canModify || (selectedCallFlow.quantity >1 && isNew) || selectedCallFlow.routetype == 'voicemail' ||selectedCallFlow.routetype == 'outbound' ||selectedCallFlow.routetype == 'hangup'" >                                                          
+                                                                            </md-checkbox>     
+                                                                            <div ng-show="selectedCallFlow.preCallWebhook == true"  style=" width: 80%; display: inline; float: right;">                                        
+                                                                            <select ng-init="selectedCallFlow.webhook = options[0]" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'|| selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'hangup'}" data-placeholder="Select" class="form-control fontChange" id="source" ng-change="changeWebHook();showSubmit()" ng-model="selectedCallFlow.webhook" ng-options="g.webhook_id as g.webhook_name for g in webhook" ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew) || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'voicemail'|| selectedCallFlow.routetype == 'hangup'" validate-blur-forza="Tracking Number Details, Pre-call webhook" ng-required="selectedCallFlow.preCallWebhook"
+                                                                               >
+                                                                                <option value="" ng-selected="true" disabled>-- Select --</option>
+                                                                                <option value="{{g.webhook_id}}" ng-repeat="g in webhook" ng-selected="selectedCallFlow.webhook == g.webhook_id" ng-slected=""> {{g.webhook_name}}</option>
+                                                                            </select>
+                                                                            </div>                                                       
+                                                                        </div> 
+                                                                        <div class="col-lg-1 col-md-1 col-sm-4 mt10" ng-show="selectedCallFlow.preCallWebhook == true">
+                                                                            <a class="btn btn-default playpadding pull-right" href="/#/set-webhook" target="_blank" ng-disabled="selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'hangup'"><i class="fa fa-link webhook" title="Jump to webhooks"></i></a>
+                                                                        </div>                                                        
+                                                                    </div>
+                                                                    <!-- Record Call start -->
+                                                                    <div class="row"  ng-hide="selectedCallFlow.routetype == 'ivr'" ng-hide="userAccess && userAccess.blocked_recording">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-4 mt10">
+                                                                            <label class="control-label" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}" >Record Call</label>
+                                                                        </div> 
+                                                                        <div class="col-lg-1 col-md-1 col-sm-4 mt10 checkbox">
+                                                                            <md-checkbox ng-model="selectedCallFlow.recordCall" ng-change="showSubmit()" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}" ng-disabled="!canModify || (selectedCallFlow.quantity >1 && isNew) || selectedCallFlow.routetype == 'voicemail' || disableRC">                                                          
+                                                                        </md-checkbox>                                                    
+                                                                        </div>
+                                                                        <label class="col-lg-2 col-md-2 col-sm-12 mt5 control-label fontChange" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}" ng-show="selectedCallFlow.recordCall">Play call recording disclaimer</label>
+                                                                        <div class="col-lg-3 col-md-3 col-sm-4 mt5" ng-show="selectedCallFlow.recordCall">
+                                                                            <select ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}" id="ddlFilterRegion" onmouseover="ddlToolTips(this);" ng-model="selectedCallFlow.playDisclaimer" class="form-control fontChange" id="source" ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew) || selectedCallFlow.routetype == 'voicemail'" ng-required="selectedCallFlow.recordCall" ng-change="showSubmit()" validate-blur-forza="Tracking Number Details, Play Disclaimer" onChange="ga('send', 'event', 'Form Event', 'Disclaimer Type simple', this.options[this.selectedIndex].value);">
+                                                                                <option value="" ng-disabled="true">--Select--</option>
+                                                                                <option ng-selected="true" value="before">Before voice prompt</option>
+                                                                                <option value="after">After voice prompt</option>
+                                                                                <option value="never">Never</option>
+                                                                            </select>
+                                                                        </div>                                                    
+                                                                    </div>
+                                                                     <!-- Record Call end -->
+                                                                    <div class="row" ng-hide="selectedCallFlow.routetype === 'ivr'">
+                                                                        
+                                                                        <div class="col-lg-4 col-md-4 col-sm-4 mt10">
+                                                                        <label class="control-label " ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}" >Play a voice prompt</label>
+                                                                        </div> 
+                                                                        <div class="col-lg-1 col-md-1 col-sm-4 mt15 checkbox">                                                       
+                                                                        <md-checkbox ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}" ng-model="selectedCallFlow.voicePrompt1" ng-change="voiceTextChange();showSubmit();" ng-disabled="!canModify ||(selectedCallFlow.quantity >1 && isNew) || selectedCallFlow.routetype == 'voicemail' ">
+                                                                        </md-checkbox>                                                                                                  
+                                                                        </div>
+                                                                        <div ng-show="selectedCallFlow.voicePrompt1">                                       
+                                                                            <div class="col-sm-12 col-lg-4 col-md-4 col-xs-12 mt10 fontChange" ng-hide="!TTSSelected">
+                                                                                <textarea rows="3" style="resize:none" ng-disabled = "selectedCallFlow.routetype == 'voicemail'" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}" type="text" class="form-control" placeholder="Example: Please wait while we connect your call" value="" validate-blur-forza="Tracking Number Details, Voice Prompt" ng-model="selectedCallFlow.voicePromptTTSText" data-toggle="tooltip" data-placement="top" title="{{selectedCallFlow.voicePromptTTSText}}" tooltip ng-readonly="!canModify || !TTSSelected " ng-change="voiceTextChange('voicePromt');showSubmit();" ng-required="selectedCallFlow.voicePrompt1 && TTSSelected"></textarea>
+                                                                                <!-- <input ng-disabled = "selectedCallFlow.routetype == 'voicemail'" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}" type="text" class="form-control" placeholder="Example: Please wait while we connect your call" value="" validate-blur-forza="Tracking Number Details, Voice Prompt" 
+                                                                                        ng-model="selectedCallFlow.voicePromptTTSText" data-toggle="tooltip" data-placement="top" title="{{selectedCallFlow.voicePromptTTSText}}" tooltip ng-readonly="!canModify || !TTSSelected " ng-change="voiceTextChange('voicePromt');showSubmit();" ng-required="selectedCallFlow.voicePrompt1 && TTSSelected" ng-maxlength="512" maxlength="512"> -->
+                                                                            </div>
+                                                                                                        <div class="col-sm-12 col-lg-4 col-md-4 col-xs-12 mt10 fontChange promt" ng-show="!TTSSelected" align="left">Selected Audio Filename: {{selectedCallFlow.voicePromptText}}
+                                                                                                        </div>
+                                                                            <div class="col-sm-12 col-lg-1 col-md-2 col-xs-12 mt10 fontChange">
+                                                                                <a class="btn btn-default playpadding pull-right" ng-click="showVoiceModal('voicePromt'); disableClickOnVoice();"  ng-disabled="isVoiceOpen || !canModify || (selectedCallFlow.quantity > 1 && isNew) || selectedCallFlow.routetype == 'voicemail' || audioIsPlaying('voicePromt')" ng-show="TTSSelected " ondblclick="return false;"><i class="fa fa-plus-circle" promtType="VoicePromt"></i></a>
+                                                                                <a class="btn btn-default playpadding pull-right" ng-show="!TTSSelected " ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew) || selectedCallFlow.routetype == 'voicemail'" ng-click="removeSelectedVoiceAudio('voicePromt')"><i class="fa fa-trash-o"></i></a>
+                                                                                <a class="btn btn-primary playpadding pull-right mt5" ng-show="TTSSelected  || hasValidVoiceURL" ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew) || audioIsPlaying('prompt') || audioIsDownloading() || (!hasValidVoiceURL && !selectedCallFlow.voicePromptTTSText) || selectedCallFlow.routetype == 'voicemail'" ng-click="playVoiceAudio(selectedCallFlow.voiceURL)">{{ (promptAudio === undefined || promptAudio.paused || promptAudio.ended ) ? '' : '' }}<i class="{{(promptAudio === undefined || promptAudio.paused || promptAudio.ended) ? 'fa fa-play' : 'fa fa-pause'}}"></i></a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>                                        
+                                                                    <div class="row" ng-hide="selectedCallFlow.routetype == 'ivr'">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-12 mt10">
+                                                                        <label class="control-label" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'voicemail'|| selectedCallFlow.routetype == 'hangup'}">Play whisper message before connecting</label>
+                                                                        </div> 
+                                                                        <div class="col-lg-1 col-md-1 col-sm-12 mt15 checkbox">                                         
+                                                                            <md-checkbox ng-model="selectedCallFlow.whisperPrompt1" ng-change="showSubmit();" value="" ng-disabled="!canModify|| (selectedCallFlow.quantity >1 && isNew) || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'hangup'">                                                            
+                                                                            </md-checkbox>                                                                                                                                                 
+                                                                        </div>
+                                                                        <div ng-show="selectedCallFlow.whisperPrompt1">                                           
+                                                                            <div class="col-sm-12 col-lg-4 col-md-4 col-xs-12 mt10 fontChange" ng-show="TTSWhisperSelected">
+                                                                                <textarea rows="3" style="resize:none" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}" class="form-control" placeholder="Example: You are receiving a call from Mailer 1a" value="" validate-blur-forza="Tracking Number Details, Whisper message" ng-model="selectedCallFlow.whisperTTSText" data-toggle="tooltip" data-placement="top" title="{{selectedCallFlow.whisperTTSText}}" tooltip ng-readonly="!canModify || !TTSWhisperSelected || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'hangup'" ng-required="selectedCallFlow.whisperPrompt1 && TTSWhisperSelected" ng-change="whisperTextChange(); showSubmit()"></textarea>
+                                                                                <!-- <input type="text" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}" class="form-control" placeholder="Example: You are receiving a call from Mailer 1a" value="" validate-blur-forza="Tracking Number Details, Whisper message" ng-model="selectedCallFlow.whisperTTSText" data-toggle="tooltip" data-placement="top" title="{{selectedCallFlow.whisperTTSText}}" tooltip ng-readonly="!canModify || !TTSWhisperSelected || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'voicemail'" ng-required="selectedCallFlow.whisperPrompt1 && TTSWhisperSelected" ng-change="whisperTextChange(); showSubmit()"> -->
+                                                                            </div>
+                                                                                                        <div class="col-sm-12 col-lg-4 col-md-4 col-xs-12 mt10 fontChange promt" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'hangup'}" ng-hide="TTSWhisperSelected" align="left">Selected Audio Filename:{{selectedCallFlow.whisperText}}
+                                                                                                        </div>
+                                                                            <div class="col-sm-12 col-lg-1 col-md-2 col-xs-12 mt10 fontChange">
+                                                                                <a class="btn btn-default playpadding pull-right" ng-click="showWhisperModal('lg'); disableClickOnWhisper();" ng-disabled="isWhisperOpen || !canModify || (selectedCallFlow.quantity > 1 && isNew) || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'voicemail' || audioIsPlaying('voicePromt') || selectedCallFlow.routetype == 'hangup'" ng-show="TTSWhisperSelected"><i class="fa fa-plus-circle"></i></a>
+                                                                                <a class="btn btn-default playpadding pull-right" ng-show="!TTSWhisperSelected" ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew) || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'hangup'" ng-click="removeSelectedWhisperAudio()"><i class="fa fa-trash-o "></i></a>
+                                                                            <a class="btn btn-primary playpadding pull-right mt5" ng-show="TTSWhisperSelected || hasValidWhisperURL" ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew)|| audioIsPlaying('whisper') || audioIsDownloading() || (!hasValidWhisperURL && !selectedCallFlow.whisperTTSText.length) || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'hangup'" ng-click="playWhisperAudio(selectedCallFlow.whisperURL)">{{ (whisperAudio === undefined || whisperAudio.paused || whisperAudio.ended) ? '' : '' }}<i class="{{(whisperAudio === undefined || whisperAudio.paused || whisperAudio.ended) ? 'fa fa-play' : 'fa fa-pause'}}"></i></a>
+                                                                            </div>                                           
+                                                                        </div>
+                                                                    </div>                                                                                                        
+                                                                     <!-- custom source start -->
+                                                                    <div class="row">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-6 mt20">
+                                                                            <label class="control-label" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}">Custom Source 1</label>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-4 mt10">
+                                                                            <select id="select" class="fontChange" ui-select2="selectCustomOptions(1,1,'single')" ng-model="selectedCallFlow.customSourceList_1" single style="width:100%;" ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew) || selectedCallFlow.routetype == 'voicemail'" placeholder="Type to add new or select">
+                                                                                <option value=""></option>
+                                                                                <option value="{{customSource.id}}" ng-repeat="customSource in customsourcesArray.CS1 | orderBy:'name'"> {{customSource.name}}</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>                                       
+                                                                    <div class="row">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-6 mt20">
+                                                                            <label class="control-label" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}">Custom Source 2</label>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-4 mt10">
+                                                                            <select id="select" class="fontChange" ui-select2="selectCustomOptions(1,2,'single')" ng-model="selectedCallFlow.customSourceList_2    " single style="width:100%;" ng-disabled="!canModify || (selectedCallFlow.quantity >1 && isNew) || selectedCallFlow.routetype == 'voicemail'" placeholder="Type to add new or select">
+                                                                                <option value=""></option>
+                                                                                <option value="{{customSource.id}}" ng-repeat="customSource in customsourcesArray.CS2 | orderBy:'name'"> {{customSource.name}}</option>
+                                                                            </select>
+                                                                        </div>                                      
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-6 mt20">
+                                                                            <label class="control-label" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}">Custom Source 3</label>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-4 mt10">
+                                                                            <select id="select" class="fontChange" ui-select2="selectCustomOptions(1,3,'single')" ng-model="selectedCallFlow.customSourceList_3    " single style="width:100%;" ng-disabled="!canModify || (selectedCallFlow.quantity >1 && isNew) || selectedCallFlow.routetype == 'voicemail'" placeholder="Type to add new or select">
+                                                                                <option value=""></option>
+                                                                                <option value="{{customSource.id}}" ng-repeat="customSource in customsourcesArray.CS3 | orderBy:'name'"> {{customSource.name}}</option>
+                                                                            </select>
+                                                                        </div>                                       
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-6 mt20">
+                                                                            <label class="control-label" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}">Custom Source 4</label>
+                                                                        </div>
+                                                                            <div class="col-lg-6 col-md-6 col-sm-4 mt10">
+                                                                                <select id="select" class="fontChange" ui-select2="selectCustomOptions(1,4,'single')" ng-model="selectedCallFlow.customSourceList_4    " single style="width:100%;" ng-disabled="!canModify || (selectedCallFlow.quantity >1 && isNew) || selectedCallFlow.routetype == 'voicemail'" placeholder="Type to add new or select">
+                                                                                    <option value=""></option>
+                                                                                    <option value="{{customSource.id}}" ng-repeat="customSource in customsourcesArray.CS4 | orderBy:'name'"> {{customSource.name}}</option>
+                                                                                </select>
+                                                                            </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-6 mt20">
+                                                                            <label class="control-label" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}">Custom Source 5</label>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-4 mt10">
+                                                                            <select id="select" class="fontChange" ui-select2="selectCustomOptions(1,5,'single')" ng-model="selectedCallFlow.customSourceList_5    " single style="width:100%;" ng-disabled="!canModify || (selectedCallFlow.quantity >1 && isNew) || selectedCallFlow.routetype == 'voicemail'" placeholder="Type to add new or select">
+                                                                                <option value=""></option>
+                                                                                <option value="{{customSource.id}}" ng-repeat="customSource in customsourcesArray.CS5 | orderBy:'name'"> {{customSource.name}}</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                                                    <div style="padding-left: 5%; padding-right: 5%">
+                                                                        <div class="row" ng-disabled="userAccess.dni !== undefined && userAccess.dni > 4" >
+                                                                            <div class="col-lg-4 col-md-4 col-sm-12 mt10">
+                                                                                <label  ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'voicemail'}">
+                                                                                    Dynamic Number
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="col-lg-1 col-md-1 col-sm-12 checkbox">
+                                                                                <md-checkbox ng-model="selectedCallFlow.showDNI" ng-change="showSubmit();" value="" ng-disabled="!canModify || (selectedCallFlow.quantity >1 && isNew) || userAccess.dni == undefined ||  userAccess.dni < 4 || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'voicemail'" style="margin-bottom: 0px">
+                                                                                </md-checkbox>   
+                                                                            </div>
+                                                                        </div>  
+                                                                        <div ng-disabled="userAccess.dni !== undefined && userAccess.dni > 4 && !(selectedCallFlow.quantity >1 && isNew)">         
+                                                                            <div class="row dynamicNumber" style="height: 270px;margin-left: -5px; margin-bottom: 20px" ng-class="{ 'postCallIvrchange' : selectedCallFlow.showDNI == false }">
+                                                                                <div class="col-lg-6 col-md-6 mt20">
+                                                                                    <label class=" control-label"  ng-class="{ 'customDisable' : !selectedCallFlow.showDNI }">Host Domain</label>
+                                                                                    <div class="">
+                                                                                        <input type="text" ng-change="showSubmit()" class="form-control"  ng-readonly="!canModify || !selectedCallFlow.showDNI" name="destination_url" ng-model="selectedCallFlow.destination_url" ng-disable="!canModify || (selectedCallFlow.quantity > 1 && isNew)" maxlength="35">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-lg-6 col-md-6 mt20">
+                                                                                    <label class=" control-label" ng-class="{ 'customDisable' : !selectedCallFlow.showDNI || selectedCallFlow.routetype == 'voicemail'}">Referring Website</label>
+                                                                                    <div class="" ng-show="!showReferrerTextBox">
+                                                                                        <select ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'outbound'}" ng-init="selectedCallFlow.referrer = options[0]" data-placeholder="Select" class="form-control" id="source" ng-change="changeReferrer(); showSubmit();" ng-model="selectedCallFlow.referrer" ng-options="g.value as g.text for g in dniReferrer" ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew) || !selectedCallFlow.showDNI">
+                                                                                            <option value="" ng-selected="true" disabled>-- Select --</option>
+                                                                                            <option value="{{g.value}}" ng-repeat="g in dniReferrer" ng-selected="selectedCallFlow.referrer == g.value" ng-slected=""> {{g.text}}</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                    <div class="" ng-show="showReferrerTextBox">
+                                                                                        <input type="text" class="form-control" id="referringWebsite" ng-model="selectedCallFlow.referrer" value="" ng-readonly="!canModify || (selectedCallFlow.quantity > 1 && isNew) || !selectedCallFlow.showDNI" maxlength="35" validate-utf-eight placeholder="add New" ng-blur="changeReferrer()">
+                                                                                    </div>
+                                                                                </div>                                          
+                                                                                <div class="col-lg-6 col-md-6 mt20">                                            
+                                                                                    <label class=" control-label" ng-class="{ 'customDisable' : !selectedCallFlow.showDNI || selectedCallFlow.routetype == 'voicemail' }">DNI Type</label>
+                                                                                    <div class="">
+                                                                                        <select class="form-control" id="dniType" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'outbound'}" ng-model="selectedCallFlow.dniType" ng-change="showSubmit()" ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew) || !selectedCallFlow.showDNI">
+                                                                                             <option value="" ng-selected="true">-- Select --</option>
+                                                                                            <option value="{{dni.id}}" ng-repeat="dni in dni_type" ng-hide = "hideDniOptions(dni.id, selectedCallFlow.callflowOption)" ng-selected="selectedCallFlow.dniType == dni.id && !hideDniOptions(dni.id, selectedCallFlow.callflowOption)" ng-slected=""> {{dni.text}}</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-lg-6 col-md-6 mt20">
+                                                                                    <label class=" control-label" ng-class="{ 'customDisable' : !selectedCallFlow.showDNI }">HTML Class</label>
+                                                                                    <div class="">
+                                                                                        <input type="text" class="form-control" id="htmlClass" name="dni_element" ng-model="selectedCallFlow.dni_element" ng-change="showSubmit()" value="" ng-readonly="!canModify || (selectedCallFlow.quantity > 1 && isNew) || !selectedCallFlow.showDNI" maxlength="35" validate-utf-eight>
+                                                                                    </div>
+                                                                                </div>                                      
+                                                                                <div class="col-lg-6 col-md-6 mt20 pull-left" ng-show="selectedCallFlow.dniType == 'session' && hideDniOptions(dni.id, selectedCallFlow.callflowOption)">
+                                                                                    <label class=" control-label">TTL</label>
+                                                                                    <div class="">
+                                                                                        <input type="number" class="form-control" ng-readonly="!canModify || (selectedCallFlow.quantity > 1 && isNew) || !selectedCallFlow.showDNI" name="dni_ttl" ng-model="selectedCallFlow.dni_ttl" ng-change="showSubmit()" value="" ng-readonly="!canModify" maxlength="35" min="1" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-lg-6 col-md-6 mt20 pull-right">                                               
+                                                                                 <a ng-click="dniParams('lg')" ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew)|| !selectedCallFlow.showDNI" class="text-left btn btn-default pull-right" ng-disabled="!canModify">Custom Parameters</a>
+                                                                                </div>                                                    
+                                                                            </div>
+                                                                        </div>                              
+                                                                        <div class="row">
+                                                                            <div class="col-lg-12 col-md-12 col-sm-12 ">
+                                                                                <div class="row" ng-disabled="userAccess.postcallivr !== undefined && userAccess.postcallivr > 4">
+                                                                                    <div class="col-lg-4 col-md-4 col-sm-12 mt10">
+                                                                                       <label ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'hangup'}">Instant Insights</label> 
+                                                                                    </div>
+
+                                                                                    <div class="col-lg-1 col-md-1 col-sm-12 checkbox">
+                                                                                        <md-checkbox ng-model="postCallIVR" ng-disabled="!canModify || (selectedCallFlow.quantity >1 && isNew) || userAccess.postcallivr == undefined ||  userAccess.postcallivr < 4 || selectedCallFlow.routetype ==='voicemail' || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'hangup'" style="margin-bottom: 0px" ng-change="showSubmit();">
+                                                                                        </md-checkbox>                                                 
+                                                                                    </div>
+                                                                            </div>
+                                                                            <div>
+                                                                                <div class="row dynamicNumber" ng-class="{ 'postCallIvrchange' : postCallIVR !== true, 'customDisable' : !postCallIVR }"  ng-disabled="postCallIVR == false" ng-checked="postCallIVR">                                                    
+                                                                                    <div class="row">
+                                                                                        <div class="col-lg-8 col-md-8 col-sm-12 mt10 mb10" style="margin-left: 10px;">                                        
+                                                                                            <select name="postIVRType"  ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'outbound' || selectedCallFlow.routetype == 'hangup'}" ng-init="postIVRType" ng-model="postIVRType"  ng-options="obj.value as obj.name for obj in postIVRTypes" class="form-control" id="source" data-placeholder="Select" onChange="ga('send', 'event', 'Form Event', 'Tracking Number Type', this.options[this.selectedIndex].value);" ng-change="postcallsubmit()" ng-required="postCallIVR" validate-blur-forza="Tracking Number Details, Instant Insights Type">
+                                                                                            </select>                                                        
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="" ng-show = "postIVRType == 'agentID' || postIVRType == 'conversionAgentID'"  >
+                                                                                        <div class="row" > 
+                                                                                            <div class="col-md-offset-1 col-lg-11 col-md-11 col-sm-12 mt10 mb10 pull-left">                                         
+                                                                                                <label class="keyPress" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'hangup' || selectedCallFlow.routetype == 'outbound'}">Record Agent ID</label> 
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row">  
+                                                                                            <div class="col-md-offset-1 col-lg-3 col-md-3 col-sm-4 mt10 mb10">
+                                                                                                <label class="control-label">Agent ID voice prompt</label>
+                                                                                            </div>
+                                                                                            <div class="col-sm-12 col-lg-6 col-md-6 col-xs-12 mt10 mb10 PcallIVR-alignment3" ng-hide="!TTSAgentIDVoicePromptSelected">
+                                                                                                <textarea rows="3" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail' }" class="form-control" placeholder="Ex: Enter your 6 digit agent ID via the dial-key-pad" value="" validate-blur-forza="Tracking Number Details, Agent ID voice prompt" ng-model="selectedCallFlow.AgentIDVoicePromptTTSText" data-toggle="tooltip" data-placement="top" title="{{selectedCallFlow.AgentIDVoicePromptTTSText}}" tooltip ng-readonly="!canModify || !TTSAgentIDVoicePromptSelected" ng-change="voiceTextChange('AgentIDVoicePrompt'); showSubmit()" ng-required="postCallIVR && TTSAgentIDVoicePromptSelected" style="resize:none" ng-disabled = "selectedCallFlow.routetype == 'voicemail'" ></textarea>
+                                                                                            </div>
+                                                                                            <div class="col-sm-12 col-lg-6 col-md-6 col-xs-12 mt10 mb10 promt" ng-show="!TTSAgentIDVoicePromptSelected" align="left">Selected Audio Filename: {{selectedCallFlow.AgentIDVoicePromptText}}
+                                                                                            </div>
+                                                                                            <div class="col-sm-12 col-lg-1 col-md-1 col-xs-12 mt10 mb10 PcallIVR-alignment4">
+                                                                                                <a class="btn btn-default playpadding" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}" ng-click="showVoiceModal('AgentIDVoicePrompt')" ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew) || selectedCallFlow.routetype == 'voicemail' || audioIsPlaying('voicePromt')" ng-show="TTSAgentIDVoicePromptSelected" ondblclick="return false;"><i class="fa fa-plus-circle" promtType="AgentIDVoicePrompt" ></i></a>
+                                                                                                <a class="btn btn-default playpadding" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}" ng-show="!TTSAgentIDVoicePromptSelected " ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew) || selectedCallFlow.routetype == 'voicemail'" ng-click="removeSelectedVoiceAudio('AgentIDVoicePrompt')"><i class="fa fa-trash-o"></i></a>
+                                                                                                <a class="btn btn-primary playpadding mt5" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}" ng-show="TTSAgentIDVoicePromptSelected  || hasValidAgentIDVoicePromptURL" ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew) || audioIsPlaying('agentid') || audioIsDownloading() || (!hasValidAgentIDVoicePromptURL && !selectedCallFlow.AgentIDVoicePromptTTSText) || selectedCallFlow.routetype == 'voicemail'" ng-click="playVoiceAudioPromt(selectedCallFlow.AgentIDVoicePromptURL, 'AgentIDVoicePrompt')">{{ (AgentIDVoicePromptAudio === undefined || AgentIDVoicePromptAudio.paused || AgentIDVoicePromptAudio.ended ) ? '' : '' }}<i class="{{(AgentIDVoicePromptAudio === undefined || AgentIDVoicePromptAudio.paused || AgentIDVoicePromptAudio.ended) ? 'fa fa-play' : 'fa fa-pause'}}"></i></a>
+                                                                                            </div>
+                                                                                        </div>  
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-offset-1 col-lg-3 col-md-3 col-sm-6 mt10 mb10">                                         
+                                                                                            <label ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}" class="">Number of Digits in Agent Id</label> 
+                                                                                            </div>
+                                                                                            <div class="col-lg-4 col-md-4 col-sm-6 mt10 mb10 PcallIVR-alignment5">
+                                                                                                <select ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}" class="form-control" ng-model="selectedCallFlow.lengthOfAgentId" validate-blur-forza="Tracking Number Details, Number of Digits in Agent Id" ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew) || selectedCallFlow.routetype == 'voicemail'" ng-change="showSubmit()" ng-required="postCallIVR">
+                                                                                                    <option value="" disabled="true" selected>--Select--</option>
+                                                                                                    <option value="1" ng-selected="selectedCallFlow.lengthOfAgentId == 1"> 1</option>
+                                                                                                    <option value="2" ng-selected="selectedCallFlow.lengthOfAgentId == 2"> 2</option>
+                                                                                                    <option value="3" ng-selected="selectedCallFlow.lengthOfAgentId == 3"> 3 </option>
+                                                                                                    <option value="4" ng-selected="selectedCallFlow.lengthOfAgentId == 4"> 4</option>
+                                                                                                    <option value="5" ng-selected="selectedCallFlow.lengthOfAgentId == 5"> 5</option>
+                                                                                                    <option value="6" ng-selected="selectedCallFlow.lengthOfAgentId == 6"> 6</option>
+                                                                                                    <option value="7" ng-selected="selectedCallFlow.lengthOfAgentId == 7"> 7</option>
+                                                                                                    <option value="8" ng-selected="selectedCallFlow.lengthOfAgentId == 8"> 8</option>
+                                                                                                    <option value="9" ng-selected="selectedCallFlow.lengthOfAgentId == 9"> 9</option>                                                       
+                                                                                                </select>
+                                                                                            </div>                                        
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-offset-1" ng-show = "postIVRType == 'conversion' || postIVRType == 'conversionAgentID' " >                             
+                                                                                        <div class="col-lg-12 col-md-12 col-sm-12 mt10 pull-left">
+                                                                                        <label class="keyPress" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'hangup' || selectedCallFlow.routetype == 'outbound'}">{{postIVRType == 'conversionAgentID' ? 'Key Press -  Record Call Outcome' : 'Key Press'}}</label> 
+                                                                                        </div> 
+                                                                                        <div class="col-md-offset-1 col-lg-3 col-md-3 col-sm-4 mt10 mb10">
+                                                                                            <label class="control-label" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}">Voice prompt for Call outcome</label>
+                                                                                        </div>                                       
+                                                                                        <div class="col-sm-12 col-lg-6 col-md-6 col-xs-12 mt10 mb10 PcallIVR-alignment1" ng-hide="!TTSoutComePromtSelected">
+                                                                                            <textarea class="form-control" rows="3" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'hangup' || selectedCallFlow.routetype == 'outbound' }" placeholder="Ex: Press 1 to record a sale, press 2 to record a lead" value="" validate-blur-forza="Tracking Number Details, Voice prompt for Call outcome" ng-model="selectedCallFlow.outComePromtTTSText" data-toggle="tooltip" data-placement="top" title="{{selectedCallFlow.outComePromtTTSText}}" tooltip ng-readonly="!canModify || !TTSoutComePromtSelected" ng-change="voiceTextChange('outComePromt'); showSubmit()" ng-required="postCallIVR && TTSoutComePromtSelected" style="resize:none;"></textarea>
+                                                                                        </div>
+                                                                                        <div class="col-sm-12 col-lg-6 col-md-6 col-xs-12 mt10 mb10 promt" ng-show="!TTSoutComePromtSelected" align="left">Selected Audio Filename: {{selectedCallFlow.outComePromtText}}</div>
+                                                                                        <div class="col-sm-12 col-lg-1 col-md-1 col-xs-12 mt10 mb10 PcallIVR-alignment2">
+                                                                                            <a class="btn btn-default playpadding" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}" ng-click="showVoiceModal('outComePromt')"  ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew) || selectedCallFlow.routetype == 'voicemail' || audioIsPlaying('voicePromt')" ng-show="TTSoutComePromtSelected " ondblclick="return false;"><i class="fa fa-plus-circle" ></i></a>                                                   
+                                                                                            <a class="btn btn-default playpadding" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}" ng-show="!TTSoutComePromtSelected " ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew) || selectedCallFlow.routetype == 'voicemail'" ng-click="removeSelectedVoiceAudio('outComePromt')"><i class="fa fa-trash-o"></i></a>
+                                                                                            <a class="btn btn-primary playpadding mt5" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}" ng-show="TTSoutComePromtSelected  || hasValidoutComePromtURL" ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew) || audioIsPlaying('calloutcome') || audioIsDownloading() || (!hasValidoutComePromtURL && !selectedCallFlow.outComePromtTTSText) || selectedCallFlow.routetype == 'voicemail'" ng-click="playVoiceAudioPromt(selectedCallFlow.outComePromtURL, 'outComePromt')">{{ (outComePromtAudio === undefined || outComePromtAudio.paused || outComePromtAudio.ended ) ? '' : '' }}<i class="{{(outComePromtAudio === undefined || outComePromtAudio.paused || outComePromtAudio.ended) ? 'fa fa-play' : 'fa fa-pause'}}"></i></a>
+                                                                                        </div>                                       
+                                                                                        <div class="col-md-12 col-md-12 col-sm-12 borderchange">
+                                                                                            <ul class="timeline">
+                                                                                            <li class="" >                                            
+                                                                                            <div class="timeline-icon" style="background: #4697ce;width: 30px;height: 30px;top: 5px;line-height: 32px;"; ><i class="fa indexing" >1</i>
+                                                                                            </div>
+                                                                                            <div class="col-md-offset-1 col-lg-11 col-md-11 col-sm-12 mt10 mb10 pull-left">                                         
+                                                                                                <label class="keyPress" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'hangup' || selectedCallFlow.routetype == 'outbound'}">Record a Sale</label> 
+                                                                                            </div> 
+                                                                                            <div class="col-md-offset-1 col-lg-3 col-md-3 col-sm-4 mt10 mb10">
+                                                                                                <label class="control-label" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}">Sale amount voice prompt</label>
+                                                                                            </div>
+                                                                                            <div class="col-sm-12 col-lg-6 col-md-6 col-xs-12 mt10 mb10" ng-hide="!TTSsalesAmountVoiceSelected">
+                                                                                                <textarea rows="3" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail' }" class="form-control" placeholder="Example: Enter the total sale amount in whole dollars only" value="" validate-blur-forza="Tracking Number Details, Sale amount voice prompt" ng-model="selectedCallFlow.salesAmountVoiceTTSText" data-toggle="tooltip" data-placement="top" title="{{selectedCallFlow.salesAmountVoiceTTSText}}" tooltip ng-readonly="!canModify || !TTSsalesAmountVoiceSelected" ng-change="voiceTextChange('salesAmountVoice'); showSubmit();" ng-required="postCallIVR && TTSsalesAmountVoiceSelected" style="resize:none;"></textarea>
+                                                                                                <!-- <input type="text" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail' }" class="form-control" placeholder="Example: Enter the total sale amount in whole dollars only" value="" validate-blur-forza="Tracking Number Details, Sales amount voice prompt" ng-model="selectedCallFlow.salesAmountVoiceTTSText" data-toggle="tooltip" data-placement="top" title="{{selectedCallFlow.salesAmountVoiceTTSText}}" tooltip ng-readonly="!canModify || !TTSsalesAmountVoiceSelected" ng-change="voiceTextChange('salesAmountVoice'); showSubmit();" ng-required="postCallIVR && TTSsalesAmountVoiceSelected" ng-maxlength="512" maxlength="512"> -->
+                                                                                            </div>
+                                                                                                                                    <div class="col-sm-12 col-lg-6 col-md-6 col-xs-12 mt10 mb10 promt" ng-show="!TTSsalesAmountVoiceSelected" >Selected Audio Filename: {{selectedCallFlow.salesAmountVoicePromptText}}
+                                                                                                                                    </div>
+                                                                                            <div class="col-sm-12 col-lg-1 col-md-1 col-xs-12 mt10 mb10">    
+                                                                                                <a class="btn btn-default playpadding" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}" ng-click="showVoiceModal('salesAmountVoice')" ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew) || selectedCallFlow.routetype == 'voicemail' || audioIsPlaying('voicePromt')" ng-show="TTSsalesAmountVoiceSelected " ondblclick="return false;"><i class="fa fa-plus-circle"></i></a>
+                                                                                                <a class="btn btn-default playpadding" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}" ng-show="!TTSsalesAmountVoiceSelected " ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew) || selectedCallFlow.routetype == 'voicemail'" ng-click="removeSelectedVoiceAudio('salesAmountVoice')"><i class="fa fa-trash-o"></i></a>
+                                                                                                <a class="btn btn-primary playpadding mt5" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail'}" ng-show="TTSsalesAmountVoiceSelected  || hasValidsalesAmountVoiceURL" ng-disabled="!canModify || (selectedCallFlow.quantity > 1 && isNew) || audioIsPlaying('sale') || audioIsDownloading() || (!hasValidsalesAmountVoiceURL && !selectedCallFlow.salesAmountVoiceTTSText) || selectedCallFlow.routetype == 'voicemail'" ng-click="playVoiceAudioPromt(selectedCallFlow.salesAmountVoiceURL, 'salesAmountVoice')">{{ (salesAmountVoiceAudio === undefined || salesAmountVoiceAudio.paused || salesAmountVoiceAudio.ended ) ? '' : '' }}<i class="{{(salesAmountVoiceAudio === undefined || salesAmountVoiceAudio.paused || salesAmountVoiceAudio.ended) ? 'fa fa-play' : 'fa fa-pause'}}"></i></a>
+                                                                                            </div>
+                                                                                            </li> 
+                                                                                            </ul>
+                                                                                        </div> 
+                                                                                        <div class="col-md-12 borderchange">                                                                                           
+                                                                                            <ul class="timeline">                                                  
+                                                                                             <li class="">                                                                                     
+                                                                                                <div class="timeline-icon" style="background: #4697ce;width: 30px;
+                                                                                                                                    height: 30px;top: 8px;line-height: 32px;"; ><i class="fa indexing">2</i>
+                                                                                                                                    </div>
+                                                                                                <div class="col-md-offset-1 col-lg-11 col-md-11 col-sm-12 mt10 mb10 pull-left">
+                                                                                                    <label class="keyPress" ng-class="{ 'customDisable' : selectedCallFlow.routetype == 'voicemail' || selectedCallFlow.routetype == 'hangup' || selectedCallFlow.routetype == 'outbound'}">Record a Lead</label> 
+                                                                                                </div>
+                                                                                            </li>
+                                                                                            </ul>
+                                                                                        </div>
+                                                                                    </div><!-- call out come end-->
+                                                                                </div> 
+                                                                            </div> 
+                                                                            </div>
+                                                                        </div> 
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                </accordion>                                 
+                                            </div> 
+                                        </div>                                  
+                                        <div class="panel-footer text-right">
+                                            
+                                            <div style="direction: rtl;">
+                                                <button class="btn btn-primary" type="submit" ng-disabled="(singlecallForm.$invalid && submitted1) || formSubmit1 || disableSaveForSchedule.levelOne || disableSaveForSchedule.levelTwo || disableSaveForSchedule.levelThird || !canModify|| (selectedCallFlow.quantity > 1 && isNew) || selectedCallFlow.num.pretty_number == 'Numbers not available'"
+                                                    onClick="ga('send', 'event', { eventCategory: 'Campaign', eventAction: 'Click', eventLabel: 'Save Tracking Number'});"
+                                                     ng-click="bCreateAnother=false" style="margin-left:20px;">Save
+                                                </button> 
+
+                                                <button class="btn btn-default reset" ng-model="bCreateAnother" ng-disabled="(singlecallForm.$invalid && submitted1) || formSubmit1 || disableSaveForSchedule.levelOne || disableSaveForSchedule.levelTwo || disableSaveForSchedule.levelThird || !canModify || (selectedCallFlow.quantity > 1 && isNew) || selectedCallFlow.num.pretty_number == 'Numbers not available'"
+                                                ng-click="setCreateAnother()"  onClick="ga('send', 'event', { eventCategory: 'Campaign', eventAction: 'Click', eventLabel: 'Save and Clone'});"
+                                                style="margin-left:20px;">Save and Clone</button>
+                                                
+                                                <button class="btn btn-default reset" type="Button" ng-click="cancel()" style="margin-left:20px;">Cancel 
+                                                </button>
+                                            </div>  
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </accordion>
+                    </div>
+                </div>
+            </form>
+        </div>
+          
+         <!-- callActions starts -->
+            <div class="container-fluid mt10" id="callActions" ng-hide="hideCallAction">
+               <form novalidate="" class="ng-valid-pattern ng-valid-maxlength ng-dirty ng-valid-parse ng-valid ng-valid-required">           
+                    <accordion close-others="oneAtATime1">
+                        <div class="panel panel-midnightblue" ng-show= "showCallActions">
+                            <div class="panel-heading" ng-click="isCallActionsOpen =!isCallActionsOpen" role="button" tabindex="0">
+                                <accordion-heading> 
+                                     <h4 class="ng-binding">Call Actions for {{addCallAction.cfname}} </h4> 
+                                     <i class="pull-right glyphicon glyphicon-minus-sign" ng-class="{'glyphicon-minus-sign': isCallActionsOpen, 'glyphicon-plus-sign': !isCallActionsOpen}"></i>    
+                                 </accordion-heading>
+                            </div>
+                            <div class="panel-body collapse in" ng-show="isCallActionsOpen" aria-hidden="false">
+                                <ul class="timeline">
+                                    <li class="timeline-gray" ng-repeat="cAction in callActions">
+                                        <div class="timeline-icon"><i class="fa">{{$index + 1}}</i></div>
+                                        <div class="timeline-body">
+                                            <a ng-show="canModify" ng-click="removeCallAction(cAction.id)" title="delete">
+                                                <i class="fa fa-times" style="float:right;"></i>
+                                            </a>
+
+                                            <div class="timeline-header">
+                                                <span class="date">{{ showNumber($index + 1) }} Action</span>
+                                            </div>
+                                            <div class="timeline-content">
+                                                <div class="row">
+                                                    <div class="col-sm-1">
+                                                        <h3 style="display:inline;">If</h3>
+
+                                                    </div>
+                                                    <div class="col-sm-11">
+                                                        <div ng-repeat="(key, rule) in ruleDropDown[cAction.id]">
+                                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-sm-offset-1" ng-show="rule['join_type'] && key != 0" style="background:#e6e6e6;padding:1px 10px;margin-top:-1px;margin-bottom:-1px;border-left:1px solid #ccc;border-right:1px solid #ccc;z-index:100">
+                                                                <div style="width:auto;display:inline;">
+                                                                    <select autocomplete="off" enable-save dt-id="cAction.id" add-call-action="addCallAction" ng-options="join_type as join_type for join_type in rule['join_type']" style="width:100%;display:inline;border:none;" class="form-control" ng-change="loadNextValue('join_type', 'fields', cAction.id, {{key}})"
+                                                                        ng-model="addCallAction.rule[cAction.id][key]['join_type']" ng-disabled="!canModify">
+                                                                  <option ng-selected="true" disabled value=""> -- Optional -- </option>
+                                                                  
+                                                                </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-11 col-xs-10" style="background:#e6e6e6;min-height:58px;padding:10px;border:1px solid #ccc;border-radius:4px;">
+                                                                <div style="width:auto;display:inline;" ng-show="rule['fields']">
+                                                                    <!-- <select enable-save dt-id="cAction.id" add-call-action="addCallAction" style="width:auto;display:inline;border:none;" ng-change="loadNextValue('fields', 'operators',cAction.id, {{key}})" ng-model="addCallAction.rule[cAction.id][key]['fields']" class="form-control" ng-disabled="!canModify"> -->
+                                                                    <select autocomplete="off" enable-save dt-id="cAction.id" add-call-action="addCallAction" ng-options="fields as fields for fields in rule['fields']" style="width:auto;display:inline;border:none;" ng-change="loadNextValue('fields', 'operators',cAction.id, {{key}})" ng-model="addCallAction.rule[cAction.id][key]['fields']"
+                                                                        class="form-control" ng-disabled="!canModify">
+                                                                    <option ng-selected="true" disabled value="action0"> -- Select -- </option>
+                                                                  <!-- <option ng-selected="addCallAction.rule[cAction.id][key]['fields'] == fields" value="{{fields}}" ng-repeat="fields in rule['fields']"> {{fields}}</option> -->
+                                                                </select>
+                                                                </div>
+
+                                                                <div style="width:auto;display:inline;" ng-show="rule['operators']">
+                                                                    <!-- <select enable-save dt-id="cAction.id" add-call-action="addCallAction" style="width:auto;display:inline;border:none;" ng-change="loadNextValue('fields', 'enum', cAction.id, {{key}})" ng-model="addCallAction.rule[cAction.id][key]['operators']" class="form-control" ng-disabled="!canModify"> -->
+                                                                    <select autocomplete="off" enable-save dt-id="cAction.id" add-call-action="addCallAction" ng-options="operator as operator for operator in rule['operators']" style="width:auto;display:inline;border:none;" ng-change="loadNextValue('fields', 'enum', cAction.id, {{key}})"
+                                                                        ng-model="addCallAction.rule[cAction.id][key]['operators']" class="form-control" ng-disabled="!canModify">
+                                                                        <option ng-selected="true" disabled value="action0"> -- Select -- </option>
+                                                                        <!-- <option ng-selected="addCallAction.rule[cAction.id][key]['operators'] == operator" value="{{operator}}"  ng-repeat="operator in rule['operators']">{{operator}}</option> -->
+                                                                </select>
+                                                                </div>
+                                                                <div style="width:auto;display:inline;" ng-show="rule['enum'].length > 0">
+                                                                    <!-- <select enable-save dt-id="cAction.id" add-call-action="addCallAction" style="width:auto;display:inline;border:none;" class="form-control" ng-change="loadNextValue('fields', 'join_type', cAction.id, {{key}})" ng-model="addCallAction.rule[cAction.id][key]['enum']" ng-disabled="!canModify"> -->
+                                                                    <select autocomplete="off" enable-save dt-id="cAction.id" add-call-action="addCallAction" ng-options="enum as enum for enum in rule['enum']" style="width:auto;display:inline;border:none;" class="form-control" ng-change="loadNextValue('fields', 'join_type', cAction.id, {{key}})"
+                                                                        ng-model="addCallAction.rule[cAction.id][key]['enum']" ng-disabled="!canModify">
+                                                                    <option ng-selected="true" disabled value="action0"> -- Select -- </option>
+                                                                    <!-- <option ng-selected="addCallAction.rule[cAction.id][key]['enum'] == enum" value="{{enum}}" ng-repeat="enum in rule['enum']"> {{enum}}</option> -->
+                                                                </select>
+                                                                </div>
+                                                                <div style="width:auto;display:inline;" ng-class="{'has-error' : errors[cAction.id][key] }" ng-show="rule['enum'].length === 0">
+                                                                    <input style="width:150px;display:inline;" maxlength="255" enable-save dt-id="cAction.id" add-call-action="addCallAction" type="text" class="form-control" class="form-control" ng-keypress="loadNextValue('fields', 'join_type', cAction.id, key)" ng-model="addCallAction.rule[cAction.id][key]['enum']">
+                                                                </div>
+                                                                <a title="Delete" ng-show="showRemoveRule(addCallAction.rule[cAction.id]) && rule['fields'] && canModify" ng-click="removeRule(key, cAction.id)"><i class="fa fa-times-circle"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mt20 mb20">
+                                                    <div class="col-sm-1">
+                                                        <h3 style="display:inline;">Then</h3>
+                                                    </div>
+                                                    <div class="col-sm-11">
+                                                        <div class="col-sm-11 col-xs-10" style="background:#e6e6e6;min-height:58px;padding:10px;border:1px solid #ccc;border-radius:4px;">
+                                                            <div class="col-sm-4 col-xs-3">
+                                                                <select style="width:auto;display:inline;border:none;vertical-align: top;" ng-model="   addCallAction.actionOptions[cAction.id]" class="form-control" id="source" dt-id="cAction.id" add-call-action="addCallAction" enable-save ng-disabled="!canModify" onChange="ga('send', 'event', 'Form Event', 'Call Action', this.options[this.selectedIndex].value);">
+                                                                        <option disabled value="action0"> -- Select -- </option>
+                                                                        <option value="email_alert">Send email alert to</option>
+                                                                        <option value="sms_alert">Send SMS to</option>
+                                                                        <option value="tag_call">Tag call as</option>
+                                                                        <!-- <option value="post_event">Post a Conversion event to</option> -->
+                                                                        <option value="webhook">Trigger the webhook</option>
+                                                                        <!-- <option value="post_detail">Send call details to</option> -->
+                                                                        <option value="callback">Flag for call back</option>
+                                                                        <option value="doubleclick" ng-show="dcSetting">Process call for DoubleClick</option>
+                                                                        <option value="analytic" ng-show="gaSetting">Send call for Google Analytics</option>
+                                                                    </select>
+                                                            </div>
+
+                                                            <div class="col-sm-8 col-xs-9">
+                                                                <div style="display:inline;" ng-show="addCallAction.actionOptions[cAction.id]=='email_alert'">
+                                                                    <tags-input id="tagInputIdGroup" track-by-expr="$index" ng-blur="countElement(cAction.id, $event)" ng-keydown="countElement(cAction.id, $event)" ng-click="countElement(cAction.id, $event)" style="width:250px;display:inline;" ng-model="addCallAction.email[cAction.id]"
+                                                                        placeholder="{{addCallAction.email[cAction.id].length>0 ? '' : 'email@example.com'}}" dt-id="cAction.id" class="tags-div" maxLength=1024 add-call-action="addCallAction" ng-paste="countElement(cAction.id, $event)"
+                                                                        add-on-paste="true" key-property="id" display-property="text" placeholder="" value="" add-on-paste="true" on-tag-added="tagAdded(cAction.id, $tag)" template="my-custom-template"></tags-input>
+                                                                    <input readonly type="text" id="remainingNum" class="form-control" ng-model="addCallAction.remainingText[cAction.id]">
+                                                                </div>
+                                                                <div style="display:inline;" ng-show="addCallAction.actionOptions[cAction.id]=='sms_alert'" ng-class="{'has-error' : invalidNumber }">
+                                                                    <input type="text" id="smsNumber" ng-model="addCallAction.phone[cAction.id]" style="width:250px;display:inline;" dt-id="cAction.id" add-call-action="addCallAction" enable-save class="form-control" maskinput data-inputmask="'mask':'(999) 999-9999'" ng-maxlength="14"
+                                                                        ng-minlength="14">
+                                                                </div>
+                                                                <div style="display:inline;" ng-show="addCallAction.actionOptions[cAction.id]=='tag_call'">
+                                                                    <select ui-select2="select2Options(cAction.id)" ng-model="addCallAction.tagList[cAction.id]" ng-change="enableSave(cAction.id)" multiple style="width:50%;" ng-disabled="!canModify">
+                                                                        <option value="{{tag.tag_id}}" ng-repeat="tag in callActionTaggingOptions"> {{tag.tag_name}}</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div style="display:inline;" ng-show="addCallAction.actionOptions[cAction.id]=='post_event'">
+                                                                    <select style="width:auto;display:inline;border:none;" dt-id="cAction.id" add-call-action="addCallAction" enable-save class="form-control" id="postTo" ng-model="addCallAction.postEvent[cAction.id]" ng-disabled="!canModify">
+                                                                            <option selected disabled value="action0"> -- Select -- </option>
+                                                                            <option value="email_alert">Acquisio</option>
+                                                                            <option value="sms_alert">Kenshoo</option>
+                                                                            <option value="doubleclick" ng-show="dcSetting">DoubleClick</option>
+                                                                            <option value="tag_call">Google Adwords</option>
+                                                                            <option value="post_event">Marin</option>
+                                                                        </select>
+                                                                </div>
+                                                                <div style="display:inline;" ng-show="addCallAction.actionOptions[cAction.id]=='webhook'">
+                                                                    <select style="width:auto;display:inline;border:none;" dt-id="cAction.id" add-call-action="addCallAction" enable-save class="form-control" id="triggerWebhook" ng-model="addCallAction.webhook[cAction.id]" ng-disabled="!canModify">
+                                                                            <option ng-selected="true" disabled value=""> -- Select -- </option>
+                                                                            <option ng-selected="wbhk.webhook_id == addCallAction.webhook[cAction.id]" value="{{wbhk.webhook_id}}" ng-repeat="wbhk in callActionWebhookOptions"> {{wbhk.webhook_name}}</option>
+                                                                    </select>
+                                                                    <!-- /#/set-webhook -->
+                                                                    <a href="/#/set-webhook" target="_blank"><i class="fa fa-link" title="Jump to Webhook Settings"></i></a>
+                                                                </div>
+                                                                <div class="col-sm-6" ng-show="addCallAction.actionOptions[cAction.id]=='post_detail'">
+                                                                    <select style="width:auto; display:inline;" dt-id="cAction.id" add-call-action="addCallAction" enable-save class="form-control" id="sendCDRto" ng-model="addCallAction.sendCallDetails[cAction.id]" ng-disabled="!canModify">
+                                                                            <option selected disabled value="action0"> -- Select -- </option>
+                                                                            <option value="email_alert">Salesforce</option>
+                                                                            <option value="sms_alert">Marketo</option>
+                                                                            <option value="tag_call">Zapier</option>
+                                                                        </select>
+                                                                </div>
+                                                                <div style="display:inline;" ng-show="addCallAction.actionOptions[cAction.id]=='callback'">
+                                                                    <input type="hidden" style="width:50%; display:inline;margin-left:20px" dt-id="cAction.id" add-call-action="addCallAction" enable-save class="form-control" id="callbackFlag" ng-model="addCallAction.callbackFlag[cAction.id]" value="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="timeline-footer text-right">
+                                                <div ng-show="callActions.length < 10">
+                                                    <a class="btn btn-inverse pull-left" ng-show="callActions.length == ($index + 1)" ng-click="addNewCallAction(cAction.id)" ng-disabled="!canModify || !addNewStep" onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Click', eventLabel: 'Add Call Action'});">Add Action</a>
+                                                </div>
+                                            </div>
+                                    </li>
+                                </ul>
+                                <div class="timeline-footer text-right mt20">
+                                    <button class="btn btn-primary" type="button" ng-disabled="disableSaveButton" ng-click="saveCallAction(cAction.id, false)" style="float:right;" align="left" onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Click', eventLabel: 'Save Group Details'});">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </accordion>               
+                </form>
+            </div>
+           
+
+        </div>
+    </div>
+</div>
+<!-- ------------------------------------------------------------------------------>
+<style type="text/css" media="screen">
+  
+table.floatThead-table {
+    border-top: none;
+    border-bottom: none;
+    background-color: #fff;
+}
+</style>
+<script>
+    
+    $(document).ready(function () {
+
+    $(".sticky-header").floatThead({
+        scrollingTop: 50
+    });
+
+});
+</script>
+

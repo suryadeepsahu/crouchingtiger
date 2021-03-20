@@ -1,0 +1,18 @@
+@media print{.pane,.section,header,.mast{position:static !important}
+.pane.left,.pane.right,header{border:none !important;background-color:white !important}
+.pane.left.section,.pane.right.section{width:100% !important}
+.pane.right.section{padding-top:10px !important}
+.pane.left{float:left !important}
+.main_panes>header .pane .btn-group{margin-left:0 !important}
+.main_panes>header .pane .btn-group .btn{text-shadow:none !important;background:none !important;background-image:none !important;background-color:none !important}
+.mast{width:100%;background-color:white !important}
+.mast .source{line-height:19px}
+.mast .profile{position:inherit !important}
+.property_box{margin-left:0 !important}
+.event .title{margin-bottom:3px}
+.token{text-shadow:none}
+.filters a .count{position:relative !important}
+.search .search_bar{top:inherit;left:inherit}
+.search #search_results{position:inherit;margin-top:80px}
+.tag{text-shadow:none !important}
+#main_navigation,#branding_header,#modals,footer,.action_buttons,.ticket_submit_buttons,.object_options,.face_box,.comment_input,.origin,.conversation_mode,.ticket_call_console,.user_photo .agent,.change_requester_email,.for_save,.delete,.learn_more,.origin,table .selection,.aux-content,.show_tips{display:none !important}}

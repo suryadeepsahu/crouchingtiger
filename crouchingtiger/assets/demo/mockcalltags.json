@@ -1,0 +1,22 @@
+{
+    "status":"success",
+    "err":"",
+    "json":[
+        {
+            "call_id":82,
+            "tag_id":1,
+            "org_unit_id":8,
+            "tag_name":"Test tag",
+            "tag_created":"2015-03-23T00:00:00.000Z",
+            "tag_active":false
+        },
+        {
+            "call_id":82,
+            "tag_id":2,
+            "org_unit_id":8,
+            "tag_name":"Test tag 2",
+            "tag_created":"2015-03-23T00:00:00.000Z",
+            "tag_active":false
+        }
+    ]
+}

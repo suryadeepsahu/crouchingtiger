@@ -1,0 +1,153 @@
+		<div id="page-heading">
+
+			<h1>Tags</h1>
+			<div class="options">
+                <div class="btn-toolbar">
+                </div>
+            </div>
+		</div>
+		<div class="container-fluid" ng-controller="TagController" >
+            <page-loader is-loading-api="isLoadingApi"></page-loader>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-midnightblue">
+						<div class="panel-heading" title="{{OU_Name}}">
+							<h4>Tags for {{OU_Name | truncate_campGroupName }}</h4>
+							<div class="options">
+
+							</div>
+						</div>
+						<div class="panel-body">
+                        	<div class="row">
+                                <div class="col-xs-12">
+                                <label class="control-label">With your own custom Tags, you can easily categorize your calls.  When Tags are created, that Tag becomes available to be applied to all calls for that group and any sub-groups below.  </label>
+                                </div>
+                            </div>
+							<div class="row">
+								<div class="col-xs-9" ng-if="totalOUtagsRows <= 0">
+										<div class="noDataSelector">No Data Found</div>
+								</div>
+                                <div class="col-xs-9">
+                                    <div class="col-xs-6 col-md-4 col-sm-6 mt15" ng-repeat="tag in OUtags" >
+                                    <input icheck type="checkbox" ng-model= "tag.selected" value="" ng-change="ischecked($index,tag)" ng-disabled="!canModify || 
+                                    tag.systemTag"> {{tag.name}}</div>
+                                </div>
+                                <div class="col-xs-3">
+                                    <form type="submit" ng-submit="addTag()">
+										<div class="input-group">
+                                            <input type="text" placeholder="Add a Tag" ng-model="tagText" class="form-control" ng-disabled="!canModify" validate-blur-forza="Tags,Name" validate-utf-eight>
+											<div class="input-group-btn">
+												<button class="btn btn-primary" ng-disabled="!tagText || isClicked" type="submit">Add</button>
+											</div>
+										</div>
+                                    </form>
+                                </div>
+                            </div>
+						</div>
+                        <div class="panel-footer text-right">
+                        	<button class="btn btn-primary" ng-click="clearSelectedTags()" ng-disabled="!canModify">Clear</button>
+    						<button class="btn btn-danger" ng-click="deleteSelectedTags()" ng-disabled="!canModify">Delete {{(selected)}} Selected</button>
+                        </div>
+					</div>
+				</div>
+			</div>
+
+            <div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-midnightblue">
+						<div class="panel-heading">
+							<h4>Usable Tags</h4>
+							<div class="options">
+
+							</div>
+						</div>
+						<div class="panel-body">
+                        	<div class="row">
+                                <div class="col-xs-12">
+                                <label class="control-label">Usable Tags were created at a different group level.  To add, edit, or delete these Tags, you must first navigate to that group in the breadcrumb or contact your company administrator.</label>
+                                </div>
+                            </div>
+							<div class="row">
+								<div class="col-xs-6 col-md-3 col-sm-4 mt10" ng-if="totalNonOUtagsRows <= 0">
+									<div class="noDataSelector">No Data Found</div>
+								</div>
+                                <div class="col-xs-6 col-md-3 col-sm-4 mt10" ng-repeat="ntag in NonOUtags">
+                                    {{ntag.name}}
+
+                                </div>
+                            </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> <!-- container -->
+		<!-- <div class="container-fluid" ng-controller="CustomSourceController" >
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-midnightblue">
+						<div class="panel-heading">
+							<h4>Custom Sources for {{OU_Name}}</h4>
+							<div class="options">
+
+							</div>
+						</div>
+						<div class="panel-body">
+                        	<div class="row">
+                                <div class="col-xs-12">
+                                <label class="control-label">With your own custom sources, you can easily categorize your calls.  When created, it becomes available to be applied to all call flows for that group and any sub-groups below.  </label>
+                                </div>
+                            </div>
+			<div class="row">
+                                <div class="col-xs-9">
+                                    <div class="col-xs-6 col-md-4 col-sm-6 mt15" ng-repeat="customSource in OUcustomSources" >
+                                    <input icheck type="checkbox" ng-model= "customSource.selected" value="" ng-change="ischecked($index,customSource)" ng-disabled="!canModify || customSource.systemCustomSource"> {{customSource.name}}</div>
+                                </div>
+                                <div class="col-xs-3">
+                                    <form type="submit" name="customSourceForm" ng-submit="addCustomSource()" novalidate>
+										<div class="input-group">
+                                            <input type="text" name="custominput" placeholder="Add a Custom Source" ng-model="customSourceText" class="form-control" ng-disabled="!canModify" maxlength="50" validate-blur-forza="CustomSources,Name">
+											<div class="input-group-btn">
+												<button class="btn btn-primary" ng-disabled="!customSourceText || isClicked || customSourceForm.custominput.$invalid" type="submit">Add</button>
+											</div>
+										</div>
+                                    </form>
+                                </div>
+                            </div>
+						</div>
+                        <div class="panel-footer text-right">
+                        	<button class="btn btn-primary" ng-click="clearSelectedCustomSources()" ng-disabled="!canModify">Clear</button>
+    						<button class="btn btn-danger" ng-click="deleteSelectedCustomSources()" ng-disabled="!canModify">Delete {{(selected)}} Selected</button>
+                        </div>
+					</div>
+				</div>
+			</div>
+            
+          <div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-midnightblue">
+						<div class="panel-heading">
+							<h4>Usable Custom Sources</h4>
+							<div class="options">
+						
+							</div>
+						</div>
+						<div class="panel-body">
+                        	<div class="row">
+                                <div class="col-xs-12">
+                                <label class="control-label">Usable Custom Sources were created at a different group level.  To add, edit, or delete these Custom Sources, you must first navigate to that group in the breadcrumb or contact your company administrator.</label>
+                                </div>
+                            </div>
+							<div class="row">
+                                <div class="col-xs-6 col-md-3 col-sm-4 mt10" ng-repeat="ncustomSource in NonOUCustomSources | orderBy:'name'">
+                                    {{ncustomSource.name}}
+                                    
+                                </div>
+                            </div>
+						</div>
+					</div>
+				</div>
+			</div>
+ -->
+
+		<!-- </div> container -->

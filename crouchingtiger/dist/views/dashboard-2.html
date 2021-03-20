@@ -1,0 +1,484 @@
+<link rel="stylesheet" type="text/css" href="assets/plugins/gridster/jquery.gridster.css"><link rel="stylesheet" type="text/css" href="assets/plugins/gridster/demo.css"><style>/*.widgetpanel{height:250px;}*/
+.widgetpointer{cursor:pointer}
+.panelmove{cursor:move; }
+.info-tiles .tiles-body{font-size:12px;}
+._GANib ._GALd {padding: 56px 0;}
+._GALd {background-color: #f2f2f2;border-bottom: 1px solid #dcdcdc;border-right: 1px solid #dcdcdc;color: #333;font-size: 11px;font-weight: bold;
+padding: 23px 0;text-align: center;}
+._GAb-_GAp-_GAq {position: relative;display: -moz-inline-box;display: inline-block;}
+._GADc {border-top: 1px solid #dcdcdc;border-left: 1px solid #dcdcdc;border-radius: 2px;}</style><script>var emailController = ('emailController', ['$scope', '$uibModal', '$bootbox', '$log', function($scope, $uibModal, $bootbox) {
+	$scope.openConfirm = function () {
+      $bootbox.confirm("This Dashboard will be added to your list of Email Digests. Are you sure?", function(result) {
+         
+     });
+    };
+}]);
+
+var deleteDashboard = ('deleteDashboard', ['$scope', '$uibModal', '$bootbox', '$log', function($scope, $uibModal, $bootbox) {
+	$scope.openConfirm = function () {
+      $bootbox.confirm("You are about to delete this dashboard. Are you sure?", function(result) {
+         
+     });
+    };
+}]);
+
+//add Widget modal	  
+var addWidgetModal = function($scope, $uibModal) {
+		$scope.open = function (size) {
+		  var captainModalInstance = $uibModal.open({
+		  templateUrl: 'addWidgetModal.html',
+		  controller: captainModalInstanceCtrl,
+		  size: size
+		  });
+	};
+};
+
+var captainModalInstanceCtrl = function ($scope, $uibModalInstance) {
+
+  $scope.ok = function () {
+    $uibModalInstance.close();
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+};
+
+ var customizeDashboard = function($scope, $uibModal) {
+		$scope.open = function (size) {
+		  var captainModalInstance = $uibModal.open({
+		  templateUrl: 'customizeDashboard.html',
+		  controller: captainModalInstanceCtrl2,
+		  size: size
+		  });
+	};
+};
+var captainModalInstanceCtrl2 = function ($scope, $uibModalInstance) {
+
+  $scope.ok = function () {
+    $uibModalInstance.close();
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+};</script><script type="text/ng-template" id="addWidgetModal.html"><div class="modal-header">
+		<h3 class="modal-title">Add a Widget</h3>
+	</div>
+	<div class="modal-body">
+			<div class="container-fluid" ng-controller="FormComponentsController">
+				<div class="row">
+					<div class="col-xs-12">
+						<form action="" class="form-horizontal row-border">
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-6">
+										<input type="text" class="form-control" placeholder="Widget Title" value=""><br />
+									</div>
+								</div>
+								<div class="row mt5 mb5">
+									<label class="col-sm-2">Widget Type:</label>
+								</div>
+								<!-- Row of widget choices -->
+								<div ng-init="tab = 1">
+									<div class="row mt5 mb10" >
+										
+											<div class="col-sm-2 col-md-offset-1 widgetpointer" ng-click="tab = 1">
+												<tile type="info">
+													<tile-heading>
+														Summaries
+													</tile-heading>
+														<div class="text-center">
+															<div class="info-text" style="height:60px;line-height:60px;">2.1<span class="subscript">K</span></div>
+															<div class="info-text-bottom">Total Calls</div>
+														</div> 
+												</tile>
+											</div>
+											<div class="col-sm-2 widgetpointer" ng-click="tab = 2">
+												<tile type="info">
+													<tile-heading>
+														Timeline
+													</tile-heading>
+														<div class="sparkline-block">
+															<span sparklines="{
+															lineWidth: 1.5,
+															type: 'line',
+															width: '90px',
+															height: '20px',
+															lineColor: '#efefef',
+															fillColor: 'rgba(0,0,0,0.1)',
+															spotColor: false,
+															minSpotColor: false,
+															highlightLineColor: 'rgba(0,0,0,0.1)',
+															highlightSpotColor: '#efefef',
+															spotRadius: 3,
+															maxSpotColor: false}" data-data="[251,933,653,759,1022,1702,565,1913,889,674]"></span>
+														</div>
+														<h3 style="text-align: center; margin: 0;color:white;">7,451</h3>
+														<p style="text-align: center; margin: 0;color:white;">Visits</p> 
+												</tile>
+											</div>
+											<div class="col-sm-2 widgetpointer" ng-click="tab = 3">
+												<tile type="info">
+													<tile-heading>
+														Pie
+													</tile-heading>
+														<div class="text-center">
+															<span sparklines="{type: 'pie', height: '78px'}" data-data="[5,3,4,1]"></span>       
+														</div> 
+												</tile>
+											</div>
+											<div class="col-sm-2 widgetpointer" ng-click="tab = 4">
+												<tile type="info">
+													<tile-heading>
+														Bar
+													</tile-heading>
+														<div class="sparkline-block" style="width: 50px">
+															<span sparklines="{
+															lineWidth: 1.5,
+															type: 'bar',
+															barWidth: 6,
+															width: '150px',
+															height: '20px',
+															barColor: '#efefef',
+															barSpacing: 1
+															}" data-data="[251,933,653,759,1022,1702,565]"></span>
+														</div>
+													<h3 style="text-align: center; margin: 0;color:white;">21,451</h3>
+													<p style="text-align: center; margin: 0;color:white;">Call Volume</p> 
+												</tile>
+											</div>
+											<div class="col-sm-2 widgetpointer" ng-click="tab = 5">
+												<tile type="info">
+													<tile-heading>
+														Tables
+													</tile-heading>
+														<div class="text-center">
+															<div style="padding:3px;"><img src="img/icons/icon-table-widget.png"></div>
+															<div class="info-text-bottom">Missed Call List</div>        
+														</div> 
+												</tile>
+											</div>
+											
+										
+									</div>
+									<!-- End Row of widget choices -->
+									
+									<!-- Metric Chooser -->
+									<div class="row" ng-show="tab === 1">
+										<label class="col-sm-3 control-label">Show the following Metric: </label>
+										<div class="col-sm-4">
+											<select ui-select2 ng-model="select2" data-placeholder="Select a Metric" style="width:100%" >
+												<optgroup label="Acquisition">
+													<option value="AK">Call Flows by Day</option>
+													<option value="HI">Calls by Campaign</option>
+													<option value="CA">Unique vs Repeat</option>
+													<option value="AZ">Calls by Keyword</option>
+												</optgroup>
+												<optgroup label="Calls">
+													<option value="NV">Calls by Day</option>
+													<option value="OR">Call by Region</option>
+													<option value="WA">Calls by Channel</option>
+												</optgroup>
+												<optgroup label="Conversations">
+													<option value="CO">Behavior</option>
+													<option value="ID">Outcomes</option>
+													<option value="NM">Benchmarking</option>
+												</optgroup>
+												<optgroup label="Activity">
+													<option value="AL">Workflow</option>
+													<option value="AR">User</option>
+												</optgroup>
+												<optgroup label="Billing">
+													<option value="CT">Calls analyzed</option>
+													<option value="DE">API calls used</option>
+													<option value="FL">Minutes used</option>
+													<option value="GA">Webhooks triggered</option>
+												</optgroup>
+											</select>
+										</div>
+									</div>
+									<div class="row" ng-show="tab === 2">
+										<label class="col-sm-4 control-label">Graph the following metric over time: </label>
+										<div class="col-sm-4">
+											<select ui-select2 ng-model="select2" data-placeholder="Select a Metric" style="width:100%" >
+												<optgroup label="Acquisition">
+													<option value="AK">Call Flows by Day</option>
+													<option value="HI">Calls by Campaign</option>
+													<option value="CA">Unique vs Repeat</option>
+													<option value="AZ">Calls by Keyword</option>
+												</optgroup>
+												<optgroup label="Calls">
+													<option value="NV">Calls by Day</option>
+													<option value="OR">Call by Region</option>
+													<option value="WA">Calls by Channel</option>
+												</optgroup>
+												<optgroup label="Conversations">
+													<option value="CO">Behavior</option>
+													<option value="ID">Outcomes</option>
+													<option value="NM">Benchmarking</option>
+												</optgroup>
+												<optgroup label="Activity">
+													<option value="AL">Workflow</option>
+													<option value="AR">User</option>
+												</optgroup>
+												<optgroup label="Billing">
+													<option value="CT">Calls analyzed</option>
+													<option value="DE">API calls used</option>
+													<option value="FL">Minutes used</option>
+													<option value="GA">Webhooks triggered</option>
+												</optgroup>
+											</select>
+										</div>
+									</div>
+									<div class="row" ng-show="tab === 3">
+										<label class="col-sm-3 control-label">Create a Pie chart showing: </label>
+										<div class="col-sm-4">
+											<select ui-select2 ng-model="select2" data-placeholder="Select a Metric" style="width:100%" >
+												<optgroup label="Acquisition">
+													<option value="AK">Call Flows by Day</option>
+													<option value="HI">Calls by Campaign</option>
+													<option value="CA">Unique vs Repeat</option>
+													<option value="AZ">Calls by Keyword</option>
+												</optgroup>
+												<optgroup label="Calls">
+													<option value="NV">Calls by Day</option>
+													<option value="OR">Call by Region</option>
+													<option value="WA">Calls by Channel</option>
+												</optgroup>
+												<optgroup label="Conversations">
+													<option value="CO">Behavior</option>
+													<option value="ID">Outcomes</option>
+													<option value="NM">Benchmarking</option>
+												</optgroup>
+												<optgroup label="Activity">
+													<option value="AL">Workflow</option>
+													<option value="AR">User</option>
+												</optgroup>
+												<optgroup label="Billing">
+													<option value="CT">Calls analyzed</option>
+													<option value="DE">API calls used</option>
+													<option value="FL">Minutes used</option>
+													<option value="GA">Webhooks triggered</option>
+												</optgroup>
+											</select>
+										</div>
+									</div>
+									<div class="row" ng-show="tab === 4">
+										<label class="col-sm-3 control-label">Create a Bar chart showing: </label>
+										<div class="col-sm-4">
+											<select ui-select2 ng-model="select2" data-placeholder="Select a Metric" style="width:100%" >
+												<optgroup label="Acquisition">
+													<option value="AK">Call Flows by Day</option>
+													<option value="HI">Calls by Campaign</option>
+													<option value="CA">Unique vs Repeat</option>
+													<option value="AZ">Calls by Keyword</option>
+												</optgroup>
+												<optgroup label="Calls">
+													<option value="NV">Calls by Day</option>
+													<option value="OR">Call by Region</option>
+													<option value="WA">Calls by Channel</option>
+												</optgroup>
+												<optgroup label="Conversations">
+													<option value="CO">Behavior</option>
+													<option value="ID">Outcomes</option>
+													<option value="NM">Benchmarking</option>
+												</optgroup>
+												<optgroup label="Activity">
+													<option value="AL">Workflow</option>
+													<option value="AR">User</option>
+												</optgroup>
+												<optgroup label="Billing">
+													<option value="CT">Calls analyzed</option>
+													<option value="DE">API calls used</option>
+													<option value="FL">Minutes used</option>
+													<option value="GA">Webhooks triggered</option>
+												</optgroup>
+											</select>
+										</div>
+									</div>
+									<div class="row" ng-show="tab === 5">
+										<label class="col-sm-3 control-label">Create a Table showing: </label>
+										<div class="col-sm-4">
+											<select ui-select2 ng-model="select2" data-placeholder="Select a Metric" style="width:100%" >
+												
+													<option value="AK">Ranking</option>
+													<option value="HI">Missed Call List</option>
+													<option value="CA">Missed Opportunity List</option>
+													<option value="AZ">Good Call List</option>
+													<option value="NV">Bad Call List</option>
+												
+											</select>
+										</div>
+									</div>
+									<div class="row" ng-show="tab === 6">
+										<div class="col-sm-3">
+											<select ng-init="textOptions = textOptions || 'textarea'" class="form-control" id="source" ng-model="textOptions">
+												
+												<option value="textarea">Text Area</option>
+												<option value="imagearea">Image Upload</option>
+											</select>
+										</div>
+										<div class="col-sm-6" ng-show="textOptions=='textarea'">
+											<textarea class="form-control"></textarea>
+										</div>
+										<div class="col-sm-6" ng-show="textOptions=='imagearea'">
+											
+											<div class="fileinput fileinput-new" data-provides="fileinput">
+												<div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 100px;"></div>
+												<div>
+												  <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="..."></span>
+												  <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+												</div>
+											</div>
+										</div>
+										
+										
+									</div>
+								</div>
+								<!-- End Metric Chooser -->
+								
+								<!-- Metric Filter -->
+								<div class="row mt15 mb5">
+									<label class="col-sm-2">Filter this data:</label>
+								</div>
+								<div class="row">
+									<div class="col-sm-3">
+										<select style="" class="form-control" id="source">
+											<option value="dlist-campaign">Only Show</option>
+											<option value="dlist-user">Do not Show</option>
+										</select>
+									</div>
+									<div class="col-sm-3">
+										<select ui-select2 ng-model="select2" data-placeholder="Add a Metric" style="width:100%" >
+											<option value="camp">Campaign</option>
+											<option value="cf">Call Flow</option>
+											<option value="ch">Channel</option>
+											<option value="ind">Indicator</option>
+											<option value="reg">Region</option>
+											<option value="val">Value</option>
+											<option value="kw">Keyword</option>
+											<option value="pg">Page</option>
+											<option value="us">User</option>
+										</select>
+									</div>
+									<div class="col-sm-3">
+										<select style="" class="form-control" id="source">
+											<option value="em">Exact Match</option>
+											<option value="re">Reg. Exp.</option>
+											<option value="bw">begins with</option>
+											<option value="ew">ends with</option>
+											<option value="con">containing</option>
+											
+										</select>
+									</div>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" placeholder="" value=""><br />
+									</div>
+								</div>
+								<!-- End Metric Filter -->
+
+								
+							</div>
+						 </form>
+					</div>
+				</div>
+			</div>	
+	</div>
+	<div style="clear:both" class="modal-footer">
+		<button class="btn btn-primary" ng-click="ok()">Add Now</button>
+		<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+	</div></script><script type="text/ng-template" id="customizeDashboard.html"><div class="modal-header">
+		<h3 class="modal-title">Customize Dashboard Layout</h3>
+	</div>
+	<div class="modal-body">
+			<div class="container-fluid" >
+				<div class="row">
+					<div class="col-xs-12 _GANib">
+										
+						<div class="col-sm-4 widgetpointer">
+							<div  class="_GADc _GAb-_GAp-_GAq _GAMc  ACTION-select TARGET-100 ID-100">
+							<div>
+							<div class="_GAb-_GAp-_GAq _GALd " style="width: 180px">100%</div>
+							</div>
+							</div>
+						</div>
+						<div class="col-sm-4 widgetpointer">
+							<div class="_GADc _GAb-_GAp-_GAq _GAMc  ACTION-select TARGET-50_50 ID-50_50">
+							<div>
+							<div class="_GAb-_GAp-_GAq _GALd " style="width: 90px">50%</div>
+							<div class="_GAb-_GAp-_GAq _GALd " style="width: 90px">50%</div>
+							</div></div>
+						</div>
+						<div class="col-sm-4 widgetpointer">
+							<div class="_GADc _GAb-_GAp-_GAq _GAMc  ACTION-select TARGET-25_25_25_25 ID-25_25_25_25"><div>
+							<div class="_GAb-_GAp-_GAq _GALd " style="width: 45px">25%</div>
+							<div class="_GAb-_GAp-_GAq _GALd " style="width: 45px">25%</div>
+							<div class="_GAb-_GAp-_GAq _GALd " style="width: 45px">25%</div>
+							<div class="_GAb-_GAp-_GAq _GALd " style="width: 45px">25%</div>
+							</div></div>
+						</div>
+					</div>	
+					<div class="col-xs-12 mt20 _GANib">	
+						<div class="col-sm-4 widgetpointer" ng-click="tab = 4">
+							<div class="_GADc _GAb-_GAp-_GAq _GAMc  ACTION-select TARGET-30_70 _GASe _GAKh ID-30_70"><div>
+							<div class="_GAb-_GAp-_GAq _GALd " style="width: 54px">30%</div>
+							<div class="_GAb-_GAp-_GAq _GALd " style="width: 126px">70%</div>
+							</div></div>
+						</div>
+						<div class="col-sm-4 widgetpointer" ng-click="tab = 5">
+							<div class="_GADc _GAb-_GAp-_GAq _GAMc  ACTION-select TARGET-30_40_30 ID-30_40_30"><div>
+							<div class="_GAb-_GAp-_GAq _GALd " style="width: 54px">30%</div>
+							<div class="_GAb-_GAp-_GAq _GALd " style="width: 72px">40%</div>
+							<div class="_GAb-_GAp-_GAq _GALd " style="width: 54px">30%</div></div></div>
+						</div>
+						<div class="col-sm-4 widgetpointer" ng-click="tab = 6">
+							<div class="_GADc _GAb-_GAp-_GAq _GAMc  ACTION-select TARGET-70_30 ID-70_30"><div>
+							<div class="_GAb-_GAp-_GAq _GALd " style="width: 126px">70%</div>
+							<div class="_GAb-_GAp-_GAq _GALd " style="width: 54px">30%</div></div></div>
+						</div>
+											
+					</div>
+				</div>
+			</div>	
+	</div>
+	<div style="clear:both" class="modal-footer">
+		<button class="btn btn-primary" ng-click="ok()">Save</button>
+		<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+	</div></script><div id="page-heading"><h1><i class="fa fa-lock" title="Private"></i> Dashboard 2 Title</h1><div class="options"><div class="btn-toolbar"><div class="btn-group" dropdown><button type="button" class="btn btn-default dropdown-toggle">Export as <span class="caret"></span></button><ul class="dropdown-menu" role="menu"><li><a href="#">CSV</a></li><li><a href="#">TSV</a></li><li><a href="#">Excel</a></li><li><a href="#">PDF</a></li></ul></div><div ng-controller="DateRangePickerDemo" class="pull-right ng-scope" style="margin-left:10px;"><button class="btn btn-default ng-isolate-scope" daterangepicker="drp_options" date-begin="drp_start" date-end="drp_end"><i class="fa fa-calendar"></i> <span style="margin-left: 5px" class="ng-binding">October 6, 2014 - November 7, 2014</span> <b class="caret"></b></button></div></div></div><div style="clear:both;"></div><hr><div class="container-fluid"><div class="row"><div class="col-xs-12"><div ng-controller="addWidgetModal"><button class="btn btn-default pull-left" style="margin:auto 25px auto 10px;" ng-click="open('lg')">Add Widget <i class="fa fa-plus-circle"></i></button></div><div class="pull-left" style="border-left: 1px solid #000;height: 34px;"></div><div class="btn-group pull-left" style="margin:auto 25px;" data-dropdown><button type="button" class="btn btn-default-alt dropdown-toggle alt-border">Share <span class="caret"></span></button><ul class="dropdown-menu" role="menu"><li><a href="#"><i class="fa fa-share"></i> Share Dashboard</a></li><li><a href="#"><i class="fa fa-chain"></i> Share Link</a></li></ul></div><div ng-controller="emailController"><button class="btn btn-default pull-left" ng-click="openConfirm()">Email</button></div><div ng-controller="deleteDashboard"><button class="btn btn-default" ng-click="openConfirm()" style="float:right;margin:auto 10px auto 25px;">Delete</button></div><div ng-controller="customizeDashboard"><button class="btn btn-default" ng-click="open('lg')" style="float:right;">Customize</button></div></div></div></div><div style="clear:both;"></div><hr></div><div class="container-fluid gridster" ng-controller="DashboardController"><div class="row pizza"><div class="col-md-4 widgetpanel" data-row="1" data-col="1" data-sizey="1" data-sizex="1"><tile type="danger" class="panelmove"><tile-heading><div class="pull-left">Total Calls</div><div class="pull-right"><a href="javascript:;"><i class="fa fa-trash-o"></i></a> <a href="javascript:;"><i class="fa fa-wrench"></i></a></div></tile-heading><div class="text-center"><div class="info-text">12.6<span class="subscript">K</span></div><div class="info-text-bottom">decreased by 30%</div></div></tile></div><div class="col-md-4 widgetpanel" data-row="1" data-col="2" data-sizey="1" data-sizex="1"><tile type="success" class="panelmove"><tile-heading><div class="pull-left">Fall Campaign Revenue</div><div class="pull-right"><a href="javascript:;"><i class="fa fa-trash-o"></i></a> <a href="javascript:;"><i class="fa fa-wrench"></i></a></div></tile-heading><div class="text-center"><div class="info-text"><span class="superscript">$</span>3.6<span class="subscript">K</span></div><div class="info-text-bottom">increased by 5%</div></div></tile></div><div class="col-md-4 widgetpanel" data-row="1" data-col="3" data-sizey="1" data-sizex="1"><tile type="info" class="panelmove"><tile-heading><div class="pull-left">Unique Calls</div><div class="pull-right"><a href="javascript:;"><i class="fa fa-trash-o"></i></a> <a href="javascript:;"><i class="fa fa-wrench"></i></a></div></tile-heading><div easypiechart class="easypiechart" data-percent="33" data-options="{
+                                animate: { duration: 0, enabled: false},
+                                barColor: 'rgba(255,255,255,0.6)',
+                                trackColor: 'rgba(255,255,255,0.2)',
+                                scaleColor: 'rgba(255,255,255,0.3)',
+                                lineWidth: 2,
+                                size: 100,
+                                lineCap:'circle'
+                            }"><span class="percent">33</span></div></tile></div><div class="col-md-12 widgetpanel" data-row="2" data-col="1" data-sizey="1" data-sizex="3"><panel panel-class="panel-midnightblue" heading="User Reports" class="panelmove"><panel-controls><a href="javascript:;"><i class="fa fa-trash-o"></i></a> <a href="javascript:;"><i class="fa fa-wrench"></i></a></panel-controls><div class="text-center"><div class="mb20 mt20" flot-chart style="width: 100%; height:250px" data-flot-data="plotStatsData" data-flot-options="plotStatsOptions"></div></div></panel></div><div class="col-md-4 widgetpanel" data-row="3" data-col="1" data-sizey="1" data-sizex="1"><panel panel-class="panel-gray" heading="User Reports" class="panelmove"><panel-controls><a href="javascript:;"><i class="fa fa-trash-o"></i></a> <a href="javascript:;"><i class="fa fa-wrench"></i></a></panel-controls><div class="text-center"><div class="mb20 mt20" flot-chart style="width: 100%; height:250px" data-flot-data="plotStatsData" data-flot-options="plotStatsOptions"></div></div></panel></div><div class="col-md-4 widgetpanel" data-row="3" data-col="2" data-sizey="1" data-sizex="1"><panel panel-class="panel-gray" heading="Revenues" class="panelmove"><panel-controls><a href="javascript:;"><i class="fa fa-trash-o"></i></a> <a href="javascript:;"><i class="fa fa-wrench"></i></a></panel-controls><div class="text-center"><div class="mb20 mt20" flot-chart style="width: 100%; height:250px" data-flot-data="plotRevenueData" data-flot-options="plotRevenueOptions"></div></div></panel></div><div class="col-md-4 widgetpanel" data-row="3" data-col="3" data-sizey="1" data-sizex="1"><div class="col-md-12" ng-controller="FlotChartsController"><panel panel-class="panel-gray" heading="Live Calls" class="panelmove"><panel-controls><a href="javascript:;"><i class="fa fa-trash-o"></i></a> <a href="javascript:;"><i class="fa fa-wrench"></i></a></panel-controls><div class="text-center"><div class="mt20 mb0" flot-chart style="width: 100%; height:140px" data-flot-data="realtimeData" data-flot-options="realtimeOptions"></div></div></panel></div></div></div><div class="row"><div class="col-md-6"></div><div class="col-md-6"></div></div><div class="row"><div class="col-md-6"></div></div></div><script type="text/javascript" id="code">var gridster;
+	var idIndex = 2;
+
+    $(function(){
+
+      gridster = $(".gridster > div.pizza").gridster({
+		  widget_selector: 'div',
+          widget_margins: [5, 15],
+		  max_cols: 3
+      }).data('gridster');
+
+      var widgets = [		
+      ];
+
+      $.each(widgets, function(i, widget){
+          gridster.add_widget.apply(gridster, widget);
+      });
+
+
+    });
+	function addBox() {
+		var temp = gridster.add_widget('<div class="new" id="'+idIndex+'">'+idIndex+'<a href="javascript:delBox('+idIndex+')"> X</a></div>', 1, 1);
+		idIndex++;
+		console.log(temp);
+	}
+	
+	function delBox(passedId) {
+		gridster.remove_widget( $('#'+passedId) );
+	}</script>

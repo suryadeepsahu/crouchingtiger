@@ -1,0 +1,45 @@
+If you're getting a problem with an unknown provider
+
+ex
+PhantomJS 1.9.8 (Mac OS X 0.0.0)
+               1) Error: [$injector:unpr] Unknown provider: pinesNotificationsProvider <- pinesNotifications
+               http://errors.angularjs.org/1.2.20/$injector/unpr?p0=pinesNotificationsProvider%20%3C-%20pinesNotifications
+
+
+It could first be that you're not including the module of that service, into the module that you're testing.
+Example.
+
+
+
+Explanation:
+When using this 'tag-builder' module as part of the overall CFA app, the 'TagWebService' factory doesn't complain about having the necessary module for pinesNotifications because the module that has pinesNotifications in it is already included back in the scripts/app.js main module being used,
+and by the time it gets to this, pinesNotifications can be found back when its parent module ('theme.services' in scripts/Services.js) was included.
+Because unit tests run modules in isolation, the necessary module required for pinesNotifications ('theme.services') is never included because the
+programmer who wrote the 'tag-builder' module wrote it assuming it would only be a part of a parent module that would include 'theme.services'
+in its parent.
+
+TL;DR
+just add the module for pinesNotifications in with the other imported modules needed for injected dependencies
+
+//make this
+angular
+    .module('tag-builder', ['angularFileUpload'])
+    .factory('TagWebService', function ($q, $timeout, $http, $window, $rootScope, $upload, pinesNotifications) {
+        'use strict';
+        var TagWebService = {};
+        ...
+        ...
+        ...
+
+//into this
+angular
+    .module('tag-builder', ['angularFileUpload', 'theme.services']) / <----------------------------------------------------change here
+    .factory('TagWebService', function ($q, $timeout, $http, $window, $rootScope, $upload, pinesNotifications) {
+        'use strict';
+        var TagWebService = {};
+        ...
+        ...
+        ...
+
+
+______________________________________________________________________________________________________________________________

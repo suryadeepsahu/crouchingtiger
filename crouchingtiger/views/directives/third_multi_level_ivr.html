@@ -1,0 +1,272 @@
+  <!-- start multilevel -->
+  <style type="text/css" media="screen">
+  .thirdCheckBox{
+        min-width: 10px;
+        margin-left: 3%;
+    }
+    .checkboxPadding{
+           padding-left: 0px 
+    }
+    .recordCall{
+        margin-left: 2.5%;
+        width: auto;
+    }
+    .thirdRecordCall{
+        margin-left: 0%;
+    }
+    @media screen and (min-width:1365px)  {
+        .thirdCheckBox{
+            margin-left: 0.80%;
+        } 
+        .checkboxPadding{
+            margin-left: 12.5%; 
+        }
+        .thirdRecordCall{
+            margin-left: 11%;
+        }
+    }
+    
+  </style>
+<div class="" ng-hide= "cAction.action =='interactiveVoice'">
+   <img src="../img/overflow.png" ng-show="tcactionId === 0" style="position:absolute;left:0px;"/>
+</div>
+<div class="col-sm-12 col-lg-12">
+    <div class="col-lg-12 col-md-12 col-sm-12 mt5 mb20" ng-init="getGeoLocationList()">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 mt5 mb20">
+                <div class="mt10">
+                    <label class="control-label12"><b>Key Press</b></label>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 mt5 mb20">
+                <div class="mt10">
+                   <a ng-click="removeIvrAction(tcAction.id)" ng-show="ivrActions.length > 1" title="delete"><i class="fa fa-times crossmultilevel"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 mt5 ">
+                <div class="row mb20">
+                    <div class="col-sm-3">
+                          <input type="number" class="form-control" value="" ng-model="tcAction.keypress"  ng-maxlength="9" ng-pattern="/^[0-9]+$/" maxlength="9" min="0" max="999999999"  ng-change="showSubmit()">
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 mt10">
+                        <label class="">
+                            Destination:
+                        </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input placeholder="Sales" type="text" class="form-control" value="" ng-model="tcAction.destination" ng-maxlength="50"   ng-change="showSubmit()">
+                    </div>
+                </div>
+
+                <div class="row mb20 ">
+                    <div class="col-md-offset-3 col-lg-4 col-md-4 col-sm-12 mt10">
+                        <label>
+                            Action:
+                        </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <select class="form-control" ng-init="tcAction.action" ng-model="tcAction.action"  ng-change="showSubmit();pauseCurrentPlayingAudio();retainDataOnChange();" >
+                            <option value="simple" ng-selected="tcAction.action =='simple'"> Forwarding to a phone number </option>
+                            <option value="geo" ng-hide="isLocationIvr" ng-selected="tcAction.action =='geo'"> Geo Route </option>
+                            <option value="schedule" ng-hide="isLocationIvr">Follow a schedule</option>
+                            <option value="hangup"> Hangup </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb20" ng-show = "tcAction.action =='geo' ">
+                    <div class="col-md-offset-3 col-lg-4 col-md-4 col-sm-12 mt10">
+                        <label>Route By</label>
+                    </div>
+                    <div class="col-sm-5">
+                        <select ng-model="tcAction.geoRoute.routeBy" class="form-control"
+                            id="source" data-placeholder="Select" onChange="ga('send', 'event', 'Form Event', 'Tracking Number Type', this.options[this.selectedIndex].value);"
+                            ng-change="showSubmit()" >
+                            <option ng-selected="true" disabled value=""> -- Select a List-- </option>
+                            <option value="claimedState" ng-selected="tcAction.geoRoute.routeBy == 'claimedState'">Claimed State</option>
+                            <option value="Claimed" ng-selected="tcAction.geoRoute.routeBy == 'Claimed'">Claimed Zip-code</option>
+                            <option value="Npa" ng-selected="tcAction.geoRoute.routeBy == 'Npa'">Caller Area Code Proximity</option>
+                            <option value="Zipcode" ng-selected="tcAction.geoRoute.routeBy == 'Zipcode'">Zip-code Proximity</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb20" ng-show = "tcAction.action =='geo' ">
+                    <div class="col-md-offset-3 col-lg-4 col-md-4 col-sm-12 mt10">
+                        <label>Location List</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <!-- <select ng-model="tcAction.geoRoute.geoList" ng-focus="getGeoLocationList()" class="form-control" id="geolist" ng-change="showSubmit()">
+                            <option ng-selected="true" disabled value=""> -- Select -- </option>
+                            <option value="{{loc.id}}" ng-repeat="loc in georoutelocations" ng-selected="tcAction.geoRoute.geoList == loc.id">
+                                {{loc.name}}</option>
+                        </select> -->
+                        <select class="form-control" ng-model="locObj" ng-focus="getGeoLocationList()" ng-change="showSubmit();changeLocId(locObj);" ng-options="loc as loc.name for loc in georoutelocations track by loc.id"  data-placeholder="-- Select --">
+                                <option ng-selected="true" disabled value=""> -- Select -- </option>
+                            </select>
+        
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-12">
+                        <a class="btn btn-info" href="#/set-location" target="_blank" ng-enabled="canModify ||tcAction.quantity >1">Manage Location Lists</a>
+                    </div>
+                </div>
+
+                <div class="row mb20" ng-show="tcAction.action =='geo' && (tcAction.geoRoute.routeBy == 'Npa' || tcAction.geoRoute.routeBy == 'Zipcode')" >
+                    <div class="col-md-offset-3 col-lg-4 col-md-4 col-sm-12 mt10">
+                        <label>Proximity Limit</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input class="form-control"  max-numbers="6" decimals="1" min="0" max="99999.9" ng-model="tcAction.geoRoute.radius" ng-change="showSubmit()">
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 mt10 wrpspace">
+                        <label class="">
+                            Miles from nearest ring-to location
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row" ng-show = "tcAction.action =='geo' || tcAction.action =='simple' ">
+                    <div class="col-md-offset-3 col-lg-4 col-md-4 col-sm-12 mt10">
+                        <label>
+                                {{tcAction.action === 'geo' ? 'Default Number' : 'Ring to Phone Number'}}
+                        </label>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-12 " ng-show="tcAction.action === 'geo'|| isLocationIvr" >
+                        <input type="text" name="ringtoNumber" class="form-control thridLevelIvrRingto" validate-blur-forza="3rd level IVR, Ring to Phone Number" checklength="10" maskinput ng-model="tcAction.ringtoNum"  data-inputmask="'mask':'(999) 999-9999'" ng-change="showSubmit();retainDataOnChange();" validate-masked-phone-number >
+                        <p class="fontChange mt5" style="width: 400px;" ng-show ="tcAction.geoRoute.routeBy == 'claimedState' && tcAction.action =='geo'">If Callers state is not in the claimed list, All calls will be forwarded to this number</p>
+                        <p class="fontChange mt5" style="width: 400px;" ng-show ="tcAction.geoRoute.routeBy == 'Claimed' && tcAction.action =='geo'">If callers zip code is not in the claimed zip code list , all calls will be forwarded to this number.</p>
+                        <p class="fontChange mt5" style="width: 400px;" ng-show ="tcAction.action =='geo' && (tcAction.geoRoute.routeBy == 'Zipcode' || tcAction.geoRoute.routeBy == 'Npa')">All calls beyond Proximity limit will be forwarded to this number.</p>
+
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 " ng-hide="tcAction.action === 'geo' || isLocationIvr" >
+                        <input type="text" name="ringtoNumber" class="form-control thridLevelIvrRingto" validate-blur-forza="3rd level IVR, Ring to Phone Number" checklength="10" maskinput ng-model="tcAction.ringtoNum"  data-inputmask="'mask':'(999) 999-9999'" ng-change="showSubmit();retainDataOnChange();" validate-masked-phone-number >
+                        <p class="fontChange mt5" style="width: 400px;" ng-show ="tcAction.geoRoute.routeBy == 'claimedState' && tcAction.action =='geo'">If Callers state is not in the claimed list, All calls will be forwarded to this number</p>
+                        <p class="fontChange mt5" style="width: 400px;" ng-show ="tcAction.geoRoute.routeBy == 'Claimed' && tcAction.action =='geo'">If callers zip code is not in the claimed zip code list , all calls will be forwarded to this number.</p>
+                        <p class="fontChange mt5" style="width: 400px;" ng-show ="tcAction.action =='geo' && (tcAction.geoRoute.routeBy == 'Zipcode' || tcAction.geoRoute.routeBy == 'Npa')">All calls beyond Proximity limit will be forwarded to this number.</p>
+
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-12 " ng-hide="tcAction.action === 'geo'|| isLocationIvr">
+                       <button type="button" class="btn btn-info thirLevelIvrOverflow" ng-click="tcAction.openOverflowBox=!tcAction.openOverflowBox" ng-hide="tcAction.openOverflowBox" ng-disabled = "!tcAction.isValidRingTo">Add Overflow Number</button> 
+                    </div> 
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="row mb20" >
+                    <div class="col-sm-3">
+                        <label>Play a voice prompt on selection</label>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-12" ng-show="tcAction.TTSIVRSelected">
+                        <textarea rows="3" style="resize:none" class="form-control fontChange" placeholder="Example: Press 1 for x department, Press 2 for..."  ng-model="tcAction.voicepromptTTSText" ng-change="voiceTextIvrChange(tcAction);showSubmit()"></textarea>
+                        <!-- <input type="text" class="form-control fontChange" placeholder="Example: Press 1 for x department, Press 2 for..."  ng-model="tcAction.voicepromptTTSText"  ng-change="voiceTextIvrChange(tcAction);showSubmit()"  style="height: 65px;"> -->
+                    </div>
+                    <div class="col-sm-12 col-lg-5 col-md-5 col-xs-12 shorten-word" ng-hide="tcAction.TTSIVRSelected" align="left">Selected Audio Filename: {{tcAction.voicepromptText}}</div>
+                    <div class="col-sm-12 col-lg-1 col-md-1 col-xs-12 fontChange pull-left">
+                        <a class="btn btn-default playpadding" ng-click="showIvrVoiceModal(tcAction)" ng-disabled="disableBtn" ng-show="tcAction.TTSIVRSelected" style="float:left"><i class="fa fa-plus-circle"></i></a>
+                        <a class="btn btn-default playpadding mt5" ng-show="!tcAction.TTSIVRSelected" ng-click="removeSelectedIvrVoiceAudio(tcAction)" style="float:left"><i class="fa fa-trash-o"></i></a>
+                        <a class="btn btn-primary playpadding mt5" ng-show="tcAction.TTSIVRSelected || tcAction.hasValidTTSVoiceURL" ng-disabled="audioIsDownloading() || (!tcAction.voicepromptTTSText.length && !tcAction.hasValidTTSVoiceURL)" ng-click="playTtsVoiceAudio(tcAction);disablePlayBtn($event);">{{ (ivrAudio === undefined || ivrAudio.paused || ivrAudio.ended ) ? '' : '' }}<i class="{{(ivrAudio === undefined || ivrAudio.paused || ivrAudio.ended) ? 'fa fa-play' : 'fa fa-pause'}}" style="margin-left:5px;"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+                <div class="row col-md-offset-1" ng-hide= "tcAction.action =='interactiveVoice' || tcAction.action =='hangup' || tcAction.action === 'geo' || tcAction.action === 'schedule'">
+                    <div class="col-lg-10 col-md-10 col-sm-12" style="margin-left: 5%">
+                        <overflow-routing data-method="submitted1 = false" overflow-numbers="tcAction.overflowNumbers" is-simultaneous-ring="tcAction.isSimultaneousRing" ng-show="tcAction.openOverflowBox" overflow-validation-header="overflowValidationHeader" open-overflow-box="tcAction.openOverflowBox" current-over-flow-number="currentOverFlowNumber" by-default-ring="byDefaultRing" show-submit="showSubmitOverflow()"> </overflow-routing> 
+                    </div>
+                </div>
+
+            <!-- following a schedule  Start-->
+
+            <div ng-show="tcAction.action =='schedule'">
+                    <third-level-schedule-route tc-action="tcAction" voicemail-component="voicemailComponent" show-submit="showSubmit()" schedule-route="tcAction.scheduleRoute" disable-save-for-schedule="disableSaveForSchedule"   overflow-validation-header="overflowValidationHeader" open-overflow-box="tcAction.openOverflowBox" show-submit-overflow-method="showSubmitOverflow()"></third-level-schedule-route>
+            </div>
+            
+            <!-- following a schedule  End-->
+
+                <div class="row col-md-offset-1" >
+                    <div ng-show = "tcAction.action =='geo' || tcAction.action =='simple' || tcAction.action =='hangup'" style="margin-left: 4.3%;">
+                        <div class="col-lg-2 col-md-2 col-sm-12 mt20">
+                        <label class="control-label">Record Call</label>
+                        </div> 
+                        <div class="col-lg-1 col-md-1 col-sm-12 mt20 checkbox recordCall" >                                         
+                            <md-checkbox ng-model="tcAction.recordCall" ng-change="retainDataOnChange();" value="" ng-disabled="(tcAction.disableRC && tcAction.action !== 'hangup' && scAction.action !== 'hangup') || tcAction.activateVoiceMail || tcAction.scheduleRoute.activate_voicemail">
+                            </md-checkbox>                                                                                                                                                 
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-12" ng-show="tcAction.recordCall">
+                            <div class="col-lg-6 col-md-4 col-sm-12 mt20">
+                                <label class="thirdRecordCall">Play call recording disclaimer</label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 mt10" style="min-width: 180px;">
+                                <select  ng-model="tcAction.playDisclaimer" class="form-control"  id="source" data-placeholder="Select play disclaimer" onChange="ga('send', 'event', 'Form Event', 'Tracking Number Type', this.options[this.selectedIndex].value);" ng-change="showSubmit()">
+                                    <option value="before" ng-selected="tcAction.playDisclaimer == 'before'">Before voice prompt</option>
+                                    <option value="after" ng-selected="tcAction.playDisclaimer == 'after'">After voice prompt</option>
+                                    <option value="never" ng-selected="tcAction.playDisclaimer == 'never'">Never</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-offset-1" >
+                        <div ng-hide= "tcAction.action =='interactiveVoice' || tcAction.action =='hangup'">
+                            <div class="col-lg-2 col-md-4 col-sm-12 mt20 mediaClass" style="height: 65px;margin-left: 5.3%; padding: 0;" >
+                            <label class="control-label">Play whisper message before connecting</label>
+                            </div> 
+                            <div class="col-lg-1 col-md-1 col-sm-12 mt20 checkbox thirdCheckBox">
+                                 <md-checkbox ng-model="tcAction.whisperPrompt" value="" ></md-checkbox>
+                            </div>
+                            <div ng-show="tcAction.whisperPrompt">                                           
+                                <div class="col-lg-4 col-md-4 col-sm-12 mt15" ng-show="tcAction.TTSWhisperSelected">
+                                    <textarea rows="3" style="resize:none" class="form-control" placeholder="Example: You are receiving a call from Mailer 1a" value=""  ng-model="tcAction.whisperTTSText" data-toggle="tooltip" data-placement="top" title="{{tcAction.whisperTTSText}}" tooltip ng-readonly="!tcAction.TTSWhisperSelected " ng-change="whisperIVRTextChange(tcAction); showSubmit()"></textarea>
+                                    <!-- <input type="text" class="form-control" placeholder="Example: You are receiving a call from Mailer 1a" value=""  ng-model="tcAction.whisperTTSText" data-toggle="tooltip" data-placement="top" title="{{tcAction.whisperTTSText}}" tooltip ng-readonly="!tcAction.TTSWhisperSelected " ng-required="tcAction.whisperPrompt && tcAction.TTSWhisperSelected" style="height: 65px;" ng-change="whisperIVRTextChange(tcAction); showSubmit()"> -->
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12 mt15 shorten-word"  ng-hide="tcAction.TTSWhisperSelected" align="left">Selected Audio Filename:{{tcAction.whisperText}}
+                                </div>
+                                <div class="col-sm-12 col-lg-1 col-md-1 col-xs-12 mt15 pull-left" style="width:30px;">
+                                    <a class="btn btn-default playpadding" ng-click="showIVRWhisperModal(tcAction)" ng-disabled="disableBtn" ng-show="tcAction.TTSWhisperSelected"><i class="fa fa-plus-circle"></i></a>
+                                    <a class="btn btn-default playpadding" ng-show="!tcAction.TTSWhisperSelected" ng-click="removeSelectedWhisperAudio(tcAction)"><i class="fa fa-trash-o "></i></a>
+                                    <a class="btn btn-primary playpadding mt5 ng-binding" ng-show="tcAction.TTSWhisperSelected || tcAction.hasValidWhisperURL" ng-disabled="audioIsDownloading() || (!tcAction.hasValidWhisperURL && !tcAction.whisperTTSText.length)" ng-click="playWhisperAudio(tcAction);disablePlayBtn($event);">{{ (whisperAudio === undefined || whisperAudio.paused || whisperAudio.ended) ? '' : '' }}<i class="{{(whisperAudio === undefined || whisperAudio.paused || whisperAudio.ended) ? 'fa fa-play' : 'fa fa-pause'}}"></i></a>
+                                </div>                                           
+                            </div>
+                        </div>
+                    </div> 
+                <div class="row col-md-offset-1" ng-hide= "tcAction.action =='interactiveVoice' || tcAction.action =='hangup' || tcAction.action =='schedule'">
+                    <div class="col-lg-2 col-md-4 col-sm-12 mt15">
+                         <label class="control-label" ng-class="{ 'customDisable' : !voicemailComponent }" style="padding:0;margin-left: 30%;">
+                            Activate Voicemail ?
+                        </label>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 mt15">
+                        <div class="col-md-offset-2 col-lg-2 col-md-2 col-sm-12 checkboxPadding">
+                            <md-checkbox ng-model="tcAction.activateVoiceMail"  ng-change="retainDataOnChange();" ng-class="{ 'customDisable' : !voicemailComponent }" ng-disabled="!voicemailComponent" ng-click="disableRecordCall()">                                                       
+                            </md-checkbox>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 " ng-class="{ 'customDisable' : !voicemailComponent }" >
+                            <p class="fontChange" ng-hide="isLocationIvr" style="min-width: 250px"> To customize greetings and number of rings for voicemail,please click Advanced Settings section</p>
+                            <p class="fontChange"  ng-show="isLocationIvr"  style="min-width: 250px"> To customize greetings and number of rings for voicemail, please configure Advanced Settings section of the tracking number </p>
+
+                        </div>
+                    </div>
+                </div>        
+        </div> 
+
+        
+        <div class="row timeline-footer mt15">
+            <div class="col-lg-6 col-md-6 col-sm-6 mb5">
+            <a class="btn btn-primary btn-sm pull-left" ng-show="tcactionId === ivrActions.length - 1" ng-disabled="ivrActions.length >= 10" ng-click="addAction();pauseCurrentPlayingAudio();">Add Key Press</a></div>
+        </div>
+        <div class="row mt15 mb10" ng-show="tcactionId === ivrActions.length - 1">
+            <div class="col-sm-2">
+                <input type="number" onkeypress="return IsNumeric(event);" ondrop="return false;" class="form-control" value="" ng-model="tcAction.previousmenu" ng-maxlength="9" ng-change="showSubmit();inheritKeyPress();" min="0" ng-pattern="/^[0-9]{0,9}$/">
+                <span id="error" style="color: Red; display: none">* Input digits only</span>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 mt5">
+                <label>Go Back to the previous menu</label>
+            </div>
+        </div>
+    </div>
+</div>
+<hr style="margin-top: 0px; margin-bottom: 0px;" ng-show="ivrActions.length-1 !== tcactionId">
+<!-- end multilevel -->

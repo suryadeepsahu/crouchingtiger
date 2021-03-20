@@ -1,0 +1,181 @@
+
+  <title>Demo &raquo; Add widgets dynamically &raquo; gridster.js</title>
+  <link rel="stylesheet" type="text/css" href="assets/plugins/gridster/jquery.gridster.css">
+  <link rel="stylesheet" type="text/css" href="http://gridster.net/demos/assets/demo.css">
+
+
+	<button onClick="addBox()">Add box</button>
+    <h1>Add widgets dynamically</h1>
+    <p>Create a grid ading widgets from an Array (not from HTML) using <code>add_widget</code> method. Widget position (col, row) not specified.</p>
+
+    <div class="gridster" >
+        <div>
+			<!--<div style="display: block;" class="gs-w" data-sizey="2" data-sizex="3" data-row="1" data-col="2">1</div>-->
+		</div>
+    </div>
+    
+    <div class="container-fluid mb20">
+        <div class="row gridster">
+        
+            <div class="col-md-12 clearfix pizza">
+            
+                <div class="col-md-4 clearfix " data-row="1" data-col="1" data-sizey="1" data-sizex="1">
+                    <panel heading="Timeline" class="panelmove">
+                        <panel-controls>
+                            <a href="javascript:;"><i class="fa fa-trash-o"></i></a>
+                            <a href="javascript:;"><i class="fa fa-wrench"></i></a>
+                        </panel-controls>
+            
+                        <div class="text-center">
+                            <div style=""><img src="img/email-chart-thumb1.png" style="width:100%"></div>
+                        </div>
+                    </panel>
+                </div>
+                
+                <div class="col-md-4 clearfix " data-row="1" data-col="2" data-sizey="1" data-sizex="1">
+                    <panel heading="Bar" class="panelmove">
+                        <panel-controls>
+                            <a href="javascript:;"><i class="fa fa-trash-o"></i></a>
+                            <a href="javascript:;"><i class="fa fa-wrench"></i></a>
+                        </panel-controls>
+            
+                        <div class="text-center">
+                            <div style=""><img src="img/email-chart-thumb2.png" style="width:100%"></div>
+                        </div>
+                    </panel>
+                </div>
+                <div class="col-md-4 clearfix " data-row="1" data-col="3" data-sizey="1" data-sizex="1">
+                    <panel heading="Summary" class="panelmove">
+                        <panel-controls>
+                            <a href="javascript:;"><i class="fa fa-trash-o"></i></a>
+                            <a href="javascript:;"><i class="fa fa-wrench"></i></a>
+                        </panel-controls>
+                        
+                        <div class="visitor-sparklines col-xs-12 col-sm-6 col-md-12">
+                        <div class="sparkline-block">
+                            <span sparklines="{
+                            lineWidth: 1.5,
+                            type: 'line',
+                            width: '90px',
+                            height: '20px',
+                            lineColor: '#b3bcc7',
+                            fillColor: 'rgba(179,188,199,0.1)',
+                            spotColor: false,
+                            minSpotColor: false,
+                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                            highlightSpotColor: '#b3bcc7',
+                            spotRadius: 3,
+                            maxSpotColor: false}" data-data="[251,933,653,759,1022,1702,565,1913,889,674]"></span>
+                        </div>
+                    <h3 style="text-align: center; margin: 0;">215,451</h3>
+                    <p style="text-align: center; margin: 0; color:black;">Total Calls</p>
+                    <p class="text-center text-muted ng-scope">(50% of total)</p>
+                    <hr class="hidden-md hidden-sm hidden-lg">
+                </div>
+                        <div class="visitor-sparklines  col-xs-12 col-sm-6 col-md-12">
+                        <div class="sparkline-block">
+                            <span sparklines="{
+                            lineWidth: 1.5,
+                            type: 'line',
+                            width: '90px',
+                            height: '20px',
+                            lineColor: '#b3bcc7',
+                            fillColor: 'rgba(179,188,199,0.1)',
+                            spotColor: false,
+                            minSpotColor: false,
+                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                            highlightSpotColor: '#b3bcc7',
+                            spotRadius: 3,
+                            maxSpotColor: false}" data-data="[5,3,7,6,2,4,6,8,6,4]"></span>
+                        </div>
+                    <h3 style="text-align: center; margin: 0;">15,234</h3>
+                    <p style="color:black; text-align: center; margin: 0;">Missed Calls</p>
+                    <p class="text-center text-muted ng-scope">(60% of total)</p>
+                </div>
+                    </panel>
+                    
+                </div>
+				<div class="panel panel-primary panelmove"    data-row="2" data-col="1" data-sizey="1" data-sizex="3">
+                                            
+				  <div class="panel-heading" class="">
+				  <panel-controls>
+						<a href="javascript:;"><i class="fa fa-trash-o"></i></a>
+						<a href="javascript:;"><i class="fa fa-wrench"></i></a>
+					</panel-controls>
+						<h4 class="">Missed Opportunity List</h4>
+						
+				  </div>
+				  
+				  <div class="panel-body" >
+						<table class="table table-condensed">
+							<thead>
+								<tr>
+									
+									<th>Date/Time</th>
+									<th >Caller ID</th>
+									<th >Sales Skills</th>
+									<th >Lead Score</th>
+									<th >Conversion</th>
+									<th >Audio</th>
+								</tr>
+							</thead>
+							<tbody>
+							   <tr>
+									<td class="ng-binding">9/27/2014 13:28</td>
+									<td class="ng-binding">2154053681</td>
+									<td class="ng-binding">Low</td>
+									<td class="ng-binding">High</td>
+									<td class="ng-binding">Low</td>
+									<td class="ng-binding"><a href="#">Listen Here</a></td>
+								</tr>
+								<tr >
+									<td class="ng-binding">9/29/2014 09:28</td>
+									<td class="ng-binding">6102510579</td>
+									<td class="ng-binding">Moderate</td>
+									<td class="ng-binding">High</td>
+									<td class="ng-binding">Low</td>
+									<td class="ng-binding"><a href="#">Listen Here</a></td>
+								
+							</tbody>
+						</table>
+					</div>
+				</div>
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <script type="text/javascript" id="code">
+    var gridster;
+	var idIndex = 2;
+
+    $(function(){
+
+      gridster = $(".gridster > div.pizza").gridster({
+		  widget_selector: 'div',
+          widget_margins: [5, 5],
+          widget_base_dimensions: [300, 300],
+		  max_cols: 3
+      }).data('gridster');
+
+      var widgets = [		
+      ];
+
+      $.each(widgets, function(i, widget){
+          gridster.add_widget.apply(gridster, widget);
+      });
+
+
+    });
+	function addBox() {
+		var temp = gridster.add_widget('<div class="new" id="'+idIndex+'">'+idIndex+'<a href="javascript:delBox('+idIndex+')"> X</a></div>', 1, 1);
+		idIndex++;
+		console.log(temp);
+	}
+	
+	function delBox(passedId) {
+		gridster.remove_widget( $('#'+passedId) );
+	}
+
+    </script>

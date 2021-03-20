@@ -1,0 +1,28 @@
+[local]
+  host = "localhost"
+  user = "interact"
+  pass = "1nt3r4ct"
+  db = "ct_stg"
+  cfa_url = "cfa.convirza.js"
+
+[development]
+  host = "localhost"
+  user = "interact"
+  pass = "1nt3r4ct"
+  db = "ct_dev"
+  cfa_url = "dev-cmo1-tdc.convirza.com"
+
+[staging]
+  host = "localhost"
+  user = "interact"
+  pass = "1nt3r4ct"
+  db = "ct_stg"
+  cfa_url = "stag-cmo1-tdc.convirza.com"
+
+[production]
+  host = "localhost"
+  user = "interact"
+  pass = "1nt3r4ct"
+  db = "ct_stg"
+  cfa_url = "cfa.convirza.com"
+

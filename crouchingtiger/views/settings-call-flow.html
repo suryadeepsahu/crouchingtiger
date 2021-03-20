@@ -1,0 +1,243 @@
+<div id="callflowsettingsreport" class="table-to-scrape" ng-controller="CallFlowSettingsController">
+    <div ng-hide="download_audio_enabled" class="mt10">
+        <h1 style="color: grey; margin-left: 10px;"><strong>Access Denied</strong> </h1>
+        <div class="text-center" style="margin-top: 50px;"><h2>It looks like you do not have permission to access this page.</h2></div>
+        <div class="text-center"><h4>Please reach out to your administrator to have permissions granted.</h4></div>
+    </div>
+    <div id="page-heading" ng-show="download_audio_enabled">
+        <h1>Tracking Number Settings</h1>
+        <div class="mt20" style="top:0;left:40%;position:absolute;" ng-show="preview">
+            <h2>Preview Only</h2>
+        </div>
+    </div>
+
+    <div class="container-fluid" ng-show="download_audio_enabled">
+        <div class="row mt10" style="padding:0 20px;" ng-hide="whichScheduleReport !== undefined">
+            <div class="crawler-exempt well well-sm clearfix">
+                <a ng-href="#/set-schedule-builder?isNew=true" ng-hide="roleId >= 3" class="btn btn-sm btn-default">Schedule Report</a>&nbsp;
+                <div class="btn-group" uib-dropdown >
+                    <button type="button" class="btn btn-sm btn-default btn-last" uib-dropdown-toggle ng-disabled="!dataTableValues || dataTableValues.length === 0">
+                        <span>Export</span> <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li ng-hide='isSafari' class="csvScope"><a ng-show="showActualEportLink" ng-csv='getCSVData()' filename='Tracking Number Settings.csv' csv-header='headerNames' onclick="ga('send', 'event', { eventCategory: 'Tracking Number Settings', eventAction: 'Export', eventLabel: 'Export CSV'});">Excel/CSV</a>
+                            <a ng-show="showExportErrorLink" ng-click="showNoRecordsError()">Excel/CSV</a>  </li>
+                        <li ng-hide='isSafari'><a ng-show="showActualEportLink" ng-csv='getCSVData()' filename='Tracking Number Settings.tsv' csv-header='headerNames' field-separator="\t" onclick="ga('send', 'event', { eventCategory: 'Tracking Number Settings', eventAction: 'Export', eventLabel: 'Export TSV'});">TSV</a>
+                            <a ng-show="showExportErrorLink" ng-click="showNoRecordsError()">TSV</a>  </li>
+                        <li ng-hide='!isSafari' class="csvScope"><a ng-show="showActualEportLink" ng-click='getCSVData("csv")' onclick="ga('send', 'event', { eventCategory: 'Tracking Number Settings', eventAction: 'Export', eventLabel: 'Export CSV'});">Excel/CSV</a>
+                            <a ng-show="showExportErrorLink" ng-click="showNoRecordsError()">Excel/CSV</a>  </li>
+                        <li ng-hide='!isSafari' ><a ng-show="showActualEportLink" ng-click='getCSVData("tsv")' onclick="ga('send', 'event', { eventCategory: 'Tracking Number Settings', eventAction: 'Export', eventLabel: 'Export TSV'});">TSV</a>
+                            <a ng-show="showExportErrorLink" ng-click="showNoRecordsError()">TSV</a>  </li>
+                        <!-- <li><a dropdown-toggle ng-show="showActualEportLink" ng-click='getExcelData()' onclick="ga('send', 'event', { eventCategory: 'Call Flow Settings', eventAction: 'Export', eventLabel: 'Export Excel'});">Excel</a>
+                            <a ng-show="showExportErrorLink" ng-click="showNoRecordsError()">Excel</a>  </li> -->
+                    </ul>
+                </div>
+                <!-- <div class="divider"></div> -->
+                <!-- <md-checkbox md-no-ink aria-label="Include data for all sub-groups" class="sub-group-toggle md-primary" type="checkbox" role="checkbox">Include data for all sub-groups</md-checkbox> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" id="callsData" ng-show="download_audio_enabled">
+        <!-- Begin charts row -->
+        <div class="container-fluid pb0">
+
+        </div>
+        <!-- End charts row -->
+    <style>
+    .dc-chart{float:none;}
+    	span.handle{display:none;}
+    	.chartizzle .panel-heading h4{font-size:11px;}
+    	.advancedf{background:#efefef; border: 1px solid #ccc;  border-radius: 5px;  overflow: auto;  padding: 15px 0 15px 15px;
+      -moz-border-radius: 5px;  -webkit-border-top-left-radius: 5px;  -webkit-border-top-right-radius: 5px;  -webkit-border-bottom-left-radius: 5px;
+      -webkit-border-bottom-right-radius: 5px;}
+      ._GATq {  border-left: 1px solid #ccc;  border-right: 1px solid #ccc;  clear: both;  position: relative;  text-align: center;  margin: -1px 0;}
+      ._GATq._GAQzb {  background-color: #efefef;  color: #575757;  font-size: 1.2em;  font-weight: bold;  margin-left: 80px;  padding: 5px 0;  width: 80px;}
+	  #listen_workspace tab-heading .badge{top:-6px !important;left:7px !important;}
+	  .tab-container p{min-width:150px;}
+	  ul#columnpicker{padding:12px;width:300px;}
+	  ul#columnpicker li{width:50%;float:left;margin-bottom:4px;}
+	  .minheight{min-height:350px;}
+    </style>
+        <!-- Begin charts row -->
+        <div class="container-fluid pb0" style="padding:0 20px;">
+            <div class="row">
+                <div class="panel panel-inverse">
+                    <div class="panel-body no-border">
+
+                            <span class="pull-left"> {{paginateHeader}} </span>
+
+                            <!-- COLUMN PICKER -->
+                            <div class="pull-right col-lg-1 col-md-1 col-sm-12 col-xs-12 mb10 text-right crawler-exempt">
+                                <div class="btn-group" uib-dropdown style="width:100%;z-index:2">
+                                    <button type="button" class="btn btn-block btn-default" ng-hide ="whichScheduleReport !== undefined" uib-dropdown-toggle>
+                                        <i class="fa fa-columns"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" id="columnpicker" role="menu" >
+                                        <li ng-repeat="vc in visibleColumns" ng-show="vc.show">
+                                            <input icheck type="checkbox" ng-checked="vc.visible" ng-model="vc.visible" ng-change="yell(this)">
+                                            <label>{{ vc.label }}</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--<span class="pull-left" ng-hide="hideDataCount">Showing {{offset + 1}} - {{offset + dataTableValues.length}} of {{dataTableTotalCount}} </span>-->
+                            <!-- BASIC FILTER -->
+                            <div class="pull-right col-md-2 col-sm-12 col-xs-12 mb10 text-right crawler-exempt" style="z-index:1" ng-hide="whichScheduleReport !== undefined">
+                                <button type="button" class="btn btn-default btn-block btn-adv" ng-click="showAdvFilter = true; simpleSearchFilter = ''">Advanced Filter</button>
+                            </div>
+
+                            <!-- START OF ADV FILTER HTML -->
+                            <div class="pull-right col-md-5 col-lg-4 input-icon right mb10 crawler-exempt" style="z-index:0" ng-hide="whichScheduleReport !== undefined">
+                                <div class="input-group">
+                                  <input ng-disabled="showAdvFilter"
+                                         type="text"
+                                         ng-model="simpleSearchFilter"
+                                         id="simpleChart"
+                                         class="form-control simple-input"
+                                         placeholder="{{showAdvFilter ? 'Basic Search Disabled' : 'Basic Search'}}"
+                                         enter-press="applyFilter();">
+                                    <!--the ng-change is for if there is no text in the basic search, then just remove the filters-->
+                                  <span class="input-group-btn">
+                                    <button ng-disabled="showAdvFilter" type="button" class="btn btn-primary" title="Search" ng-readonly="advFilter" ng-click="applyFilter();"><i class="fa fa-search"></i> </button>
+                                    <button ng-disabled="showAdvFilter" type="button" class="btn btn-primary" title="Clear" ng-click="simpleSearchFilter = ''; filterReset();"><i class="fa fa-times-circle"></i></button>
+                                  </span>
+                               </div>
+                            </div>
+
+
+                            <div class="col-md-12 col-lg-12 mb20 text-left">
+                                <div ng-hide="!showAdvFilter" class="advanced-filter-directive crawler-exempt" ng-repeat="af in advFilterDefinitions">
+                                	<div class="_GATq _GAQzb" ng-hide="$index == 0">
+                                		<select style="width:auto;display:inline;"
+                                		        class="form-control"
+                                						ng-model="af.rule">
+                                			<option value='AND'>AND</option>
+                                			<!-- <option value='OR'>OR</option> -->
+                                		</select>
+                                	</div>
+                                	<div class="advancedf">
+                                		<!-- Inclusivity select -->
+                                		<select style="width:auto;display:inline;"
+                                		        class="form-control"
+                                						ng-model="af.selected_inclusivity"
+                                						ng-options="inc.label for inc in af.inclusivity">
+                                		</select>
+                                		<!-- Columns select -->
+                                		<select style="width:auto;display:inline;"
+                                		    		class="form-control"
+                                						ng-model="af.selected_column"
+                                						ng-options="col.label for col in af.columns"
+                                						ng-change="showOperatorSelect($index); updateOperators(preloading, af, $index); af.user_input='';"
+                                						ng-disabled="!af.selected_inclusivity">
+                                			<option value="" ng-selected="false" ng-hide="true">-- Select --</option>
+                                		</select>
+                                		<!-- Operators select -->
+                                		<select style="width:auto;display:inline;"
+                                						class="form-control"
+                                						ng-model="af.selected_operator"
+                                						ng-options="opt.label for opt in af.operators.options"
+                                						ng-show="af.show_operators">
+                                		</select>
+                                		<!-- User input (text) -->
+                                		<input style="width:150px;display:inline;"
+                                		       type="text"
+                                					 class="form-control"
+                                					 placeholder="required"
+                                					 ng-model="af.user_input"
+                                					 ng-show="af.operators.type == 'text'">
+                                		</input>
+                                		<!-- User input (int) -->
+                                		<input style="width:150px;display:inline;"
+                                					 type="text"
+                                					 class="form-control"
+                                					 placeholder="required"
+                                					 ng-model="af.user_input"
+                                					 ng-show="af.operators.type == 'int'"
+                                					 ng-keypress='validateInput($event)'>
+                                		</input>
+                                		<!-- User input (calendar) -->
+                                		<input style="width:150px;display:inline;"
+                                					 type="text"
+                                		       class="form-control datepicker"
+                                					 uib-datepicker-popup="dd-MMMM-yyyy"
+                                					 ng-model="af.user_input"
+                                					 is-open="af.dateTime.opened"
+                                					 close-text="Close"
+                                					 ng-readonly="true"
+                                					 timezone="America/Chicago"
+                                					 uib-datepicker-options="af.dateTime.dateOptions"
+                                					 ng-show="af.operators.type == 'calendar'">
+                                		</input>
+                                		<button type="button"
+                                						class="btn btn-default"
+                                						ng-click="af.dateTime.open($event, $index)"
+                                						ng-show="af.operators.type == 'calendar'">
+                                			<i class="fa fa-calendar"></i>
+                                		</button>
+                                		<!-- User input (select) - Large -->
+                                		<select ui-select2
+                                				ng-model="af.user_input"
+                                				ng-show="af.operators.type === 'select-large'"
+                                				style="width:22%;padding-bottom:3px;">
+                                			<option ng-repeat="opt in af.select_options" ng-value="opt.value">{{ opt.label }}</option>
+                                			<option value="" ng-selected="true" ng-hide="true">-- Select --</option>
+                                		</select>
+                                        <!-- User input (select) - Small -->
+                                        <select ui-select2
+                                				ng-model="af.user_input"
+                                				ng-show="af.operators.type === 'select-small'"
+                                				style="width:90px;padding-bottom:3px;">
+                                			<option ng-repeat="opt in af.select_options" ng-value="opt.value">{{ opt.label }}</option>
+                                			<option value="" ng-selected="true" ng-hide="true"></option>
+                                		</select>
+
+                                		<!-- Delete rule button (only if more than one rule) -->
+                                		<a title="Delete" ng-click="removeFilterDefinition($index);" ng-hide="$index == 0 && advFilterDefinitions.length == 1"><i class="fa fa-times-circle"></i></a>
+                                	</div>
+                                	<!-- <div class="_GATq _GAQzb" ng-show="$index != advFilterDefinitions.maxQuantity - 1"></div> -->
+                                </div>
+                                <div class="_GATq _GAQzb crawler-exempt" ng-hide="advFilterMax || !showAdvFilter"></div>
+                                <div class="advancedf crawler-exempt" ng-hide="advFilterMax || !showAdvFilter">
+                                	<button type="button" class="btn btn-gray" style="border:1px dashed #575757;" ng-click="advFilterDefinitions.length < advancedFilterConfig.maxQuantity ? addFilterDefinition(false) : null; resizeWindow();"><i class="fa fa-plus-circle"></i> Add an Advanced Filter</button>
+                                </div>
+                                <hr ng-hide="!showAdvFilter" class="crawler-exempt">
+                                <!-- Footer Buttons -->
+                                <div class="clearfix text-right crawler-exempt">
+                                    <button ng-hide="!previewMode" type="button" class="pull-left btn btn-primary-alt btn-sm" ng-click="previewReport(urlParams)">Preview</button>
+                                	<button class="btn btn-primary" ng-hide="hideApplyButton || !showAdvFilter" ng-click="applyFilter(); resizeWindow();">Apply</button>
+                                	<button ng-hide="!showAdvFilter" type="button" class="btn btn-default" ng-click="filterReset(); resizeWindow();">Cancel</button>
+                                </div>
+                                <div ng-hide="!previewMode" class="clearfix text-left">
+                                </div>
+                            </div>
+                            <!-- END OF ADV FILTER HTML -->
+                            <!-- DATA TABLE -->
+                            <div ng-hide="hideDataTable" class="col-md-12 table-responsive minheight">
+    	                        <callflow-settings-report-table ng-show = "!isLoadingApi"
+    	                            db-field-names="dbfn"
+    	                            column-def-indices="visibleColumnsIndicies"
+                                    template-url="views/directives/call_flow_settings_table.html"
+    	                            visible-columns="visibleColumns"
+    	                            row-data="dataTableValues"
+                                    current-pagination-id="pgCallFlow"
+    							    total-rows="totalDataRows"
+    	                            current-page="currentPage"
+    								route-types="routeTypes"
+                                    geo-types="geoTypes"
+    	                            show-sub-data="showSubData(index, routeableId, type)"
+    	                            id-to-pass="callflowSettingsReportDataGrid">
+                                </callflow-settings-report-table>
+                            </div>
+                    </div>
+                </div>
+            </div>
+                <div ng-class="{ 'disablePagination' : whichScheduleReport !== undefined }" class="panel-footer text-right">
+                    <dir-pagination-controls  pagination-id="pgCallFlow" on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+                    <!--&lt;!&ndash; The panel footer buttons for offsetting should only show if the number of records in the returned dataset exceed 100 &ndash;&gt;-->
+                </div>
+            </div>
+        </div>
+        <page-loader is-loading-api="isLoadingApi"></page-loader>
+    </div>
+</div>

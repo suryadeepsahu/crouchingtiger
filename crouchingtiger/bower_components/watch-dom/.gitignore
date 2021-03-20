@@ -1,0 +1,9 @@
+.DS_Store
+.grunt
+Gruntfile.js
+_SpecRunner.html
+bower_components
+node_modules
+reports
+*.map
+test.js

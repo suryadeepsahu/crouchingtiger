@@ -1,0 +1,101 @@
+<style>
+.relatedflows{list-style:none;float:left;}
+li.relatedflows:after {content: ", "; margin-right:10px;}
+li.relatedflows:last-child:after {content: "";}
+.componentHeight{
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.paddingLable{
+  padding-top: 16px;
+  padding-left: 23px;
+}
+.inlineBlock{
+  display: inline-flex;
+  width: 100%;
+}
+</style>
+<div ng-controller="callerPrivacyController">
+    <div id="page-heading">
+        <h1>Caller Privacy</h1>
+        <div class="options">
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row mt10" style="padding:0 20px;">
+            <div class="well well-sm clearfix">
+              <div class=" col-md-12">
+                  <p>Maintain caller privacy - When the <a href="#/set-append" target="_blank">Data Append setting</a> is enabled it looks up callers' PII (Personally Identifiable Information), stores it and passes that PII to the call recipient.  This passing and uncertified storage of PII in most if not all cases is a breach of caller privacy guidelines. Therefore we've developed this customization feature to allow you to tailor the data passed and stored from Data Append. Using the settings below you can specify and limit the data passed and stored to ensure that you and your business maintain caller privacy  but still gather and track pertinent lead and caller data to empower your marketing and sales decisions.</p>
+              </div>
+              <div class="col-md-12" style="padding-top:15px;">
+                  <p>Enable ODN - if enabled displays the "Originally Dialed Number" in place of the Caller ID phone number.</p>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-2 mt10">
+                <div class="">
+                  <toggle-switch ng-model="odnActive" ng-change="setProtection()"  on-label="ENABLED" off-label="DISABLED" class="primary switch"><toggle-switch>
+                </div>
+              </div>
+              <div class="col-md-12" style="padding-top: 25px;">
+                  <p>Data Append Display Options - Block only the Personally Identifiable Information that may compromise your caller privacy.</p>
+              </div>
+                <div class="col-md-12">
+                    <p>Show?</p>
+                </div>
+                <div class="col-md-12 inlineBlock">
+                  <div class="componentHeight">
+                    <toggle-switch ng-model="callerName" ng-change="activeToggle()" is-disabled="!isDataAppend" on-label="YES" off-label="NO" class="primary switch"><toggle-switch>
+                  </div>
+                  <p class="paddingLable" >Caller Name</p>
+                </div>
+                <div class="col-md-12 inlineBlock">
+                  <div class="componentHeight">
+                    <toggle-switch ng-model="companyName" ng-change="activeToggle()"  is-disabled="!isDataAppend" on-label="YES" off-label="NO" class="primary switch"><toggle-switch>
+                  </div>
+                    <p class="paddingLable" >Company Name</p>
+                </div>
+                <div class="col-md-12 inlineBlock">
+                  <div class="componentHeight">
+                    <toggle-switch ng-model="address" ng-change="activeToggle()"  is-disabled="!isDataAppend" on-label="YES" off-label="NO" class="primary switch"><toggle-switch>
+                  </div>
+                  <p class="paddingLable" >Address</p>
+                </div>
+                <div class="col-md-12 inlineBlock">
+                  <div class="componentHeight">
+                    <toggle-switch ng-model="city" ng-change="activeToggle()"  is-disabled="!isDataAppend" on-label="YES" off-label="NO" class="primary switch"><toggle-switch>
+                  </div>
+                  <p class="paddingLable" >City</p>
+                </div>
+                <div class="col-md-12 inlineBlock">
+                  <div class="componentHeight">
+                    <toggle-switch ng-model="state" ng-change="activeToggle()"  is-disabled="!isDataAppend" on-label="Yes" off-label="NO" class="primary switch"><toggle-switch>
+                  </div>
+                  <p class="paddingLable" >State</p>
+                </div>
+                <div class="col-md-12 inlineBlock">
+                  <div class="componentHeight">
+                    <toggle-switch ng-model="zip" ng-change="activeToggle()"  is-disabled="!isDataAppend" on-label="Yes" off-label="NO" class="primary switch"><toggle-switch>
+                  </div>
+                  <p class="paddingLable" >Zip</p>
+                </div>
+                <div class="col-md-12 inlineBlock">
+                  <div class="componentHeight">
+                    <toggle-switch ng-model="lineType" ng-change="activeToggle()"  is-disabled="!isDataAppend" on-label="YES" off-label="NO" class="primary switch"><toggle-switch>
+                  </div>
+                  <p class="paddingLable" >Line Type (Mobile or Landline)</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mt10" style="padding: 0 20px;" ng-show="downloadAudioToggle">
+          <div class="well well-sm clearfix">
+            <div class=" col-md-12">
+              <strong> Download Audio </strong> Option - Disabling this would disable the audio download from reports and hides the Legacy Reports.
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 mt10">
+                <toggle-switch ng-model="allowDownloadAudio" ng-change="setDownloadAudioSetting()" on-label="ENABLED" off-label="DISABLED"
+                  class="primary switch">
+                  <toggle-switch>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,91 @@
+<style>
+    .panel{
+           margin: 0 0 0px;
+       }
+    hr {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: dashed;
+    border-width: 1px;
+    }
+    .customDisabled{
+        pointer-events:none;
+        opacity: .65;
+    }
+    .shorten-word{
+    word-break: break-all;
+}
+</style>
+<script type="text/javascript">
+    var specialKeys = new Array();
+    specialKeys.push(8); //Backspace
+    function IsNumeric(e) {
+        var keyCode = e.which ? e.which : e.keyCode
+        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1);
+        document.getElementById("error").style.display = ret ? "none" : "inline";
+        return ret;
+    }
+</script>
+<div class="panel panel-midnightblue">
+    <div class="panel-heading modal-header">
+        <h3 class="modal-title modaltitle">IVR for {{locName}}</h3>
+        <button type="button" ng-click="cancel();" class="close pull-right">&times;</button>
+    </div>
+    <form name="locationIvrForm" id="locationIvrForm">
+        <div class="modal-body panel-body" style="height: 500px;overflow-y :auto;">
+            <div class="container-fluid">
+                <div class="row mb10 mt20" ng-cloak>
+                    <div class="col-lg-2 col-md-2" style="text-align: center;">
+                        <label>Play a voice prompt</label>
+                    </div>
+                    <div class="col-lg-5 col-md-5" ng-show="TTSIVRSelected">
+                        <textarea rows="3" style="resize:none" class="form-control fontChange" placeholder="Example: Press 1 for x department, Press 2 for..."
+                        validate-blur-forza="Location IVR, Voice Prompt" ng-model="selectedCallFlow.voicepromptTTSText"
+                        ng-change="voiceTextIVRChange()" ng-required="selectedCallFlow.voiceprompt && TTSIVRSelected"></textarea>
+                        <!-- <input type="text" class="form-control fontChange" placeholder="Example: Press 1 for x department, Press 2 for..."
+                            validate-blur-forza="Location IVR, Voice Prompt" ng-model="selectedCallFlow.voicepromptTTSText"
+                            ng-change="voiceTextIVRChange()" ng-required="selectedCallFlow.voiceprompt && TTSIVRSelected"
+                            style="height: 65px;"> -->
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-xs-12 shorten-word" ng-hide="TTSIVRSelected" align="left">Selected Audio
+                        Filename: {{selectedCallFlow.voicepromptText}}</div>
+                    <div class="col-lg-1 col-md-1 form-group" style="padding-left:0%;padding-right: 0%">
+                        <div class="col-md-6 col-lg-6">
+                            <a class="btn btn-primary playpadding" ng-show="TTSIVRSelected || hasValidTTSVoiceURL" ng-disabled="whisperAudioIsPlaying() || audioIsPlaying('ivr') || audioIsDownloading() || (!selectedCallFlow.voicepromptTTSText.length && !selectedCallFlow.voicepromptURL)"
+                                ng-click="playTTSVoiceAudio(selectedCallFlow.voicepromptURL);disablePlayBtn($event);">{{ (ivrAudio1 === undefined || ivrAudio1.paused || ivrAudio1.ended ) ? '' : '' }}<i class="{{(ivrAudio1 === undefined || ivrAudio1.paused || ivrAudio1.ended) ? 'fa fa-play' : 'fa fa-pause'}}"></i></a>
+                        </div>
+
+                        <div class="col-md-6 col-lg-6">
+                            <a class="btn btn-default playpadding" ng-click="showIVRVoiceModal('lg')" ng-disabled="whisperAudioIsPlaying() || canModify || audioIsPlaying('voicePromt')" ng-show="TTSIVRSelected" ondblclick="return false;"><i
+                                    class="fa fa-plus-circle" promtType="VoicePromt"></i></a>
+                            <a class="btn btn-default playpadding" ng-show="!TTSIVRSelected" ng-click="removeSelectedIVRVoiceAudio()"><i
+                                    class="fa fa-trash-o"></i></a>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="row multilevel mb20" style="margin: 20px">
+                    <div ng-repeat="cAction in ivrActions">
+                        <multi-level-ivr level="multlevelivr.ivr" ivr-actions="ivrActions" c-action="cAction"
+                            caction-id="$index" show-ivr-voice-modal="showIvrVoiceModal(cAction)"
+                            voice-text-ivr-change="voiceTextIvrChange(cAction)" remove-selected-ivr-voice-audio="removeSelectedIvrVoiceAudio(cAction)"
+                            voice-prompts="prompts" voicemail-component="voicemailComponent" audio-is-playing="audioIsPlaying('ivr')" audio-is-downloading="audioIsDownloading()"
+                            play-Tts-Voice-Audio="playTtsVoiceAudio(cAction)" stop-Audio="stopAudio()" is-Location-Ivr="true"></multi-level-ivr>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="text-right form-group col-md-12 panel-footer" style="margin-right: 5%;">
+            <button class="btn btn-default " type="button" ng-click="removeIvr();" ng-disabled="locIvrRouteId == null || angular.isUndefined(locIvrRouteId)" class="accordion-toggle">Remove
+                IVR </button>
+            <button class="btn btn-default " type="button" ng-click="cancel()" class="accordion-toggle">Cancel </button>
+            <button class="btn btn-primary " ng-click="saveLocIVR()" type="submit()" class="accordion-toggle">Save </button>
+        </div>
+    </form>
+
+</div>

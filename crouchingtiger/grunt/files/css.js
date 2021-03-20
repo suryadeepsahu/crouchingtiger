@@ -1,0 +1,37 @@
+module.exports = {
+    src: [
+        "assets/demo/variations/default.css",
+        "assets/css/ie8.css",
+        "assets/fonts/glyphicons/css/glyphicons.min.css",
+        "assets/plugins/icheck/all.css",
+        "assets/plugins/form-multiselect/css/multi-select.css",
+        "assets/plugins/form-fseditor/fseditor.css",
+        "assets/plugins/form-tokenfield/bootstrap-tokenfield.css",
+        "assets/plugins/datepaginator/bootstrap-datepaginator.css",
+        "assets/plugins/jquery-fileupload/css/jquery.fileupload-ui.css",
+        "assets/plugins/bootstro.js/bootstro.min.css",
+        "assets/plugins/progress-skylo/skylo.css",
+        "assets/plugins/form-daterangepicker/daterangepicker-bs3.css",
+        "assets/plugins/form-markdown/css/bootstrap-markdown.min.css",
+        "assets/plugins/codeprettifier/prettify.css",
+        "assets/plugins/form-select2/select2.css",
+        "assets/plugins/fullcalendar/fullcalendar.css",
+		"assets/plugins/angular-sticky-table-header/angular-sticky-table-header.css",
+        "assets/css/main.css",
+        "assets/css/styles.css",
+		"https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.1/angular-material.min.css"
+    ],
+    vendor: [
+        "bower_components/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css",
+        "bower_components/angular-toggle-switch/angular-toggle-switch.css",
+        "bower_components/ng-grid/ng-grid.css",
+        "bower_components/angular-xeditable/dist/css/xeditable.css",
+        "bower_components/select2/select2.css",
+        "bower_components/jScrollPane/style/jquery.jscrollpane.css",
+        "bower_components/pnotify/pnotify.core.css",
+        "bower_components/pnotify/pnotify.buttons.css",
+        "bower_components/pnotify/pnotify.history.css",
+        "bower_components/jquery-highlighttextarea/jquery.highlighttextarea.min.css",
+		"bower_components/smDateTimeRangePicker/src/picker.css",
+    ]
+};

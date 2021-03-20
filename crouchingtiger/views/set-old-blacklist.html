@@ -1,0 +1,53 @@
+<div id="page-heading">
+    <!--<ol class="breadcrumb">
+        <li><a href="#/">Dashboard</a></li>
+        <li>Extras</li>
+    </ol>-->
+
+    <h1>Blacklist</h1>
+    <div class="options">
+        <div class="btn-toolbar">
+            <!--<a href="#" class="btn btn-default hidden-xs"><i class="fa fa-cog"></i></a>-->
+        </div>
+    </div>
+</div>
+<div class="container-fluid" ng-controller="BlacklistController">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-midnightblue">
+                <div class="panel-body no-border">
+                    <div class="container-fluid" >
+                        <div class="row">
+                            <div class="col-md-12 mb10">
+                            <label class="control-label">Block unwanted calls with Blacklist. Once a number is added to the Blacklist, calls are automatically blocked for that Caller ID. The Blacklist applies to the Group where it is established and all Sub-Groups below. You can opt to manage your Blacklist from this page, or block individual numbers from the Calls > Details page. To start receiving calls from a Blacklisted number, simply remove that Caller ID from the Blacklist. Format the phone numbers without parenthesis or dashes, e.g. 1012223456</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <div class="form-group">
+                                    <textarea class="form-control" style="resize:vertical;" id="txtNumber" ng-model="search.number"></textarea>
+                                </div>
+                                <p>Separated by commas</p>
+                            </div>
+                            <div class="col-xs-4">
+                                <form ng-submit="highlightString()">
+                                    <div class="input-group">
+                                        <input type="text" placeholder="Search Blacklist..." class="form-control" ng-model="search.text">
+                                        <div class="input-group-btn">
+                                            <button type="button" ng-click="highlightString()" class="btn btn-primary"><i class="fa fa-search" ></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer text-right">
+                    <button class="btn btn-primary" onClick="ga('send', 'event', { eventCategory: 'Button', eventAction: 'Click', eventLabel: 'Save Blacklist'});" ng-click="saveBlacklist()">Save</button>
+                    <!--<button class="btn btn-default" ng-click="cancel()">Cancel</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- container -->

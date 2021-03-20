@@ -1,0 +1,30 @@
+<style>iframe {
+		display: block;
+		border: none;
+		overflow:hidden;
+		width: 100%; }
+	.well {
+		padding: 15px;
+		box-shadow: none!important;
+	}
+	#cfareports {
+		padding: 10px 0px 0px 0px;
+	}
+	.report-list{
+		font-size:16px;
+	}
+	.report_title{
+		padding-left: 20px;
+	}
+	.reports{
+		margin-bottom: 20px;
+	}
+	.reports_select{
+		padding: 0px !important;
+	}
+	.align-check-box{
+		margin-top: 5px !important;
+	}
+	.align-right-box{
+		margin-right: 3% !important;
+	}</style><div id="cfareports" class="table-to-scrape" ng-controller="CfaReportsController"><div class="col-sm-2 col-md-2 col-lg-2 report_title"><label class="control-label report-list">Select a Report:</label></div><div class="col-sm-2 col-md-4 col-lg-4 reports"><select ui-select2 ng-model="selectReport" class="col-sm-2 col-md-12 col-lg-12 reports_select" name="select_report" id="select_report" required validate-blur-forza="" ng-change="selectedReport(selectReport)"><optgroup label="All Reports"><option ng-repeat="value in reportList track by value.report_id" value="{{value}}">{{value.report_name}}</option></optgroup></select></div><div class="col-md-6 text-right align-check-box" ng-show="showCompare"><md-checkbox class="md-primary align-right-box" ng-model="isCompare" value="" ng-change="selectedReport(selectReport)">Compare Previous Period</md-checkbox></div><div class="container-fluid"><div class="row" style="padding:0 20px;"><iframe id="looker" ng-src="{{lookerUrl}}" width="100%" height="100%" set-height>Something went wrong...</iframe></div></div></div>

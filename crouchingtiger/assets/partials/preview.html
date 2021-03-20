@@ -1,0 +1,286 @@
+<!-- keep within .preview div for namespacing purposes -->
+<div class="preview">
+  <div class="modal-header">
+      <h3 class="modal-title">White Label Preview</h3>
+  </div>
+  <div class="modal-body">
+      <div class="container-fluid">
+        <header class="navbar navbar-inverse navbar-fixed-top" ng-class="{'navbar-fixed-top': style_fixedHeader, 'navbar-static-top': !style_fixedHeader}" role="banner">
+    <a id="leftmenu-trigger" tooltip-placement="right" tooltip="Toggle Sidebar" ng-click="toggleLeftBar(); resizeStickyHeader();"  class="ng-scope"></a>
+    <a id="rightmenu-trigger" tooltip-placement="left" tooltip="Toggle Infobar" ng-click="toggleRightBar();" class="bootstro ng-scope" data-bootstro-placement="bottom" data-bootstro-step="1" data-bootstro-width="400px" data-bootstro-content="Click this icon to toggle viewing Usage Data, Subscription Info, and Billing History" data-bootstro-title="Subscription and Billing"></a>
+
+    <div class="navbar-header pull-left">
+      <a onclick="return false;" style="height:40px;width:142px;" class="navbar-brand" onclick="ga('send', 'event', { eventCategory: 'Image', eventAction: 'Click', eventLabel: 'Main Logo'});" href="#/">Convirza</a>
+    </div>
+
+    <ul class="nav navbar-nav pull-right toolbar">
+      <li class="dropdown ng-hide" uib-dropdown ng-show="!isLoggedIn">
+        <a onclick="return false;" href="#/login" style="font-size: 14px"><i class="fa fa-sign-in"></i>
+          Log in</a>
+      </li>
+      <!--<li class="dropdown " ng-show="isLoggedIn">
+        <a href="#" style="float:left;" class="dropdown-toggle hidden-xs" ng-click="toggleRightBar()"><span class="">Viewing: {{ currentOUName }} </span></a> <i id="rightmenu-trigger" tooltip-placement="left" tooltip="Toggle" class="visible-xs" ng-click="toggleRightBar()" style="border:none;"></i>
+       </li>-->
+      <li class="dropdown" uib-dropdown  ng-show="isLoggedIn">
+        <a onclick="return false;" href="" class="dropdown-toggle username bootstro" uib-dropdown-toggle data-bootstro-placement="bottom" data-bootstro-step="0" data-bootstro-width="400px" data-bootstro-content="Click Username to toggle viewing User Access and Support" data-bootstro-title="User Data" aria-haspopup="true" aria-expanded="false"><span class="hidden-xs ng-binding"> Bill Gates </span>
+        </a>
+        <ul class="dropdown-menu userinfo arrow" uib-dropdown-menu>
+          <li class="userlinks">
+            <ul class="dropdown-menu" uib-dropdown-menu>
+              <li>
+                <a onclick="return false;" href="#/profile" onclick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Click', eventLabel: 'Edit Profile'});">Edit
+                  Profile <i class="pull-right fa fa-fw fa-pencil"></i></a></li>
+              <!-- The Admin Access link should only be visible for Super Admins or Support Admins so the ng-hide is just an example -->
+              <li ng-hide="userAccess.campaign < 6" class="">
+                <a onclick="return false;" href="#/admin-access" onclick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Click', eventLabel: 'Admin Access'});">Admin
+                  Access <i class="pull-right fa fa-fw fa-sign-in"></i></a></li>
+              <li class="divider"></li>
+              <li>
+                <a onclick="return false;" href="https://support.convirza.com" target="_blank" onclick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Click', eventLabel: 'Support'});">Support
+                  <i class="pull-right fa fa-fw fa-compass"></i></a></li>
+              <li>
+                <a onclick="return false;" href="https://support.convirza.com/customer/portal/chats/new" target="_blank" onclick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Click', eventLabel: 'Chat'});">Chat with an Agent  <i class="pull-right fa fa-fw fa-comment"></i></a></li>
+              <li class="divider"></li>
+              <li>
+                <a ng-controller="LogoutController" class="text-right ng-scope" onclick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Click', eventLabel: 'Sign Out'});" ng-click="logOut()">Sign Out</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+
+      <li class="dropdown ng-scope" uib-dropdown ng-controller="MessagesController" ng-show="isLoggedIn">
+        <a onclick="return false;" href="#" class="dropdown-toggle bootstro" uib-dropdown-toggle data-bootstro-placement="bottom" data-bootstro-step="2" data-bootstro-width="400px" data-bootstro-content="Click icon to toggle viewing the most recent activity in your account" data-bootstro-title="Activity Stream" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-clock-o"></i>
+          <!-- ngIf: unseenCount>0 -->
+        </a>
+        <ul class="dropdown-menu messages arrow" uib-dropdown-menu>
+          <li class="dd-header">
+          </li>
+          <div class="scrollthis ng-isolate-scope" jscrollpane="{autoReinitialise:true, autoReinitialiseDelay: 20}" style="overflow: hidden; padding: 0px; width: 0px;">
+            <!-- ngRepeat: item in logs --><li ng-repeat="item in logs" class="ng-scope">
+              <a onclick="return false;" href="#/activity-stream" onclick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Click', eventLabel: 'Activity Log Item'});">
+                <span class="time ng-binding">2015-11-13 1:18 PM</span>
+                <!--<img ng-src="{{item.thumb}}" alt="avatar" />-->
+                <span class="name ng-binding"><i ng-class="item.iconcss" class="fa fa-user"></i> Blingy Marketing LLC</span>
+                <span class="msg ng-binding">Bill Gates login for a <b class="ng-binding">User/Group</b> </span>
+
+              </a>
+            </li><!-- end ngRepeat: item in logs --><li ng-repeat="item in logs" class="ng-scope">
+              <a onclick="return false;" href="#/activity-stream" onclick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Click', eventLabel: 'Activity Log Item'});">
+                <span class="time ng-binding">2015-11-13 1:8 PM</span>
+                <!--<img ng-src="{{item.thumb}}" alt="avatar" />-->
+                <span class="name ng-binding"><i ng-class="item.iconcss" class="fa fa-user"></i> Blingy Marketing LLC</span>
+                <span class="msg ng-binding">Bill Gates login for a <b class="ng-binding">User/Group</b> </span>
+
+              </a>
+            </li><!-- end ngRepeat: item in logs --><li ng-repeat="item in logs" class="ng-scope">
+              <a onclick="return false;" href="#/activity-stream" onclick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Click', eventLabel: 'Activity Log Item'});">
+                <span class="time ng-binding">2015-11-13 12:38 PM</span>
+                <!--<img ng-src="{{item.thumb}}" alt="avatar" />-->
+                <span class="name ng-binding"><i ng-class="item.iconcss" class="fa fa-tags"></i> Blingy Marketing LLC</span>
+                <span class="msg ng-binding">  added a <b class="ng-binding">Tags</b> </span>
+
+              </a>
+            </li><!-- end ngRepeat: item in logs --><li ng-repeat="item in logs" class="ng-scope">
+              <a onclick="return false;" href="#/activity-stream" onclick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Click', eventLabel: 'Activity Log Item'});">
+                <span class="time ng-binding">2015-11-12 4:8 PM</span>
+                <!--<img ng-src="{{item.thumb}}" alt="avatar" />-->
+                <span class="name ng-binding"><i ng-class="item.iconcss" class="fa fa-user"></i> Blingy Marketing LLC</span>
+                <span class="msg ng-binding">Bill Gates logout for a <b class="ng-binding">User/Group</b> </span>
+
+              </a>
+            </li><!-- end ngRepeat: item in logs --><li ng-repeat="item in logs" class="ng-scope">
+              <a onclick="return false;" href="#/activity-stream" onclick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Click', eventLabel: 'Activity Log Item'});">
+                <span class="time ng-binding">2015-11-12 3:42 PM</span>
+                <!--<img ng-src="{{item.thumb}}" alt="avatar" />-->
+                <span class="name ng-binding"><i ng-class="item.iconcss" class="fa fa-user"></i> Blingy Marketing LLC</span>
+                <span class="msg ng-binding">Bill Gates login for a <b class="ng-binding">User/Group</b> </span>
+
+              </a>
+            </li><!-- end ngRepeat: item in logs -->
+          <div class="jspContainer" style="width: 0px; height: 260px;"><div class="jspPane" style="padding: 0px; top: 0px; width: 0px;"></div></div></div>
+          <li class="dd-footer">
+            <a onclick="return false;" href="#/activity-stream" onclick="ga('send', 'event', { eventCategory: 'Header', eventAction: 'Click', eventLabel: 'View  All Activity'});">View
+              All Activity</a></li>
+        </ul>
+      </li>
+
+    </ul>
+  </header>
+
+    <div id="fillerOnPreview" class="clearfix" style="overflow: hidden;">
+
+    <!-- BEGIN SIDEBAR -->
+    <nav id="page-leftbar" role="navigation">
+
+    <div>
+        <ul ng-controller="NavigationController" id="sidebar" sticky-scroll="40" class="ng-scope" style="top: 40px;">
+          <li>
+            <a onclick="return false;" href="#"><i class="fa fa-home"></i><span>Home</span><span></span></a>
+          </li>
+          <li class="hasChild"><a > <i class="fa fa-magnet"></i><span >Acquisition</span> <span></span></a>
+              <ul data-slide-out-nav="item.open" >
+                  <li><a onclick="return false;" href="#"><span >Campaigns</span><span></span></a></li>
+                  <li><a onclick="return false;" href="#"><span >Call Flows</span><span></span></a></li>
+                  <li><a onclick="return false;" href="#"><span>Keywords</span><span></span></a></li>
+                  <li ><a onclick="return false;" href="#"><span >Groups</span><span></span></a></li>
+              </ul>
+          </li>
+          <li class="hasChild"><a ><i class="fa fa-phone"></i><span>Calls</span><span></span></a>
+              <ul data-slide-out-nav="item.open">
+                  <li><a onclick="return false;" href="#"><span>Details</span><span></span></a></li>
+                  <li><a onclick="return false;" href="#"><span>Call Back</span><span></span></a></li>
+              </ul>
+          </li>
+          <li><a onclick="return false;" href="#"><i class="fa fa-table"></i><span>Activity</span><span></span></a>
+          </li>
+          <li class="hasChild open active"><a><i class="fa fa-cog"></i><span >Settings</span><span></span></a>
+              <ul data-slide-out-nav="item.open" style="overflow: hidden;display: block;">
+                  <li><a onclick="return false;" href="#/set-campaign"><span>Campaign</span><span></span></a></li>
+                  <li><a onclick="return false;" href="#/set-group"><span >Group and User</span><span ></span></a></li>
+                  <li class="hasChild open active"><a><span >Customization</span><span ></span></a>
+                  <ul data-slide-out-nav="item.open" style="overflow: hidden;display: block;">
+                      <li><a onclick="return false;" href="#/set-blacklist"><span>Blacklist</span><span></span></a></li>
+                      <li><a onclick="return false;" href="#/set-dni"><span>DNI</span><span></span></a></li>
+                      <li><a onclick="return false;" href="#/set-location"><span>GeoRoute</span><span></span></a> </li>
+                      <li><a onclick="return false;" href="#/set-hipaa-compliance"><span>HIPAA Compliance</span><span></span></a> </li>
+                      <li><a onclick="return false;" href="#/set-tags"><span>Tags</span><span></span></a> </li>
+                      <li><a onclick="return false;" href="#/set-webhook"><span>Webhook</span><span></span></a> </li>
+                      <li class="active"><a onclick="return false;" href="#"><span>Whitelabel</span><span></span></a> </li>
+                  </ul>
+                  </li>
+                  <li class=" hasChild"><a > <span class="ng-binding">Integration</span><span></span> </a>
+                      <ul data-slide-out-nav="item.open">
+                          <li><a onclick="return false;" href="#/set-acquisio"><span>Acquisio</span><span></span> </a></li>
+                          <li ><a onclick="return false;" href="#/set-append"><span>Data Append</span><span></span></a></li>
+                          <li><a onclick="return false;" href="#/set-doubleclick"><span>DoubleClick</span><span ></span></a></li>
+                          <li ><a onclick="return false;" href="#/set-ga"><span>Google Analytics</span><span></span> </a></li>
+                      </ul>
+                  </li>
+              </ul>
+          </li>
+        </ul>
+    </div>
+      <!-- END SIDEBAR MENU -->
+    </nav>
+
+    <div class="clearfix" style="min-height: 754px;margin-left: 230px;padding-bottom: 30px;background: #f3f4f6; height: 100%;">
+
+      <div style="overflow: hidden;position: relative;">
+      <style class="ng-scope">
+        #demo-dropdown li{ list-style:none;margin-bottom:20px;}
+        #demo-dropdown{ width:435px;}
+        #demo-dropdown .demo-color-variation li a { display: block; height: 60px; width: 60px;}
+      </style>
+          <div id="page-heading" class="ng-scope">
+              <h1>Sample Page</h1>
+              <div class="options">
+                  <div class="btn-toolbar">
+                  </div>
+              </div>
+          </div>
+      <div class="container-fluid ng-scope" id="" style="padding:20px;margin-right:auto;margin-left:auto;">
+              <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-midnightblue" heading="Email templates" panel-class="panel-midnightblue">
+                        <div class="panel-heading">
+                              <h4 class="ng-binding">Sample Header - Accent 1 Color</h4>
+                              <div class="options">
+                              </div>
+                        </div>
+                        <div class="panel-body">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="col-md-6 col-sm-6">
+                              <p>Sample Content. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis tincidunt justo. Praesent imperdiet leo ac bibendum maximus. Aenean malesuada sem non mauris ultricies accumsan. Cras pulvinar massa id ipsum hendrerit bibendum.</p>
+                              </div>
+                              <div class="col-md-6 col-sm-6">
+                                  <a onclick="return false;" class="info-tiles tiles-midnightblue" href="#">
+                                      <div class="tiles-heading">
+                                          <div class="pull-left">Sample Widget</div>
+                                          <div class="pull-right">-9.8%</div>
+                                      </div>
+                                      <div class="tiles-body">
+                                          <div class="pull-left"><i class="fa fa-group"></i></div>
+                                          <div class="pull-right">125</div>
+                                      </div>
+                                  </a>
+                              </div>
+                          </div>
+                          </div>
+                          <div class="row">
+                           <div class="col-md-12">
+                              <hr><p><a onclick="return false;" href="#" style="text-decoration:none;">Sample Link Color</a></p><hr>
+                           </div>
+                          </div>
+                          <div class="row mt20">
+                              <div class="col-sm-3 col-xs-3">
+                                  <h2>Key Press</h2>
+                              </div>
+                              <div class="col-sm-3 col-xs-3">
+                                <h2>Action</h2>
+                              </div>
+                            </div>
+                          <ul class="timeline">
+                            <li class="timeline-midnightblue ng-scope" >
+                              <div class="timeline-icon"><i class="fa ng-binding">1</i></div>
+                              <div class="timeline-body">
+                                  <a ng-click="removeIvrAction(cAction.id)" ng-show="cAction.id != 1" title="delete" class="ng-hide"><i class="fa fa-times" style="float:right;"></i></a>
+                                <div class="timeline-content">
+                                  <div class="row mb20">
+                                      <div class="col-lg-2 col-md-3 col-sm-3">
+                                          <label>Sample:</label>
+                                      </div>
+                                      <div class="col-sm-3">
+                                          <input type="text" class="form-control" value=""  required="required" style="">
+                                      </div>
+                                  </div>
+                                  <div class="row mb20">
+                                    <div class="col-sm-6">
+                                      <select class="form-control" style="">
+                                          <option value="" ng-selected="true" disabled="" selected="selected">-- Select -- </option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                <div class="timeline-footer">
+                                    <a class="btn btn-default btn-sm pull-left" ng-click="addAction()">Add </a>
+                                </div>
+                              </div>
+                            </div></li>
+                          </ul>
+
+                        </div>
+                        <div class="panel-footer">
+                              <div class="row col-xs-12">
+                                  <button class="btn btn-midnightblue" style="float:right;">Button</button>
+                                  <button class="btn btn-midnightblue-alt" style="float:right;margin-right:20px;">Alt Button</button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+      </div>
+       <!-- container --></div>
+      <!--wrap -->
+    </div>
+    <!-- page-content -->
+
+    <footer role="contentinfo">
+      <div class="clearfix">
+        <ul class="list-unstyled list-inline pull-left">
+          <li></li>
+        </ul>
+        <button class="pull-right btn btn-default btn-xs hidden-print" back-to-top="" style="padding: 1px 10px;">
+          <i class="fa fa-angle-up"></i></button>
+      </div>
+    </footer>
+
+  </div>
+
+          <div style="clear:both" class="modal-footer">
+              <button class="btn btn-default" ng-click="cancelPreview()">Close</button>
+          </div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,128 @@
+<style>
+    .disabled { cursor: pointer; color: #ccc; margin-left: 10px; font-weight: normal;}
+</style>
+<div class="modal-header">
+	<h3 class="modal-title">Schedule This Report</h3>
+	<!-- Unless they are editing an existing list. Then it should say "Edit Distribution List" -->
+</div>
+<style type="text/css">
+	body > [uib-modal-window]:not([modal-render]) {
+		display: none;
+	}
+</style>
+<form name="schelduler" id="schelduler" valid-submit="saveScheduleData(listData)" novalidate>
+	<div class="modal-body">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12 mt20">
+					<label class="col-sm-2 control-label">From</label>
+					<div class="col-sm-6">
+						<input type="email" class="form-control" placeholder="test@test.com" ng-model="listData.from_label" required validate-email validate-utf-eight validate-blur-forza="Scheduler, From Email"/>
+					</div>
+					<div class="col-sm-4">
+						<span> via &lt;no-reply@messages.services&gt; </span>
+					</div>
+				</div>
+				<div class="col-md-12 mt20">
+					<label class="col-sm-2 control-label">Choose a Distribution List:</label>
+					<div class="col-sm-10">
+						<!-- <select ng-options="list.list_id as list.list_name for list in distributionList" ng-model="list_id" class="form-control" style="width: auto;display:inline;"></select> -->
+              <select ng-model="listData.list_id" ng-click="showme=false;" ng-options="option.list_id as option.list_name for option in distributionList" required validate-blur-forza="Scheduler, Distribution List" class="form-control" id="distributionList" style="width: auto;display:inline;">
+							<option value="" ng-disable="true">--Select--</option>
+						</select>
+						<span style="margin:0 20px;">Or</span>
+						<a class="btn btn-default" ng-click="showme=true;"><i class="fa fa-plus-circle"></i> Create New</a>
+					</div>
+				</div>
+			</div>
+			<!-- Begin workspace if user chooses to create a new Distribution List -->
+			<div class="row mt20 mb20" ng-show="showme" style="border-top: 1px solid #e5e5e5;border-bottom: 1px solid #e5e5e5;">
+				<ng-form name="distributionList" id="distributionList" novalidate>
+					<div class="col-md-12">
+						<div class="col-md-2 mt20">
+							<input type="text" class="form-control" id="listName" name="listName" placeholder="New List Name" maxlength="60" ng-model="listData.listName" validate-utf-eight
+							       required validate-blur-forza="Scheduler, New List Name">
+						</div>
+						<div class="col-md-7 mt20" style="height:380px;">
+				            <div 
+				            isteven-multi-select 
+				            input-model="dropdownListData"
+				            output-model="distributionMultiselect"
+				            clear-multiselect="clearAll"
+				            remove-headers-show-users="true"
+				            campaign-users="campaignUsers"
+				            button-label="name"         
+				            item-label="name icon" 
+				            tick-property="ticked"           
+				            group-property="msGroup"
+				            >
+				        	</div>
+				        </div>
+						<div class="col-md-2 col-md-offset-1 mt20">
+							<button class="btn btn-info" type="button" ng-click="saveDistributionList(false, distributionMultiselect)">Save</button>
+							<button class="btn btn-info-alt mt10" type="button" ng-click="saveDistributionList(true, distributionMultiselect)">Save &amp;
+								Select
+							</button>
+						</div>
+					</div>
+					<div class="col-md-12 mt20 mb20">
+						<label class="col-sm-3 control-label">Additional Emails:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="additionalEmails" name="additionalEmails" placeholder="Comma Separated" ng-model="listData.additionalEmails" validate-utf-eight validate-blur-forza="Scheduler, Additional Emails" multiple-emails>
+						</div>
+					</div>
+</form>
+</div>
+<!-- End workspace if user chooses to create a new Distribution List -->
+<div class="row mt10">
+	<div class="col-md-12">
+		<label class="col-sm-2 control-label">Frequency:</label>
+		<div class="col-sm-2">
+			<select ng-model="listData.freq_unit" ng-change="updateFrequency(listData.freq_unit)" class="form-control" id="s2" style="width: auto;display:inline;" required validate-blur-forza="Scheduler , Frequency">
+				<option value="" ng-disable="true">--Select--</option>
+				<option ng-repeat="type in frequencyType" value="{{type}}" ng-selected="{{type == listData.freq_unit}}">
+					{{type | capitalize}}
+				</option>
+			</select>
+		</div>
+		<!-- This DIV only shows when the WEEKLY frequency is chosen -->
+		<div class="col-md-8" ng-show="listData.freq_unit=='weekly'">
+			<span style="margin-right: 5px;">Day of the Week </span>
+			<div class="btn-group" ng-repeat="weekday in frequencyTypeWeekly track by $index">
+				<button type="button" ng-click="listData.freq_value = $index+1" class="btn btn-default" ng-style="listData.freq_value === $index+1 && {'background-color': '#cbd2db'}">
+					{{weekday}}
+				</button>
+			</div>
+		</div>
+		<!-- This DIV only shows when the MONTHLY frequency is chosen -->
+		<div class="col-md-8" ng-show="listData.freq_unit=='monthly'">
+			<span style="margin-right: 5px;">Day of the Month </span>
+			<select ng-model="listData.freq_value" class="form-control" id="daysInMonths" style="width: auto;display:inline;" required validate-blur-forza="Scheduler , Day of the Month" ng-options="days.key as days.value for days in frequencyTypeMonthly">		
+			</select>
+		</div>
+	</div>
+	<div class="col-md-12 mt20">
+		<label class="col-sm-2 control-label">Message:</label>
+		<div class="col-sm-10">
+			<div class="form-group">
+				<textarea class="form-control" style="resize:vertical" id="s3" ng-model="listData.message"></textarea></div>
+		</div>
+	</div>
+	<div class="col-md-12 mt20">
+		<label class="col-sm-2 control-label">Attachment:</label>
+		<div class="col-sm-6">
+			<select ui-select2 class="attachement" ng-model="listData.format" data-placeholder="Select" multiple validate-blur-forza="Scheduler , Attachment">
+				<option ng-repeat="type in attachmentList" value="{{type}}" ng-selected="{{type == listData.format}}">{{type}}
+				</option>
+			</select>
+		</div>
+	</div>
+</div>
+
+</div>
+<div style="clear:both" class="modal-footer mt20">
+	<button class="btn btn-primary" type="submit" ng-disabled = "disableSaveButton">Save</button>
+	<button class="btn btn-default-alt" ng-click="cancel()" type="button">Cancel</button>
+</div>
+</div>
+</form>

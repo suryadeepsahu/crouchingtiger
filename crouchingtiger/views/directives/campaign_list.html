@@ -1,0 +1,23 @@
+<div sticky-table-header3>
+  <table class="table"  id="classflowDataTable">
+    <thead>
+      <tr style="margin-top: 40px; margin-left: 0px;">
+        <th>Master ICon</th>
+        <th ng-if="vc.visible" ng-class="vc.truncate ? 'trunc' : ''" ng-repeat="vc in visibleColumns"> {{ dbFieldNames.dataTableHeaderValues[vc.key] }}</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr ng-if="totalRows <= 0">
+      <td class="noDataSelector" colspan='18'>No Data Found</td>
+    </tr>
+    <tr dir-paginate="row in rowData | itemsPerPage: 30" total-items="120" current-page="currentPage" pagination-id="pg-users" id="{{ 'rowdataitem' + $index }}" ng-if="rowData.length > 0" class="datapoint_{{$index}}">
+        <td>ICON</td>
+        <td ng-if="vc.visible" ng-repeat="vc in visibleColumns">
+            <span >
+              {{row[dbFieldNames.gridBackendPropertyNames[vc.key]]}}
+            </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

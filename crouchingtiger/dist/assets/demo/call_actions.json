@@ -1,0 +1,81 @@
+{ 
+	"fields" : {
+      "Ring to Phone Number" :"ring_to",
+      "repeat call":"repeat_call",
+      "duration":"duration",
+      "disposition":"disposition",
+      "caller id":"source",
+      "missed opportunity":"93",
+      "sales inquiry":"73",
+      "conversion":"18",
+      "lead quality":"50",
+      "referring source":"referring",
+      "referring type":"referring_type",
+      "UTM Campaign":"utm_campaign",
+      "UTM Source":"utm_source",
+      "UTM Medium":"utm_medium",
+      "Send to Voicemail":"voice_mail"
+    },
+    "operators" : {
+      "Ring to Phone Number" :["is","is not"],
+      "repeat call":["is", "is not"],
+      "duration": ["=","!=",">",">=","<","<="],
+      "disposition" : ["is", "is not"],
+     	"caller id" : ["is", "is not","contains", "does not contain", "begins with", "ends with"],
+     	"missed opportunity" : ["is", "is not"],
+     	"sales inquiry" : ["is", "is not"],
+     	"conversion" : ["is", "is not"],
+     	"lead quality" : ["is", "is not"],
+     	"referring source" : ["is", "is not","contains", "does not contain"],
+     	"referring type" :  ["is", "is not"],
+     	"UTM Campaign" : ["is", "is not","contains", "does not contain", "begins with", "ends with"],
+     	"UTM Source" : ["is", "is not","contains", "does not contain", "begins with", "ends with"],
+      "UTM Medium" : ["is", "is not","contains", "does not contain", "begins with", "ends with"],
+      "Send to Voicemail":["is", "is not"]
+    },
+    "enum" : {
+      "Ring to Phone Number":["abandon"],
+      "repeat call":["true","false"],
+      "duration": [],
+      "disposition" : ["ANSWERED", "NO ANSWER", "BUSY" , "CALLER HANGUP" , "HANGUP"],
+     	"caller id" : [],
+     	"missed opportunity" : ["true"],
+     	"sales inquiry" : ["true"],
+     	"conversion" : ["true"],
+     	"lead quality" : ["Good"],
+     	"referring source" : [],
+     	"referring type" : ["paid","organic","referral","direct"],
+     	"UTM Campaign" : [],
+     	"UTM Source" : [],
+      "UTM Medium" : [],
+      "Send to Voicemail":["true","false"]
+    },
+
+    "Ct_operators" : {
+      "is"  : "=",
+      "is not" : "!=",
+      "contains" : "ILIKE",
+      "does not contain" : "NOT ILIKE",
+      "begins with" : "BWITH",
+      "ends with" : "EWITH",
+      "=": "=",
+      "!=": "!=",
+      ">": ">",
+      ">=": ">=",
+      "<": "<",
+      "<=": "<="
+    },
+
+    "Ct_operators_based_on_fields" : {
+      "is"  : "=",
+      "is not" : "!=",
+      "contains" : "ILIKE",
+      "does not contain" : "NOT ILIKE",
+      "begins with" : "BWITH",
+      "ends with" : "EWITH",
+      ">": ">",
+      ">=": ">=",
+      "<": "<",
+      "<=": "<="
+    }
+}

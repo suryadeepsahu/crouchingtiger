@@ -1,0 +1,58 @@
+<div class="row" >
+    <div class=" col-lg-12 col-md-12 col-sm-12 mt20 dynamicNumber">
+        <div id="overflow" class="row mt10" ng-repeat="overflowNumber in overflowNumbers">
+            <div class="col-lg-3 col-md-3 col-sm-12 mt10">
+                <img src="../img/overflow.png" style="margin-top: -10px; cursor:default;"/>
+                <span class="">  Overflow to</span> 
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12" style="margin-left: -18px">
+                <input type="text" name="aaaaaa1" ng-change= "replaceMasking();showSubmit()" class="form-control" validate-blur-forza="{{overflowValidationHeader}}, Overflow Ring to Phone Number" checklength="10" maskinput ng-model="overflowNumber.overflowNumber"  data-inputmask="'mask':'(999) 999-9999'" validate-masked-phone-number required="required">
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-12 mt10">
+                 after
+            </div>
+            <div class="col-sm-2">
+                <select class="form-control" ng-model="overflowNumber.rings" ng-disabled="isSimultaneousRing" >
+                    <option value="1" ng-selected="overflowNumber.rings == 1"> 1</option>
+                    <option value="2" ng-selected="overflowNumber.rings == 2"> 2</option>
+                    <option value="3" ng-selected="overflowNumber.rings == 3"> 3</option>
+                    <option value="4" ng-selected="overflowNumber.rings == 4"> 4</option>
+                    <option value="5" ng-selected="overflowNumber.rings == 5"> 5</option>
+                    <option value="6" ng-selected="overflowNumber.rings == 6"> 6</option>
+                    <option value="7" ng-selected="overflowNumber.rings == 7"> 7</option>
+                    <option value="8" ng-selected="overflowNumber.rings == 8"> 8</option>
+                    <option value="9" ng-selected="overflowNumber.rings == 9"> 9</option>
+                    <option value="10" ng-selected="overflowNumber.rings == 10"> 10</option>
+                </select>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-12 mt10">
+                Rings
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-12">
+                <a class="btn btn-default"  ng-click="removeOverflowNumber(overflowNumber.overflowNumber,overflowNumber.rings)"
+                 > <i class="fa fa-trash-o"></i></a>
+            </div>
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-primary  mt10" style="margin-left:10px;"   ng-click="addOtherOverflowNumber()" ng-disabled="overflowNumbers.length >= 12 || !currentOverFlowNumber.overflowNumber || currentOverFlowNumber.unmaskNumber.length < 10">
+                Add Overflow Number
+                </button>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12 mt10" style="white-space: nowrap;">
+                <label>
+                    Simultaneous Ring
+                </label>
+            </div>
+             <div class="checkbox  col-lg-1 col-md-1 col-sm-12">
+            <md-checkbox ng-model="isSimultaneousRing" value="true" ng-click="toggleSimultaneousRing()" ng-change="showSubmit()" ng-disabled = " !currentOverFlowNumber.overflowNumber || currentOverFlowNumber.unmaskNumber.length < 10">                                         
+            </md-checkbox>
+             </div>
+             <div class="col-lg-8 col-md-8 col-sm-12 mt10"  ng-show = "isSimultaneousRing">
+                <label class="fontChange">
+                    All Ring to numbers will ring for default number of rings. If voicemail is activated, Voicemail settings will override the number of rings 
+                </label>
+            </div>
+        </div>
+    </div>
+</div>

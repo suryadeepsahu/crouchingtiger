@@ -1,0 +1,65 @@
+<div sticky-table-header3>
+<table class="table table-striped table-hover table-condensed table-responsive" id="classflowDataTable">
+  <thead>
+    <tr style="margin-top: 40px; margin-left: 0px;">
+      <th ng-if="vc.visible" ng-class="vc.truncate ? 'trunc' : ''" ng-repeat="vc in visibleColumns"> {{ vc.label }}</th>
+    </tr>
+  </thead>
+  <tbody>
+  <!-- <tr ng-repeat="row in rowData"> 
+  <tr ng-if="totalRows == 0 && rowData != undefined">
+    <td class="noDataSelector" colspan='18'> No data Found</td>
+  </tr>-->
+    <tr dir-paginate="row in rowData | itemsPerPage: pageSize" total-items="totalRows" current-page="currentPage" pagination-id="pgCallFlow" id="{{ 'rowdataitem' + $index }}" class="datapoint_{{$index}}">
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.id]].visible" id="horsemanFlag">                {{ row[dbFieldNames.id] }}</td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.call_flow_name]].visible">
+        <a href="{{($root.is_migrated == true || $root.is_migrated == 'true') ? '/#/set-campaign-builder?id='+row[dbFieldNames.campaign_id]: '/#/set-legacy-campaign-builder?id='+row[dbFieldNames.campaign_id]}}&ou_id={{row[dbFieldNames.group_id]}}&level={{row[dbFieldNames.ou_level]}}&billing_id={{row[dbFieldNames.billing_id]}}&parent_id={{row[dbFieldNames.parent_id]}}&prov_id={{row[dbFieldNames.id]}}"  target="_blank">{{ row[dbFieldNames.call_flow_name] }}</a>
+      </td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.phone_number]].visible">      {{ !!row[dbFieldNames.phone_number] ? row[dbFieldNames.phone_number] : "Number Pool" }}</td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.type]].visible">              {{ routeTypes[row[dbFieldNames.type]] !== "Geo Route" ? routeTypes[row[dbFieldNames.type]] : (routeTypes[row[dbFieldNames.type]] + " " + geoTypes[row[dbFieldNames.strategy]])}}</td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.hunt_type]].visible && visibleColumns[columnDefIndices[dbFieldNames.hunt_type]].show">  {{ (row[dbFieldNames.hunt_type] ) }}</td>
+
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.ring_to]].visible && row[dbFieldNames.type] !== 'IvrRoute2' && row[dbFieldNames.type] !== 'PercentageBasedRoute' && row[dbFieldNames.type] !== 'ScheduleRoute'"> {{ (row[dbFieldNames.ring_to] === 'hangup') ? 'Hang Up' : row[dbFieldNames.ring_to] }}</td>
+
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.ring_to]].visible && ( row[dbFieldNames.type] === 'IvrRoute2' || row[dbFieldNames.type] === 'PercentageBasedRoute' || row[dbFieldNames.type] === 'ScheduleRoute')" >
+        <a ng-click="showSubData({index: $index, routeableId: row[dbFieldNames.id], type: row[dbFieldNames.type] })"> View All </a></td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.ad_source]].visible">         {{ row[dbFieldNames.ad_source] }}</td>
+
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.custom_source1]].visible">{{ row[dbFieldNames.custom_source1] }}</td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.custom_source2]].visible">{{ row[dbFieldNames.custom_source2] }}</td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.custom_source3]].visible">{{ row[dbFieldNames.custom_source3] }}</td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.custom_source4]].visible">{{ row[dbFieldNames.custom_source4] }}</td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.custom_source5]].visible">{{ row[dbFieldNames.custom_source5] }}</td>
+
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.active]].visible">            {{ row[dbFieldNames.active] | ucfirst }}</td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.group_name]].visible" title="{{ row[dbFieldNames.group_name] }}">        {{ row[dbFieldNames.group_name] | truncate_campGroupName }}</td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.campaign_name]].visible">
+        <a href="/#/set-campaign-builder?id={{row[dbFieldNames.campaign_id]}}&ou_id={{row[dbFieldNames.group_id]}}&level={{row[dbFieldNames.ou_level]}}&billing_id={{row[dbFieldNames.billing_id]}}&parent_id={{row[dbFieldNames.parent_id]}}" target="_blank" title="{{ row[dbFieldNames.campaign_name] }}">{{ row[dbFieldNames.campaign_name] | truncate_campGroupName }}</a>
+      </td>
+
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.dni]].visible">               {{ !!row[dbFieldNames.dni] ? row[dbFieldNames.dni] : " - " }}</td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.instant_insights]].visible">               {{ row[dbFieldNames.instant_insights] == true ? "Yes" : " No " }}</td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.instant_insights_config]].visible">               {{ row[dbFieldNames.instant_insights_config] ? row[dbFieldNames.instant_insights_config] : " - " }}</td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.host_domain]].visible">       {{ !!row[dbFieldNames.host_domain] ? row[dbFieldNames.host_domain] : " - " }}</td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.referring_website]].visible"> {{ !!row[dbFieldNames.referring_website] ? row[dbFieldNames.referring_website] : " - " }}</td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.html_class]].visible">        {{ !!row[dbFieldNames.html_class] ? row[dbFieldNames.html_class] : " - " }}</td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.custom_params]].visible">     {{ row[dbFieldNames.dni] && row[dbFieldNames.custom_params] ? row[dbFieldNames.custom_params] : '-' }}</td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.rc]].visible && row[dbFieldNames.type] !== 'IvrRoute2'"> {{ row[dbFieldNames.rc] === null ? "Yes" : (getType(row[dbFieldNames.rc]) === "string" && row[dbFieldNames.rc] !== '') ? "No" : "Yes"  }}</td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.rc]].visible && ( row[dbFieldNames.type] === 'IvrRoute2')">
+        <a ng-click="showSubData({index: $index, routeableId: row[dbFieldNames.id], type: row[dbFieldNames.type] })"> <i class="fa fa-chevron-down"></i> </a></td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.pd]].visible && row[dbFieldNames.type] !== 'IvrRoute2'"> {{ (row[dbFieldNames.rc] === 1 ) ? "" : row[dbFieldNames.pd] }}</td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.pd]].visible && ( row[dbFieldNames.type] === 'IvrRoute2')">
+        <a ng-click="showSubData({index: $index, routeableId: row[dbFieldNames.id], type: row[dbFieldNames.type] })" > <i class="fa fa-chevron-down"></i> </a></td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.vp]].visible">  {{ row[dbFieldNames.vp] ? "Yes" : "No"  }}</td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.wm]].visible">  {{ (row[dbFieldNames.wm] && row[dbFieldNames.type] !== 'IvrRoute2' && row[dbFieldNames.ring_to] !== 'hangup') ? "Yes" : "No" }}</td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.webhook_name]].visible">  {{ (row[dbFieldNames.webhook_name]) }}</td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.voicemail]].visible && row[dbFieldNames.type] !== 'IvrRoute2' && row[dbFieldNames.type] !== 'PercentageBasedRoute' && row[dbFieldNames.type] !== 'ScheduleRoute'" >  {{ row[dbFieldNames.type]=='VoicemailRoute' ? '' : row[dbFieldNames.voicemail] == true || row[dbFieldNames.voicemail] == "true" ? 'Yes' : 'No' }}</td>
+      <td ng-if="visibleColumns[columnDefIndices[dbFieldNames.voicemail]].visible && ( row[dbFieldNames.type] === 'IvrRoute2' || row[dbFieldNames.type] === 'PercentageBasedRoute' || row[dbFieldNames.type] === 'ScheduleRoute')">
+        <a ng-click="showSubData({index: $index, routeableId: row[dbFieldNames.id], type: row[dbFieldNames.type] })" > <i class="fa fa-chevron-down"></i> </a>
+      </td>
+
+      <!--<td ng-if="visibleColumns[columnDefIndices[dbFieldNames.ca]].visible">                {{ row[dbFieldNames.ca] }}</td>-->
+    </tr>
+  </tbody>
+</table>
+</div>

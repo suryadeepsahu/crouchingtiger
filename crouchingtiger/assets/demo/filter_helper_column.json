@@ -1,0 +1,48 @@
+{
+  "json":{
+    "group_activity":{
+      "ouid"          : "ou.org_unit_id",
+      "group"         : "ou.org_unit_id",
+      "ext_id"        : "ou.org_unit_ext_id",
+      "calls"         : "cd.call_id",
+      "billable_mintes" : "cdd.bill_second",
+      "leads"         : "lead_score.score_value",
+      "conversion"    : "conversion.score_value",
+      "call_value"    : "cdd.call_value",
+      "unique"        : "cd.repeat_call",
+      "voice_mail"    : "cd.disposition",
+      "answered"      : "cd.disposition"
+    },
+    "callflow_setting":{
+      "provisioned_route_id"  :"pr.provisioned_route_id",
+      "provisioned_route_name":"pr.provisioned_route_name",
+      "number"                :"pn.number",
+      "routable_type"         :"cf.routable_type",
+      "default_ringto"        :"cf.default_ringto",
+      "cat_combo"             :"ch.cat_combo",
+      "provisioned_route_status":"pr.provisioned_route_status",
+      "org_unit_id"           :"ou.org_unit_id",
+      "campaign_name"         :"c.campaign_name",
+      "dni_type"              :"ds.dni_type",
+      "destination_url"       :"ds.destination_url",
+      "referrer"              :"ds.referrer",
+      "dni_element"           :"ds.dni_element",
+      "custom_params"         :"dou.custom_params",
+      "record_until"          :"cf.record_until",
+      "play_disclaimer"       :"cf.play_disclaimer",
+      "message_enabled"       :"cf.message_enabled",
+      "whisper_enabled"       :"cf.whisper_enabled"
+    },
+    "calls_detail":{
+      "call_id":                "call.call_id",
+      "call_started":           "call.call_started",
+      "campaign_name":          "camp.campaign_name",
+      "org_unit_name":          "ou.org_unit_name",
+      "category":               "chan.category",
+      "caller_id":              "call.source",
+      "tracking":               "call.tracking",
+      "ring_to_name":           "cd.ring_to_name",
+      "duration":               "call.duration"
+    }
+  }
+}

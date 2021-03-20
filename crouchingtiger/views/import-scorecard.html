@@ -1,0 +1,26 @@
+<style>
+        .importmodel{
+          width:40%;
+         
+          
+        }
+        .btn-space{
+          margin:0 2%;
+        }
+        .space{
+          margin-left: 2%;
+        }
+        
+        </style>
+<div class = "importmodel container"></div>
+    <div class="modal-header" style="width:auto;height:auto;overflow: auto;position:relative;">
+            <div class="col-md-10"><h3 class="modal-title"><span>Import</span> Scorecard</h3></div>
+          <div class="col-md-2"><a ng-click="$dismiss();" title="close"><i class="fa fa-times" style="float:right;"></i></a></div>
+    </div>
+    <div class="modal-body">
+        
+            <span class=" pull-left"><input type="file" name="file" id="file"></span>
+            <span><button class="btn btn-md btn-primary btn-space pull-right" type="submit" ng-click="importScoreCard()">Import</button></span>
+                <br>
+    </div>
+</div>    

@@ -1,0 +1,37 @@
+<div class="modal-header">
+	<h3 class="modal-title">Email this call</h3>{{ $parent.emailTo }}
+</div>
+<div class="modal-body">
+		<div class="container-fluid" >
+			<div class="row">
+				<div class="col-xs-12 mb10">
+					<label class="control-label">To</label>
+					<div>
+						<input type="text" placeholder="To" class="form-control" ng-model="email.to" maxlength="50" required validate-utf-eight>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 mb10">
+					<label class="control-label">From</label>
+					<div>
+						<input type="text" placeholder="From" class="form-control" ng-model="email.from" maxlength="50" required validate-utf-eight readonly>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="control-label">Message</label>
+					<div class="form-group" ng-form name="custom_form">
+							<textarea class="form-control" style="resize:vertical;" name="email.message" ng-model="email.message"></textarea>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+</div>
+<div style="clear:both" class="modal-footer">
+	<button class="btn btn-primary" ng-click="sendEmail()">Send Now</button>
+	<button class="btn btn-default" ng-click="cancel()">Cancel</button>
+</div>

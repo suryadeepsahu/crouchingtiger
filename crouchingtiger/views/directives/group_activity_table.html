@@ -1,0 +1,30 @@
+<div sticky-table-header3>
+  <table class="table table-striped table-hover table-condensed table-responsive" id="groupActivityReportDataGrid">
+    <thead>
+      <tr style="margin-top: 40px; margin-left: 0px;">
+        <th ng-if="vc.visible" ng-class="vc.truncate ? 'trunc' : ''" ng-repeat="vc in visibleColumns"> {{ dbFieldNames.dataTableHeaderValues[vc.key] }}</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr ng-if="totalRows <= 0">
+      <td class="noDataSelector" colspan='18'>No data found</td>
+    </tr>
+    <tr dir-paginate="row in rowData | itemsPerPage: 100" total-items="totalRows" current-page="currentPage" pagination-id="gaReport" id="{{ 'rowdataitem' + $index }}" ng-if="rowData !== undefined" class="datapoint_{{$index}}">
+        <td ng-if="vc.visible && vc.key === 'ouid'" ng-repeat="vc in visibleColumns">
+          {{ row[dbFieldNames.gridBackendPropertyNames[vc.key]] }}
+        </td>
+        <td ng-if="vc.visible && vc.key === 'group'" ng-repeat="vc in visibleColumns">
+         <a ng-click="dbFieldNames.hrefClickableMethod(secondaryGrouping,row[dbFieldNames.gridBackendPropertyNames['group']],dbFieldNames.secondaryGroupingHref[secondaryGrouping],row[dbFieldNames.gridBackendPropertyNames[secondaryGrouping]])" class="whiteSpacesWrap" title="{{row[dbFieldNames.gridBackendPropertyNames[vc.key]]}}"> {{ row[dbFieldNames.gridBackendPropertyNames[vc.key]] | truncate_campaignGroupName : vc.key }} </a>
+        </td>
+        <td ng-if="vc.visible && vc.key !== 'ouid' && vc.key !== 'group'" ng-repeat="vc in visibleColumns">
+           <span ng-show="vc.key === 'call_value'">
+              {{row[dbFieldNames.gridBackendPropertyNames[vc.key]] | noFractionCurrency}}
+            </span>
+            <span ng-show="vc.key !== 'call_value'" title="{{ vc.key == 'campaign'? (row[dbFieldNames.gridBackendPropertyNames['campaign']]) : ''}}">
+              {{row[dbFieldNames.gridBackendPropertyNames[vc.key]] | truncate_campaignGroupName : vc.key}}
+            </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

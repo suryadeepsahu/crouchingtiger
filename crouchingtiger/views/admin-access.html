@@ -1,0 +1,161 @@
+<style>
+  #sidebar {
+    display: none;
+  }
+
+  .jspPane {
+    display: none;
+  }
+
+  .open>.messages {
+    display: none;
+  }
+
+  .breadcrumb-wrapper {
+    display: none;
+  }
+</style>
+<div id="page-heading">
+  <h1>Administrator Access</h1>
+
+  <div class="options">
+    <div class="btn-toolbar">
+
+    </div>
+  </div>
+</div>
+<div class="container-fluid" ng-controller="SupportAdminAccessController">
+  <div class="row">
+    <div class="col-md-12">
+      <p>The Administrator Access page can be used to access any Billing OU that has explicitly enabled Support Access
+        in their account settings. To access an account,
+        select a Billing OU from the list below. All modifications made in the account will be logged in the account's
+        activity log. Use the 'Admin Access' link in the
+        top right menu to return to Administrator Access page.</p>
+      <p ng-if="billingNodes.length === 0">There are no billing nodes to view.</p>
+      <form class="form-horizontal row-border">
+        <div class="form-group mt20">
+          <label class="col-sm-2 control-label">Search</label>
+          <div class="col-sm-2">
+            <select ui-select2 ng-model="category" data-placeholder="Pick a category to view" ng-change="changeCategory();" style="width:100%">
+              <option ng-disabled="true" ng-selected="true" value="">--Select Category--</option>
+              <option value="{{c.value}}" ng-repeat="c in categoryList">{{ c.name }}</option>
+            </select>
+          </div>
+          <div class="col-sm-4">
+            <div class="input-group" style="padding-right: 0px"><input ng-disabled="!category" type="text" ng-model="searchText" id="simpleChart"
+                class="form-control simple-input ng-pristine ng-valid ng-touched" placeholder="Search..."
+                enter-press="applyFilter();" tabindex="0" aria-disabled="false" aria-invalid="false"> <span
+                class="input-group-btn"><button ng-disabled="!category || searchText == ''" type="button" class="btn btn-primary" title="Search"
+                  ng-click="applyFilter();" tabindex="0" aria-disabled="false"><i
+                    class="fa fa-search"></i></button> <button ng-disabled="!category || searchText == ''" type="button" class="btn btn-primary" title="Clear"
+                  ng-click="searchText = ''; clearFilter();" tabindex="0" aria-disabled="false"><i
+                    class="fa fa-times-circle"></i></button></span></div>
+          </div>
+        </div>
+        <div ng-show="filterApplied">
+          <table class="table table-striped table-hover">
+              <thead>
+                  <tr style="font-weight: bold;padding-top: 5px;padding-bottom: 5px">
+                      <th ng-repeat="th in searchHeader">{{th}}</th>
+                      <th class="text-right" ng-repeat="action in actionHeader">{{action}}
+                      </th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr ng-if="noDataFound">
+                      <td class="noDataSelector" colspan='18'>No Data Found</td>
+                  </tr>
+                  <div class="groupDetailsProgressLoader" ng-show="searchLoading" style="padding-top: 1% !important;">
+                      <img src="./img/pageloading.gif" class="ProgressLoader-img" alt="pageloading" />
+                  </div>
+                  <tr dir-paginate="search in searchData | itemsPerPage: 10"
+                      total-items="totalSearchData" current-page="pagination.current"
+                      pagination-id="pg-searchResults" id="{{ 'rowdataitem' + $index }}"
+                      class="datapoint_{{$index}}">
+                      <td>
+                          <!-- org unit name -->
+                          <span e-name="search-result" title="search.searchresult" e-form="rowform">
+                              {{search.searchresult}}
+                          </span>
+                      </td>
+                      <td>
+                          <!-- tracking number -->
+                          <span e-name="billing_account" e-form="rowform">
+                            {{ search.account_name }}
+                          </span>
+                      </td>
+                      <td>
+                          <!-- caller id -->
+                          <span e-name="billing_ouid" e-form="rowform">
+                              {{ search.billing_id}}
+                          </span>
+                      </td>
+                      <td ng-show ="adminType != 'partner'">
+                        <select ui-select2 ng-model="search.user" data-placeholder="Pick a user to login" style="width:100%" >
+                          <option ng-disabled="true" ng-selected="true" value="">--Select User({{search.users.length}})--</option>
+                          <option value="{{user.ct_user_id}}" ng-repeat="user in search.users">{{user.first_name +' '+ user.last_name}}</option>
+                        </select>
+                      </td>
+                      <td style="white-space: nowrap">
+                        <div class="buttons pull-right">
+                          <div ng-switch="adminType">
+                            <div ng-switch-when="partner">
+                              <a class="btn btn-primary btn-sm" ng-click="switchToUserAccount(user_id, [], adminType)" title="redirect to result"><i class="fa fa-eye"></i></a>
+                            </div>
+                            <div ng-switch-when="support">
+                              <a class="btn btn-primary btn-sm" ng-click="switchToUserAccount(search.user, search.users, adminType)" ng-disabled="!search.user" title="redirect to result"><i class="fa fa-eye"></i></a>
+                            </div>
+                            <div ng-switch-when="super">
+                              <a class="btn btn-primary btn-sm" ng-click="switchToUserAccount(search.user, search.users, adminType)" ng-disabled="!search.user" title="redirect to result"><i class="fa fa-eye"></i></a>
+                            </div>
+                          </div>
+                        </div>
+                    </td>
+                  </tr>
+              </tbody>
+          </table>
+          <div>
+              <dir-pagination-controls class="pull-right" pagination-id="pg-searchResults"
+                  on-page-change="pageChanged(newPageNumber)" template-url="views/templates/dirCustomPagination.tpl.html"></dir-pagination-controls>
+          </div>
+      </div>
+      </form>
+      <form class="form-horizontal row-border" ng-show="!filterApplied">
+        <div class="form-group mt20">
+          <label class="col-sm-2 control-label">Billing Node</label>
+          <div class="col-sm-6">
+            <select ui-select2 ng-model="selectedBillingNode" data-placeholder="Pick a billing node to view"
+              style="width:100%" ng-change="getAdminList(selectedBillingNode, adminType)">
+              <option ng-disabled="true" ng-selected="true" value="">--Select Billing Node--</option>
+              <option value="{{bn.org_unit_id}}" ng-repeat="bn in billingNodes">{{ bn.org_unit_name }}</option>
+            </select>
+          </div>
+        </div>
+        <div ng-switch="adminType">
+          <div ng-switch-when="partner">
+            <label class="col-sm-2 control-label"></label>
+            <input ng-model="selectedAdmin" type="hidden" value="{{ selectedAdmin }}" />
+            <div class="col-sm-3" ng-show="selectedAdmin">
+              <a class="btn btn-primary" ng-disabled="!selectedAdmin" ng-click="switchToUserAccount(selectedAdmin, [], adminType)">Apply</a>
+            </div>
+          </div>
+          <div class="form-group mt20" id="adminUser" ng-show="adminList" ng-switch-default>
+            <label class="col-sm-2 control-label">User</label>
+            <div class="col-sm-6">
+              <select ui-select2 ng-model="selectedAdmin" data-placeholder="Click on an admin to become"
+                style="width:100%">
+                <option ng-disabled="true" ng-selected="true" value="">-- Select an User --</option>
+                <option value="{{ad.ct_user_id}}" ng-repeat="ad in adminList">{{ ad.first_name }} {{ ad.last_name }}
+                </option>
+              </select>
+            </div>
+            <div class="col-sm-3">
+              <a class="btn btn-primary" ng-disabled="!selectedAdmin" ng-click="switchToUserAccount(selectedAdmin, [], adminType)">Apply</a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> <!-- container -->

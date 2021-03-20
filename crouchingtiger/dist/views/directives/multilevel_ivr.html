@@ -1,0 +1,239 @@
+  <!-- start multilevel -->
+ <div class="row" ng-if="level" ng-init="getGeoLocationList()" style="margin: 20px;padding-left: 10px;padding-top: 10px;padding-right: 10px;padding-bottom: 10px;">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 mb20">
+            <div class="mt10">
+                <label class="control-label12" ng-maxlength='10' ><b>Key Press</b></label>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 mt5 mb20">
+            <div class="mt10">
+               <a ng-click="removeIvrAction(cAction.id)" ng-show="ivrActions.length > 1" title="delete"><i class="fa fa-times crossmultilevel"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="row mb20 ">
+                <div class="col-sm-2">
+                    <input type="number" class="form-control" value="" ng-model="cAction.keypress"  ng-maxlength="9" ng-pattern="/^[0-9]+$/" maxlength="9" min="0" max="999999999"  ng-change="showSubmit()" >
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 mt10">
+                    <label class="">
+                        Destination:
+                    </label>
+                </div>
+                <div class="col-sm-6">
+                    <input placeholder="Sales" type="text" class="form-control" value="" ng-model="cAction.destination" ng-maxlength="50" ng-change="showSubmit()">
+                </div>
+            </div>
+
+            <div class="row mb20 ">
+                <div class="col-md-offset-2 col-lg-4 col-md-4 col-sm-12 mt10">
+                    <label>
+                        Action:
+                    </label>
+                </div>
+                <div class="col-sm-6">
+                    <select class="form-control" ng-model="cAction.action"  ng-change="showSubmit();pauseCurrentPlayingAudio();" >
+                        <option value="interactiveVoice"> Interactive Voice Response </option>
+                        <option value="simple"> Forwarding to a phone number </option>
+                        <option value="geo" ng-hide="isLocationIvr"> Geo Route </option>
+                        <option value="schedule" ng-hide="isLocationIvr">Follow a schedule</option>
+                        <option value="hangup"> Hangup </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb20" ng-show = "cAction.action =='geo' ">
+                <div class="col-md-offset-2 col-lg-4 col-md-4 col-sm-12 mt10">
+                    <label>Route By</label>
+                </div>
+                <div class="col-sm-5">
+                    <select  ng-model="cAction.geoRoute.routeBy" class="form-control"  id="source" data-placeholder="Select" onChange="ga('send', 'event', 'Form Event', 'Tracking Number Type', this.options[this.selectedIndex].value);" ng-change="showSubmit()"  >
+                        <option ng-selected="true" disabled value=""> -- Select a List-- </option>
+                        <option value="claimedState" ng-selected="cAction.geoRoute.routeBy == 'claimedState'">Claimed State</option>
+                        <option value="Claimed" ng-selected="cAction.geoRoute.routeBy == 'Claimed'">Claimed Zip-code</option>
+                        <option value="Npa" ng-selected="cAction.geoRoute.routeBy == 'Npa'">Caller Area Code Proximity</option>
+                        <option value="Zipcode" ng-selected="cAction.geoRoute.routeBy == 'Zipcode'">Zip-code Proximity</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb20" ng-show = "cAction.action =='geo'">
+                <div class="col-md-offset-2 col-lg-4 col-md-4 col-sm-12 mt10">
+                    <label>Location List</label>
+                </div>
+                <div class="col-sm-5 ">
+                    <!-- <select ng-model="cAction.geoRoute.geoList" ng-focus="getGeoLocationList()" class="form-control" id="geolist" ng-change="showSubmit()">
+                        <option ng-selected="true" disabled value=""> -- Select -- </option>
+                        <option value="{{loc.id}}" ng-repeat="loc in georoutelocations" ng-selected="cAction.geoRoute.geoList == loc.id">
+                            {{loc.name}}</option>
+                    </select> -->
+                    <select class="form-control" ng-model="locObj" ng-focus="getGeoLocationList()" ng-change="showSubmit();changeLocId(locObj);" ng-options="loc as loc.name for loc in georoutelocations track by loc.id"  data-placeholder="-- Select --">
+                        <option ng-selected="true" disabled value=""> -- Select -- </option>
+                    </select>
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-12 ">
+                    <a class="btn btn-info" href="#/set-location" target="_blank" ng-enabled="canModify ||cAction.quantity >1">Manage Location Lists</a>
+                </div>
+            </div>
+
+            <div class="row mb20" ng-show="cAction.action =='geo' && (cAction.geoRoute.routeBy == 'Npa' || cAction.geoRoute.routeBy == 'Zipcode')">
+                <div class="col-md-offset-2 col-lg-4 col-md-4 col-sm-12 mt10">
+                    <label>Proximity Limit</label>
+                </div>
+                <div class="col-sm-4">
+                        <input class="form-control"  max-numbers="6" decimals="1" min="0" max="99999.9"  ng-model="cAction.geoRoute.radius" ng-change="showSubmit()">
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 wrpspace mt10">
+                    <label class="">
+                        Miles from nearest ring-to location
+                    </label>
+                </div>
+            </div>
+
+            <div class="row" ng-show = "cAction.action =='geo' || cAction.action =='simple'">
+                <div class="col-md-offset-2 col-lg-4 col-md-4 col-sm-12 mt10" >
+                    <label>
+                            {{cAction.action === 'geo' ? 'Default Number' : 'Ring to Phone Number'}}
+                    </label>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 " ng-show="cAction.action =='geo' || isLocationIvr " >
+                    <input type="text" name="ringtoNumbers" class="form-control" validate-blur-forza="1st level IVR, Ring to Phone Number" checklength="10" maskinput ng-model="cAction.ringtoNum" data-inputmask="'mask':'(999) 999-9999'" ng-change="showSubmit();retainDataOnChange();" validate-masked-phone-number >
+                    <p class="fontChange mt5" style="width: 400px;" ng-show ="cAction.geoRoute.routeBy == 'claimedState' && cAction.action =='geo'">If callers state is not in claimed list, All calls will be forwarded to this number.</p>
+                    <p class="fontChange mt5" style="width: 400px;" ng-show ="cAction.geoRoute.routeBy == 'Claimed' && cAction.action =='geo'">If callers zip code is not in the claimed zip code list , all calls will be forwarded to this number.</p>
+                    <p class="fontChange mt5" style="width: 400px;" ng-show ="cAction.action =='geo' && (cAction.geoRoute.routeBy == 'Zipcode' || cAction.geoRoute.routeBy == 'Npa')">All calls beyond Proximity limit will be forwarded to this number.</p>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 " ng-hide="cAction.action =='geo'|| isLocationIvr "  >
+                    <input type="text" name="ringtoNumbers" class="form-control" validate-blur-forza="1st level IVR, Ring to Phone Number" checklength="10" maskinput ng-model="cAction.ringtoNum" data-inputmask="'mask':'(999) 999-9999'" ng-change="showSubmit();retainDataOnChange();" validate-masked-phone-number >
+                    <p class="fontChange mt5" style="width: 400px;" ng-show ="cAction.geoRoute.routeBy == 'claimedState' && cAction.action =='geo'">If callers state is not in claimed list, All calls will be forwarded to this number.</p>
+                    <p class="fontChange mt5" style="width: 400px;" ng-show ="cAction.geoRoute.routeBy == 'Claimed' && cAction.action =='geo'">If callers zip code is not in the claimed zip code list , all calls will be forwarded to this number.</p>
+                    <p class="fontChange mt5" style="width: 400px;" ng-show ="cAction.action =='geo' && (cAction.geoRoute.routeBy == 'Zipcode' || cAction.geoRoute.routeBy == 'Npa')">All calls beyond Proximity limit will be forwarded to this number.</p>
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-12 " ng-hide="cAction.action =='geo' || isLocationIvr" >
+                   <button type="button" class="btn btn-info" ng-click="cAction.openOverflowBox=!cAction.openOverflowBox" ng-hide="cAction.openOverflowBox" ng-disabled = "!cAction.isValidRingTo">Add Overflow Number</button> 
+                </div> 
+            </div>   
+
+           
+
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="row mb20" >
+                <div class="col-sm-3">
+                    <label>Play a voice prompt on selection</label>
+                </div>
+                <div class="col-lg-5 col-md-5 col-sm-12" ng-show="cAction.TTSIVRSelected">
+                    <textarea rows="3" style="resize:none" class="form-control fontChange" placeholder="Example: Press 1 for x department, Press 2 for..."  ng-model="cAction.voicepromptTTSText"  ng-change="voiceTextIvrChange(cAction);showSubmit()"></textarea>
+                    <!-- <input type="text" class="form-control fontChange" placeholder="Example: Press 1 for x department, Press 2 for..."  ng-model="cAction.voicepromptTTSText"  ng-change="voiceTextIvrChange(cAction);showSubmit()" style="height: 65px;" > -->
+                </div>
+                <div class="col-sm-12 col-lg-5 col-md-5 col-xs-12 shorten-word" ng-hide="cAction.TTSIVRSelected" align="left">Selected Audio Filename: {{cAction.voicepromptText}}</div>
+                <div class="col-sm-12 col-lg-1 col-md-1 col-xs-12 fontChange pull-left">
+                    <a class="btn btn-default playpadding" ng-click="showIvrVoiceModal(cAction);showSubmit()" ng-disabled="disableBtn" ng-show="cAction.TTSIVRSelected" style="float:left"><i class="fa fa-plus-circle"></i></a>
+                    <a class="btn btn-default playpadding mt5" ng-show="!cAction.TTSIVRSelected" ng-click="removeSelectedIvrVoiceAudio(cAction)" style="float:left"><i class="fa fa-trash-o"></i></a>
+                    <a class="btn btn-primary playpadding mt5" ng-show="cAction.TTSIVRSelected || cAction.hasValidTTSVoiceURL" ng-disabled="audioIsDownloading() || (!cAction.voicepromptTTSText.length && !cAction.hasValidTTSVoiceURL)" ng-click="playTtsVoiceAudio(cAction);disablePlayBtn($event);">{{ (ivrAudio === undefined || ivrAudio.paused || ivrAudio.ended ) ? '' : '' }}<i class="{{(ivrAudio === undefined || ivrAudio.paused || ivrAudio.ended) ? 'fa fa-play' : 'fa fa-pause'}}"></i></a>
+                </div>
+            </div>   
+                       
+        </div>
+    </div>
+    <!-- following a schedule  Start--> 
+    <div ng-show="cAction.action =='schedule'">
+        <first-level-schedule-route show-submit="showSubmit()" c-action="cAction" voicemail-component="voicemailComponent" schedule-route="cAction.scheduleRoute" disable-save-for-schedule="disableSaveForSchedule"  overflow-validation-header="overflowValidationHeader" show-submit-overflow-method="showSubmitOverflow()"></first-level-schedule-route>
+    </div>
+    
+    <!-- following a schedule  End-->
+    <div class="row">
+        <div class="row col-md-offset-1" ng-hide= "cAction.action =='interactiveVoice' || cAction.action =='hangup' || cAction.action =='geo' || cAction.action =='schedule'">
+            <div class="col-lg-8 col-md-8 col-sm-8"  style="margin-left: 0.5%">
+                <overflow-routing data-method="submitted1 = false" overflow-numbers="cAction.overflowNumbers" is-simultaneous-ring="cAction.isSimultaneousRing" ng-show="cAction.openOverflowBox" overflow-validation-header="overflowValidationHeader" open-overflow-box="cAction.openOverflowBox" current-over-flow-number="currentOverFlowNumber" by-default-ring="byDefaultRing" show-submit="showSubmitOverflow()"> </overflow-routing> 
+            </div>
+        </div>
+        <div class="row col-md-offset-1" >
+            <div ng-show = "cAction.action =='geo' || cAction.action =='simple' || cAction.action =='hangup'">
+                <div class="col-lg-2 col-md-2 col-sm-12 mt20">
+                <label class="control-label">Record Call</label>
+                </div> 
+                <div class="col-lg-1 col-md-1 col-sm-12 mt20 checkbox" style="margin-left: 15px;width: auto;">                                         
+                    <md-checkbox ng-model="cAction.recordCall" ng-change="retainDataOnChange();"value="" ng-disabled="(cAction.disableRC &&  cAction.action !== 'hangup' && scAction.action !== 'hangup') || cAction.activateVoiceMail || cAction.scheduleRoute.activate_voicemail ">
+                    </md-checkbox>                                                                                                                                                 
+                </div>
+                <div class="col-lg-8 col-md-12 col-sm-12" ng-show="cAction.recordCall">
+                    <div class="col-lg-6 col-md-4 col-sm-12 mt20" style="max-width: 200px">
+                        <label >Play call recording disclaimer</label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 mt10">
+                        <select  ng-model="cAction.playDisclaimer" class="form-control"  id="source" data-placeholder="Select play disclaimer" onChange="ga('send', 'event', 'Form Event', 'Tracking Number Type', this.options[this.selectedIndex].value);" ng-change="showSubmit()" >
+                            <option value="before" ng-selected="cAction.playDisclaimer == 'before'">Before voice prompt</option>
+                            <option value="after" ng-selected="cAction.playDisclaimer == 'after'">After voice prompt</option>
+                            <option value="never" ng-selected="cAction.playDisclaimer == 'never'">Never</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row col-md-offset-1" >
+                <div ng-hide= "cAction.action =='interactiveVoice' || cAction.action =='hangup'">
+                    <div class="col-lg-2 col-md-2 col-sm-12 mt20" style="height: 65px;">
+                    <label class="control-label">Play whisper message before connecting</label>
+                    </div> 
+                    <div class="col-lg-1 col-md-1 col-sm-12 mt20 checkbox" style="margin-left: 15px;width: auto;">                                         
+                        <md-checkbox ng-model="cAction.whisperPrompt" value="" >                                                            
+                        </md-checkbox>                                                                                                                                                 
+                    </div>
+                    <div ng-show="cAction.whisperPrompt">                                           
+                        <div class="col-lg-3 col-md-3 col-sm-12 mt15" ng-show="cAction.TTSWhisperSelected">
+                            <textarea rows="3" style="resize:none" class="form-control" placeholder="Example: You are receiving a call from Mailer 1a" value="" ng-model="cAction.whisperTTSText" data-toggle="tooltip" data-placement="top" title="{{cAction.whisperTTSText}}" tooltip ng-readonly="!cAction.TTSWhisperSelected "  ng-change="whisperIVRTextChange(cAction); showSubmit()"></textarea>
+                            <!-- <input type="text" class="form-control" placeholder="Example: You are receiving a call from Mailer 1a" value="" ng-model="cAction.whisperTTSText" data-toggle="tooltip" data-placement="top" title="{{cAction.whisperTTSText}}" tooltip ng-readonly="!cAction.TTSWhisperSelected " ng-required="cAction.whisperPrompt && cAction.TTSWhisperSelected" style="height: 65px;" ng-change="whisperIVRTextChange(cAction); showSubmit()"> -->
+                            <!-- <input type="text" class="form-control" placeholder="Example: You are receiving a call from Mailer 1a" value="" ng-model="cAction.whisperTTSText" data-toggle="tooltip" data-placement="top" title="{{cAction.whisperTTSText}}" tooltip ng-readonly="!cAction.TTSWhisperSelected "  style="height: 65px;" ng-change="whisperIVRTextChange(cAction); showSubmit()">  -->
+
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 mt15 shorten-word"  ng-hide="cAction.TTSWhisperSelected" align="left" style="margin-top: 1.5% !important;">Selected Audio Filename: {{cAction.whisperText}}
+                        </div>
+                        <div class="col-sm-12 col-lg-1 col-md-1 col-xs-12 mt15 pull-left" style="width:30px;">
+                            <a class="btn btn-default playpadding" ng-click="showIVRWhisperModal(cAction);showSubmit()" ng-disabled="disableBtn" ng-show="cAction.TTSWhisperSelected"><i class="fa fa-plus-circle"></i></a>
+                            <a class="btn btn-default playpadding" ng-show="!cAction.TTSWhisperSelected" ng-click="removeSelectedWhisperAudio(cAction)"><i class="fa fa-trash-o "></i></a>
+                            <a class="btn btn-primary playpadding mt5 ng-binding" ng-show="cAction.TTSWhisperSelected || cAction.hasValidWhisperURL" ng-disabled="audioIsDownloading() || (!cAction.hasValidWhisperURL && !cAction.whisperTTSText.length)" ng-click="playWhisperAudio(cAction);disablePlayBtn($event);">{{ (whisperAudio === undefined || whisperAudio.paused || whisperAudio.ended) ? '' : '' }}<i class="{{(whisperAudio === undefined || whisperAudio.paused || whisperAudio.ended) ? 'fa fa-play' : 'fa fa-pause'}}"></i></a>
+                        </div>                                           
+                    </div>
+                </div>
+        </div>          
+        <div class="row col-md-offset-1" ng-hide= "cAction.action =='interactiveVoice' || cAction.action =='hangup' || cAction.action =='schedule'">
+            <div class="col-lg-2 col-md-2 col-sm-12 mt20">
+                 <label class="control-label" ng-class="{ 'customDisable' : !voicemailComponent }" style="margin-left: 3.5%">
+                    Activate Voicemail ?
+                </label>
+            </div>
+            
+                <div class="col-lg-1 col-md-1 col-sm-12 mt20 checkbox" style="margin-left: 15px;width: auto;">
+                    <md-checkbox ng-model="cAction.activateVoiceMail" ng-change="retainDataOnChange();"ng-class="{ 'customDisable' : !voicemailComponent }" ng-disabled="!voicemailComponent" style="padding-left: 0px" ng-click="disableRecordCall();">                                                       
+                    </md-checkbox>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 mt15" ng-class="{ 'customDisable' : !voicemailComponent }">
+                    <p class="fontChange"  ng-hide="isLocationIvr"> To customize greetings and number of rings for voicemail, please click Advanced Settings section </p>
+                    <p class="fontChange"  ng-show="isLocationIvr"> To customize greetings and number of rings for voicemail, please configure Advanced Settings section of the tracking number  </p>
+
+                </div>
+            
+        </div>        
+    </div>    
+    <div class="row secondIvr mb20" style="margin: 20px" ng-if= "cAction.action =='interactiveVoice'" >
+        <div ng-repeat="scAction in cAction.ivrActions">
+           <second-multi-level-ivr level="level.ivr" disable-save-for-schedule="disableSaveForSchedule" voicemail-component="voicemailComponent" disable-r-c="disableRC" voice-prompts="voicePrompts" ivr-actions="cAction.ivrActions" sc-action="scAction" scaction-id="$index" default-Data="defaultData" show-submit="showSubmit()" georoutelocations="georoutelocations" is-Location-Ivr="isLocationIvr" by-default-ring="byDefaultRing" show-submit-overflow= "showSubmitOverflow()">
+           </second-multi-level-ivr>
+        </div>    
+    </div>            
+    
+    <div class="row mt15" >
+        <div class="col-lg-6 col-md-6 col-sm-6 mt10">
+            <a class="btn btn-primary btn-sm pull-left" ng-show="cactionId === ivrActions.length - 1" ng-disabled="ivrActions.length >= 10" ng-click="addAction();pauseCurrentPlayingAudio();">Add Key Press</a>
+        </div>
+    </div>
+</div>
+
+<hr style="margin-top: 0px; margin-bottom: 0px;" ng-show="ivrActions.length-1 !== cactionId ">
+  <!-- end multilevel -->
+

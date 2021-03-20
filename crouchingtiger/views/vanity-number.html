@@ -1,0 +1,283 @@
+<style>
+    .cartdiv {
+        width: 100%;
+        background-color: black;
+        overflow: auto;
+        border-radius: 1%;
+    }
+
+    .cartIcon {
+        float: right;
+        text-align: center;
+        color: white;
+        text-decoration: none;
+        margin-right: 5%;
+    }
+
+    #cartdiv .p1[data-count]:after {
+        position: absolute;
+        right: 10%;
+        top: 8%;
+        content: attr(data-count);
+        font-size: 40%;
+        padding: .2em;
+        border-radius: 50%;
+        line-height: 1em;
+        color: white;
+        background: rgba(255, 0, 0, 0.85);
+        text-align: center;
+        min-width: 1em;
+    }
+
+    .vandiv {
+        background-color: rgb(5, 77, 150);
+    }
+
+    .searchdiv {
+        padding-top: 2%;
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+
+    .searchdiv h2 {
+        color: white;
+        font-family: "Lucida Console", "Courier New", monospace;
+    }
+
+    .searchdiv div {
+        color: white;
+        font-family: "Lucida Console", "Courier New", monospace;
+    }
+
+    .searchdiv div select {
+        padding: 2%;
+        color: black;
+        margin-bottom: 2%;
+        border-radius: 5px;
+        width: 50%;
+    }
+
+    .searchdiv div input {
+        padding: 2%;
+        color: black;
+        margin-bottom: 2%;
+        border-radius: 5px;
+        width: 40%;
+    }
+
+    .search-result-div {
+        margin-left: 8%;
+        margin-right: 8%;
+        border-style: groove;
+    }
+
+    .mt-1 {
+        margin-top: 1%;
+    }
+
+    .mb-1 {
+        margin-bottom: 1%;
+    }
+
+    .ml-1 {
+        margin-left: 1%;
+    }
+
+    .ml-2 {
+        margin-left: 2%;
+    }
+
+    .mr-1 {
+        margin-right: 1%;
+    }
+
+    .mr-2 {
+        margin-right: 2%;
+    }
+
+    .text-coral {
+        color: coral;
+    }
+
+    .addcartbtn {
+        color: white;
+        border-radius: 12px;
+        background-color: coral;
+    }
+
+    th {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        background-color: rgb(5, 77, 150);
+        color: white;
+    }
+
+    td {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis
+    }
+
+    td a {
+        color: grey;
+        margin-left: 4%;
+        text-decoration: none;
+    }
+
+    .cart_tollfree i {
+        margin-right: 4%;
+    }
+
+    .cont_shop_div {
+        background-color: rgb(5, 77, 150);
+        text-align: center;
+        margin-bottom: 2%;
+    }
+
+    .cont_shop_div a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .req_quote_div {
+        background-color: coral;
+        text-align: center;
+        margin-bottom: 2%;
+    }
+
+    .req_quote_div a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .cart_tollfree {
+        color: rgb(5, 77, 150);
+    }
+</style>
+<div ng-controller="VanityNumberController">
+    <div class="cartdiv">
+        <a href="" role="button" data-placement="auto" class="btn popovers cartIcon" data-toggle="popover" title=""
+            data-content="<div>
+                <div>
+                    <h4>My Cart ({{getCardCount}})</h4>
+                </div>
+                <div class='table'>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Toll-Free Number</th>
+                                <th>Vanity Number</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{ Numbers | NumberHTML }}
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <div class='cont_shop_div'>
+                        <a href='javascript:window.location.reload(true)'><b>CONTINUE SHOPPING</b></a>
+                    </div>
+                    <div class='req_quote_div'>
+                        <a href='#/request-quote'><b>Request A QUOTE</b></a>
+                    </div>
+                </div>
+            </div>
+        </div>">
+            <div id="cartdiv">
+                <span class="p1 fa-stack fa-2x has-badge" data-count="{{getCardCount}}">
+                    <i class="p3 fa fa-shopping-cart fa-stack-1x xfa-inverse" data-count="2b"></i>
+                </span>
+            </div>
+        </a>
+    </div>
+    <div class="vandiv">
+        <div class="searchdiv">
+            <form name="vanitySearchForm" id="vanitySearchForm" novalidate>
+                <h2><b>Vanity Number Search</b></h2>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <div>
+                            <label><b>TOLL-FREE PREFIX</b></label>
+                        </div>
+                        <div>
+                            <select ng-model="araCodeNPA">
+                                <option ng-repeat="areacode in areacodes" ng-selected="$first" value={{areacode}}>{{areacode}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <div>
+                            <label><b>VANITY WORD OR PHRASE</b></label>
+                        </div>
+                        <div class="input-box">
+                            <select style="width:40%" ng-model="phraseCriteria">
+                                <option value="startswith">Starts with</option>
+                                <option value="within">Within</option>
+                            </select>
+                            <input type="text" ng-model="phrase" maxlength="7">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <div>
+                            <label><b>TRAILING DIGITS</b></label>
+                        </div>
+                        <div>
+                            <select style="width:30%">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                            </select>
+                            <button class=" btn btn-info" ng-disabled="is_added_in_cart"
+                                ng-click="searchVanityNumber();" type="button">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="search-result-div">
+        <div class="row mt-1 ml-2">
+            <div>
+                <label>{{resultLength}} results found</label>
+            </div>
+        </div>
+        <div class="row ml-1">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <label><b>TOLL-FREE NUMBER</b></label>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <label><b>VANITY NUMBER</b></label>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <label><b>TOLL-FREE NUMBER</b></label>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <label><b>VANITY NUMBER</b></label>
+            </div>
+        </div>
+        <hr>
+        <div class="row ml-1">
+            <div class="col-lg-6 col-md-6 col-sm-6 mb-1" ng-repeat="result in searchResults">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <i class="fa fa-phone mr-1 text-coral"></i><b>{{result.toll_free_number}}</b>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <b>{{result.vanity_number}}</b>
+                    <button type="button" class="addcartbtn" ng-click="addToCart($index)">Add to cart</button>
+                </div>
+                <div ng-if="searchResults.length < 1">
+                    <label>No results found</label>
+                </div>
+            </div>
+        </div>
+        <div class="row ml-1">
+            <a>Previous</a>
+            <div class="col-lg-6 col-md-6 col-sm-6 mb-1 paginationContainer" ng-repeat="result in paginationNumbers">
+                <a ng-click="viewData($index)">{{$index+1}}</a>
+            </div>
+            <a>Next</a>
+        </div>
+    </div>
+</div>

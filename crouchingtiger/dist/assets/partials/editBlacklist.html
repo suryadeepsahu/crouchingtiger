@@ -1,0 +1,35 @@
+<div class="modal-header">
+    <h3 class="modal-title">Blacklist Editor</h3>
+</div>
+<div class="modal-body">    
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+            <label class="control-label">Some Explainer Text Here if necessary.</label>
+            </div>
+        </div>
+        <div class="row">
+            <form action="#">
+                <div class="col-xs-8">
+                    <div class="form-group">
+                        <textarea class="form-control" style="resize:vertical;" id="txtNumber" ng-model="search.number"></textarea>
+                    </div>
+                </div>
+            
+            
+                <div class="col-xs-4">
+                    <div class="input-group">
+                        <input placeholder="Search Blacklist..." class="form-control" ng-model="search.text">
+                        <div class="input-group-btn">
+                            <button type="button" ng-click="highlightString()" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="clear:both" class="modal-footer">
+                <button type="submit" class="btn btn-primary" ng-click="saveBlacklist()">Save</button>
+                <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+            </div>    
+        </form>        
+    </div>  
+</div>

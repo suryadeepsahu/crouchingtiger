@@ -1,0 +1,9 @@
+<style>#sch-spiner{
+        position: fixed;
+        top: 50%;
+        left: 50%;
+    }
+    #sch-img-spiner{
+        width: 55px;
+        height: auto;
+    }</style><div ng-controller="ScheduledPlansController"><div id="page-heading"><h1>My Scheduled Reports</h1></div><div class="container-fluid" id="scheduleData"><div class="row"><div class="col-md-12" style="padding:0 20px;"><div class="panel panel-midnightblue"><page-loader is-loading-api="isLoadingApi"></page-loader><div class="panel-body no-border"><div class="table-responsive" sticky-table-header3><div class="col-md-3 col-lg-2 mb30 noDataSelector" ng-if="loadSchedule">Loading Data...</div><table class="table table-striped table-hover table-condensed" id="scheduledreportstable"><thead><tr style="font-weight: bold; margin-top: 40px; margin-left: 0px;"><th style="min-width: 120px;" ng-repeat="th in setScheduleHeaders">{{th}}</th><th class="text-right" ng-repeat="th in actionHeader">{{th}}</th></tr></thead><tbody><tr ng-repeat="row in scheduleList"><td>{{row.name}}</td><td>{{row.reportName}}</td><td>{{row.cretor}}</td><td>{{row.create_date}}</td><td>{{row.recipients}}</td><td>{{row.frequency}}</td><td>{{row.formate}}</td><td>Active</td><td class="text-right" style="white-space: nowrap"><div class="buttons"><button ng-show="true" class="btn btn-sm btn-danger" ng-disabled="isDelete" ng-click="delete(row, $index)">Delete</button></div></td></tr></tbody></table></div><div id="sch-spiner" ng-if="loadSchedule"><img id="sch-img-spiner" src="../../img/pageloading.gif" alt="loading"></div><div ng-if="SchedusleNotFound"><label>No Data Found</label></div></div></div></div></div></div></div>

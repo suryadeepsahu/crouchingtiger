@@ -1,0 +1,9 @@
+<style>iframe {
+		display: block;
+		border: none;
+		overflow:hidden;
+		width: 100%; }
+	.well {
+		padding: 15px;
+		box-shadow: none!important;
+	}</style><div id="calltrackingreport" class="table-to-scrape" ng-controller="CallsTrackingController"><div id="page-heading"><h1 class="col-sm-2 col-md-4 col-lg-4">Calls Overview</h1></div><div class="container-fluid"><div class="row" style="margin-right: 10px;"><div class="col-md-9" style="display: flex" aria-hidden="false"><div class="crawler-exempt" style="margin-left: 3px;">Metrics with aggregate data may take up to an hour to update.</div></div><div class="col-md-3 text-right" ng-show="showCompare"><md-checkbox class="md-primary" ng-model="isCompare" value="" ng-change="applyFilter()">Compare Previous Period</md-checkbox></div></div></div><div class="container-fluid"><div class="row" style="padding:0 20px;"><iframe id="looker" ng-src="{{lookerUrl}}" width="100%" height="100%" set-height>Something went wrong...</iframe></div></div></div>

@@ -1,0 +1,54 @@
+<div class="modal-header">
+	<h3 class="modal-title">Select Voice Prompt</h3>
+</div>
+
+<div class="modal-body">
+	<div class="container-fluid" >
+		<div class="row">
+			<div class="col-xs-12 configureMsg">
+				<table class="table table-bordered table-condensed table-hover" ng-init="upload.showme = []">
+					<tr style="font-weight: bold">
+						<td style="width:5%;">Select</td>
+						<td style="width:42%;">Filename</td>
+						<td style="width:7%;">Action</td>
+					</tr>
+					<tr ng-repeat="prompt in prompts">
+						<td><span><input type="checkbox" icheck ng-model="prompt.selectedprompt"  ng-change="removeotherchecks($index)"></span></td>
+						<td><!-- editable username (text with validation) -->
+								{{ prompt.name || '' }}
+						</td>
+						<td style="white-space: nowrap">
+									<div class="buttons" ng-show="!rowform.$visible">
+                    <!-- <button class="btn btn-sm btn-primary" ng-click="rowform.$show()">Play</button> -->
+                     <button class="btn btn-sm btn-primary" ng-click="upload.showme[$index]=true; playvoiceaudio($index, prompt.url, 'play')" ng-hide="upload.showme[$index]">Play</button>
+                           <div class="btn-group ng-hide" ng-show="upload.showme[$index]">
+                                       <button type="button" class="btn btn-sm btn-primary" ng-click="upload.showme[$index]=true; playvoiceaudio($index, prompt.url, 'rewind')"><i class="fa fa-step-backward"></i></button>
+                                       <button type="button" class="btn btn-sm btn-primary" ng-click="upload.showme[$index]=false; playvoiceaudio($index, prompt.url, 'pause')"><i class="fa fa-pause"></i></button>
+                                       <button type="button" class="btn btn-sm btn-primary" ng-click="upload.showme[$index]=true; playvoiceaudio($index, prompt.url, 'forward')"><i class="fa fa-step-forward"></i></button>
+                           </div>                     
+										<button class="btn btn-sm btn-danger" ng-click="upload.showme[$index]=false;removePrompt($index)">Delete</button>
+									</div>  
+						</td>
+					</tr>
+				</table>
+				<!--button class="btn btn-default" ng-click="addPrompt()">Add Voice Prompt</button-->
+		         <button  class="btn btn-sm btn-info pull-left" style="margin-right:4px;" ng-file-select="" ng-model="upload.files" accept=".wav,.mp3,mp4" ng-disabled="fileIsUploading" ng-hide="files">Add Audio File</button>
+		          <!-- <input type="file" id="filecontrol" accept=".wav,.mp3,mp4" ng-file-select ng-model="upload.files"/><br> -->
+		              <!--div>param.file: {{param.file}}</div-->
+		          <div ng-hide="percentage == '100'">
+		            <div class="progress progress-striped progress-success active" ng-show="percentage">
+		              <div class="progress-bar" style="width: {{percentage}}%;"></div>
+		            </div>
+		          </div>
+		          <button class="btn btn-sm btn-success" ng-click="uploadFile()" ng-disabled="fileIsUploading" ng-hide="!upload.files">Upload {{upload.files[0].name}}</button>
+                  <span ng-hide="!upload.files">(Please allow approximately 1 minute after uploading your file before using it)</span>
+		        </div>
+					</div>
+				</div>	
+
+	</div>
+		<div style="clear:both" class="modal-footer">
+			<button class="btn btn-primary" ng-click="ok()" ng-disabled="fileIsUploading || prompts.length === 0">Use Selected</button>
+			<button class="btn btn-default" ng-click="cancel()" ng-disabled="fileIsUploading">Cancel</button>
+		</div>
+</div>

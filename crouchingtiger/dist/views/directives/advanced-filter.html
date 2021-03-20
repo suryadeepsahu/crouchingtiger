@@ -1,0 +1,138 @@
+<style>
+.advanced-filter-directive .uib-clear {
+	display: none;
+	visibility: none;
+}
+.advancedf {
+	/*width: 82vw;*/
+}
+/*.btn-adv{
+	min-width: 175px;
+}*/
+/*.simple-input {
+	min-width: 100px;
+}*/
+
+</style>
+<div class="pull-right col-md-7">
+	<div class="col-md-6 input-icon right mb10 crawler-exempt" ng-hide="whichScheldueReport !== undefined">
+		<div class="input-group">
+		  <input ng-disabled="showAdvFilter"
+	             type="text"
+	             ng-model="simpleSearchFilter"
+	             id="simpleChart"
+	             class="form-control simple-input"
+	             placeholder="{{showAdvFilter ? 'Basic Search Disabled' : 'Basic Search'}}"
+	             ng-readonly="advFilter"
+			     enter-press="validateSimpleTextFilter(simpleSearchFilter)"
+	             ng-change="!simpleSearchFilter.length && validateSimpleTextFilter(simpleSearchFilter)">
+			<!--the ng-change is for if there is no text in the basic search, then just remove the filters-->
+		  <span class="input-group-btn">
+			<button ng-disabled="showAdvFilter" type="button" class="btn btn-primary" title="Search" ng-readonly="advFilter" ng-click="applyBasicFil();"><i class="fa fa-search"></i> </button>
+			<button ng-disabled="showAdvFilter" type="button" class="btn btn-primary" title="Clear" ng-click="simpleSearchFilter = '';"><i class="fa fa-times-circle"></i></button>
+		  </span>
+	   </div>
+	</div>
+	<div class="col-md-5 col-sm-12 mb10 text-right crawler-exempt" ng-hide="whichScheldueReport !== undefined">
+	    <button type="button" class="btn btn-default btn-block btn-adv" ng-click="showAdvFilter = true; simpleSearchFilter = ''">Advanced filter</button>
+	</div>
+</div>
+<br>
+<br>
+<br>
+<div ng-hide="!showAdvFilter" class="advanced-filter-directive crawler-exempt" ng-repeat="af in advFilterDefinitions">
+	<div class="_GATq _GAQzb" ng-hide="$index == 0">
+		<select style="width:auto;display:inline;"
+		        class="form-control"
+						ng-model="af.rule">
+			<option value='AND'>AND</option>
+			<!-- <option value='OR'>OR</option> -->
+		</select>
+	</div>
+	<div class="advancedf">
+		<!-- Inclusivity select -->
+		<select style="width:auto;display:inline;"
+		        class="form-control"
+						ng-model="af.selected_inclusivity"
+						ng-options="inc.label for inc in af.inclusivity">
+		</select>
+		<!-- Columns select -->
+		<select style="width:auto;display:inline;"
+		    		class="form-control"
+						ng-model="af.selected_column"
+						ng-options="col.label for col in af.columns"
+						ng-change="showOperatorSelect($index); updateOperators(preloading, af, $index); af.user_input='';"
+						ng-disabled="!af.selected_inclusivity">
+			<option value="" ng-selected="false" ng-hide="true">-- Select --</option>
+		</select>
+		<!-- Operators select -->
+		<select style="width:auto;display:inline;"
+						class="form-control"
+						ng-model="af.selected_operator"
+						ng-options="opt.label for opt in af.operators.options"
+						ng-show="af.show_operators">
+		</select>
+		<!-- User input (text) -->
+		<input style="width:150px;display:inline;"
+		       type="text"
+					 class="form-control"
+					 placeholder="required"
+					 ng-model="af.user_input"
+					 ng-show="af.operators.type == 'text'">
+		</input>
+		<!-- User input (int) -->
+		<input style="width:150px;display:inline;"
+					 type="text"
+					 class="form-control"
+					 placeholder="required"
+					 ng-model="af.user_input"
+					 ng-show="af.operators.type == 'int'"
+					 ng-keypress='validateInput($event)'>
+		</input>
+		<!-- User input (calendar) -->
+		<input style="width:150px;display:inline;"
+					 type="text"
+		       class="form-control datepicker"
+					 uib-datepicker-popup="dd-MMMM-yyyy"
+					 ng-model="af.user_input"
+					 is-open="af.dateTime.opened"
+					 close-text="Close"
+					 ng-readonly="true"
+					 timezone="America/Chicago"
+					 uib-datepicker-options="af.dateTime.dateOptions"
+					 ng-show="af.operators.type == 'calendar'">
+		</input>
+		<button type="button"
+						class="btn btn-default"
+						ng-click="af.dateTime.open($event, $index)"
+						ng-show="af.operators.type == 'calendar'">
+			<i class="fa fa-calendar"></i>
+		</button>
+		<!-- User input (select) -->
+		<select ui-select2
+						ng-model="af.user_input"
+						ng-show="af.operators.type == 'select'"
+						style="width:22%;padding-bottom:3px;">
+			<option ng-repeat="opt in af.select_options" ng-value="opt.value">{{ opt.label }}</option>
+			<option value="" ng-selected="true" ng-hide="true">-- Select --</option>
+		</select>
+
+		<!-- Delete rule button (only if more than one rule) -->
+		<a title="Delete" ng-click="removeFilterDefinition($index);" ng-hide="$index == 0 && advFilterDefinitions.length == 1"><i class="fa fa-times-circle"></i></a>
+	</div>
+	<!-- <div class="_GATq _GAQzb" ng-show="$index != advFilterDefinitions.maxQuantity - 1"></div> -->
+</div>
+
+<div class="_GATq _GAQzb crawler-exempt" ng-hide="advFilterMax || !showAdvFilter"></div>
+<div class="advancedf crawler-exempt" ng-hide="advFilterMax || !showAdvFilter">
+	<button type="button" class="btn btn-gray" style="border:1px dashed #575757;" ng-click="advFilterDefinitions.length < advancedFilterConfig.maxQuantity ? addFilterDefinition(false) : null; resizeWindow();"><i class="fa fa-plus-circle"></i> Add an Advanced Filter</button>
+</div>
+<hr ng-hide="!showAdvFilter" class="crawler-exempt">
+<!-- Footer Buttons -->
+<div class="clearfix text-right crawler-exempt">
+    <button ng-hide="!previewMode" type="button" class="pull-left btn btn-primary-alt btn-sm" ng-click="previewReport(urlParams)">Preview</button>
+	<button class="btn btn-primary" ng-hide="hideApplyButton || !showAdvFilter" ng-click="applyAdvFil(); resizeWindow();">Apply</button>
+	<button ng-hide="!showAdvFilter" type="button" class="btn btn-default" ng-click="resetAdvFilter(); resizeWindow();">Cancel</button>
+</div>
+<div ng-hide="!previewMode" class="clearfix text-left">
+</div>
