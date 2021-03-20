@@ -26,6 +26,7 @@ angular
         }
 
         BlacklistWebService.getGroups = function (callerId) {
+            console.log('*********************');
             var req = {
                 method: 'GET',
                 url: ApiParam.baseURL() + "/v1/blacklist/org/" + callerId,
