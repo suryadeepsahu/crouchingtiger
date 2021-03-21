@@ -1,4 +1,5 @@
-FROM ubuntu
+FROM node:8.10-alpine
 RUN npm install
-RUN bower install
+RUN npm install -g bower
+RUN bower --allow-root install
 RUN grunt
